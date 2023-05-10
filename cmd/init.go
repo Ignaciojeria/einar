@@ -1,15 +1,17 @@
 package cmd
 
 import (
-	"fmt"
-	"os"
-	"os/exec"
-	"path/filepath"
+	"einar/cmd/archetype"
 
 	"github.com/spf13/cobra"
 )
 
 var moduleName string
+
+var dependencies []string = []string{
+	"github.com/joho/godotenv",
+	"github.com/rs/zerolog/log",
+}
 
 // initCmd represents the init command
 var initCmd = &cobra.Command{
@@ -19,36 +21,18 @@ var initCmd = &cobra.Command{
 }
 
 func runInitCmd(cmd *cobra.Command, args []string) {
-	// Ensure the module name is valid
-	if moduleName == "" {
-		fmt.Println("Please specify a name for the new module")
+	if err := archetype.CreateRootDirectory(moduleName); err != nil {
 		return
 	}
-
-	// Create the module directory and the main.go file
-	err := os.Mkdir(moduleName, 0755)
-	if err != nil {
-		fmt.Printf("Error creating directory for module %s: %s\n", moduleName, err)
+	if err := archetype.CreateMainFile(moduleName); err != nil {
 		return
 	}
-	mainFile, err := os.Create(filepath.Join(moduleName, "main.go"))
-	if err != nil {
-		fmt.Printf("Error creating main.go file for module %s: %s\n", moduleName, err)
+	if err := archetype.InitializeGoModule(moduleName, dependencies); err != nil {
 		return
 	}
-	mainFile.Close()
-
-	// Initialize a new Go module
-	goModCmd := exec.Command("go", "mod", "init", moduleName)
-	goModCmd.Dir = moduleName
-	err = goModCmd.Run()
-	if err != nil {
-		fmt.Printf("Error initializing Go module for module %s: %s\n", moduleName, err)
+	if err := archetype.CreateArchetypeConfiguration(moduleName); err != nil {
 		return
 	}
-
-	// Print success message
-	fmt.Printf("Go module '%s' generated successfully.\n", moduleName)
 }
 
 func init() {
