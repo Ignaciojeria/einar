@@ -1,21 +1,4 @@
-package archetype
-
-import (
-	"fmt"
-	"io/ioutil"
-	"os"
-	"path/filepath"
-)
-
-func CreateArchetypeConfiguration(moduleName string) error {
-	configDir := filepath.Join(moduleName, "app/config")
-	err := os.MkdirAll(configDir, 0755)
-	if err != nil {
-		return fmt.Errorf("error creating config directory: %v", err)
-	}
-
-	configPath := filepath.Join(configDir, "config.go")
-	configContent := `package config
+package config
 
 import (
 	"fmt"
@@ -32,6 +15,7 @@ type ArchetypeConfiguration struct {
 	EnablePubSub       bool
 	EnableFirestore    bool
 	EnableHTTPServer   bool
+	EnableRedis        bool
 }
 
 type Config string
@@ -39,20 +23,24 @@ type Config string
 // ARCHETYPE CONFIGURATION
 const PORT Config = "PORT"
 const COUNTRY Config = "COUNTRY"
-const DD_SERVICE Config = "DD_SERVICE"
-const DD_VERSION Config = "DD_VERSION"
-const DD_ENV Config = "DD_ENV"
+const SERVICE Config = "SERVICE"
+const ENV Config = "ENV"
 
 const INTEGRATION_TESTS Config = "INTEGRATION_TESTS"
 
 const GOOGLE_PROJECT_ID Config = "GOOGLE_PROJECT_ID"
 const GOOGLE_APPLICATION_CRETENTIALS_B64 Config = "GOOGLE_APPLICATION_CRETENTIALS_B64"
 
-const DATABASE_HOST Config = "database.postgres.hostName"
-const DATABASE_PORT Config = "database.postgres.port"
-const DATABASE_NAME Config = "database.postgres.db.name"
-const DATABASE_USERNAME Config = "database.postgres.username"
-const DATABASE_PWD Config = "database.postgres.pwd"
+const DATABASE_POSTGRES_HOSTNAME Config = "DATABASE_POSTGRES_HOSTNAME"
+const DATABASE_POSTGRES_PORT Config = "DATABASE_POSTGRES_PORT"
+const DATABASE_POSTGRES_NAME Config = "DATABASE_POSTGRES_NAME"
+const DATABASE_POSTGRES_USERNAME Config = "DATABASE_POSTGRES_USERNAME"
+const DATABASE_POSTGRES_PASSWORD Config = "DATABASE_POSTGRES_PASSWORD"
+
+// Redis configuration
+const REDIS_ADDRESS Config = "REDIS_ADDRESS"
+const REDIS_PASSWORD Config = "REDIS_PASSWORD"
+const REDIS_DB Config = "REDIS_DB"
 
 func (e Config) Get() string {
 	return os.Getenv(string(e))
@@ -71,8 +59,7 @@ func Setup(cnf ArchetypeConfiguration) error {
 		//ARCHETYPE CONFIGURATION
 		PORT,
 		COUNTRY,
-		DD_SERVICE,
-		DD_VERSION,
+		SERVICE,
 	}
 
 	if cnf.EnablePubSub || cnf.EnableFirestore {
@@ -81,11 +68,11 @@ func Setup(cnf ArchetypeConfiguration) error {
 	}
 
 	if cnf.EnablePostgreSQLDB {
-		requiredEnvVars = append(requiredEnvVars, DATABASE_HOST)
-		requiredEnvVars = append(requiredEnvVars, DATABASE_PORT)
-		requiredEnvVars = append(requiredEnvVars, DATABASE_NAME)
-		requiredEnvVars = append(requiredEnvVars, DATABASE_USERNAME)
-		requiredEnvVars = append(requiredEnvVars, DATABASE_PWD)
+		requiredEnvVars = append(requiredEnvVars, DATABASE_POSTGRES_HOSTNAME)
+		requiredEnvVars = append(requiredEnvVars, DATABASE_POSTGRES_PORT)
+		requiredEnvVars = append(requiredEnvVars, DATABASE_POSTGRES_NAME)
+		requiredEnvVars = append(requiredEnvVars, DATABASE_POSTGRES_USERNAME)
+		requiredEnvVars = append(requiredEnvVars, DATABASE_POSTGRES_PASSWORD)
 	}
 
 	for _, envVar := range requiredEnvVars {
@@ -100,16 +87,5 @@ func Setup(cnf ArchetypeConfiguration) error {
 		return fmt.Errorf("error loading environment variables: %v", errs)
 	}
 
-	return nil
-}`
-
-	err = ioutil.WriteFile(configPath, []byte(configContent), 0644)
-	if err != nil {
-		err := fmt.Errorf("error writing config file: %v", err)
-		fmt.Println(err)
-		return err
-	}
-
-	fmt.Printf("Config file generated successfully at %s.\n", configPath)
 	return nil
 }

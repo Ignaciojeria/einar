@@ -1,0 +1,116 @@
+i have variable called dependency_tree in next file: 
+
+package cmd
+
+import (
+	"archetype/cmd/base"
+	"fmt"
+
+	"github.com/spf13/cobra"
+)
+
+type Installation struct {
+	Name    string
+	Library string
+}
+
+var project string
+
+var dependency_tree []string = []string{
+	"github.com/joho/godotenv@v1.5.1",
+	"github.com/rs/zerolog@v1.29.1",
+	"github.com/go-chi/chi@v1.5.4",
+}
+
+// initCmd represents the init command
+var initCmd = &cobra.Command{
+	Use:   "init",
+	Short: "Initialize a new Go module",
+	Run:   runInitCmd,
+}
+
+func runInitCmd(cmd *cobra.Command, args []string) {
+	if err := base.CreateRootDirectory(project); err != nil {
+		return
+	}
+	if err := base.CreateMainFile(project); err != nil {
+		return
+	}
+	if err := base.InitializeGoModule(project, dependency_tree); err != nil {
+		return
+	}
+	if err := base.CreateConfiguration(project); err != nil {
+		return
+	}
+	if err := base.CreateCiFile(project); err != nil {
+		return
+	}
+	if err := base.CreateContainer(project); err != nil {
+		return
+	}
+	if err := base.CreateEnvironment(project); err != nil {
+		return
+	}
+	if err := base.CreateGitignore(project); err != nil {
+		return
+	}
+	if err := base.CreateVersion(project); err != nil {
+		return
+	}
+}
+
+var installCmd = &cobra.Command{
+	Use:   "install",
+	Short: "Install command for Einar",
+	Long:  `This command allows you to install various components.`,
+	Run: func(cmd *cobra.Command, args []string) {
+		fmt.Println("Specify a subcommand")
+	},
+}
+
+func init() {
+	rootCmd.AddCommand(initCmd)
+	initCmd.Flags().StringVarP(&project, "name", "project", "", "Name of the project")
+	initCmd.MarkFlagRequired("name")
+}
+
+i want take dependency_tree from next file allocated in /cmd/base/release/latest/.einar.cli.latest.json :
+{
+    "version": "latest",
+    "installation_commands": [
+        {
+            "name":"pubsub",
+            "command":"einar -install pubsub",
+            "libraries": ["cloud.google.com/go/pubsub"]
+        },
+        {
+            "name":"resty",
+            "command":"einar -install resty",
+            "libraries": ["github.com/go-resty/resty/v2"]
+        }
+    ],
+    "installations_base": [
+        {
+            "name":"chi",
+            "library": "github.com/go-chi/chi@v1.5.4"
+        },
+        {
+            "name":"zerolog",
+            "library": "github.com/rs/zerolog@v1.29.1"
+        },
+        {
+            "name":"godotenv",
+            "library": "github.com/joho/godotenv@v1.5.1"
+        }
+    ]
+}
+
+and i have two modes of initialization of projects :
+
+Create einar project with installations_base only
+./einar init -project example_project -mode default
+
+Or create einar project with all libraries installed by default that take libraries from installations_base and installation_commands
+./einar init -project example_project -mode all-in-one
+
+can you give me the function updated?
