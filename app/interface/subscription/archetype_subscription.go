@@ -50,7 +50,7 @@ func archetype_subscription_constructor(
 func init() {
 	const archetype_subscription_name = "INSERT YOUR SUBSCRIPTION NAME"
 	dependencyID := uuid.NewString()
-	container.Inject(func() error {
+	container.InjectComponent(func() error {
 		archetype_subscription_pubsub := archetype.Client.Subscription(archetype_subscription_name)
 		archetype_subscription_pubsub.ReceiveSettings.Synchronous = true
 		archetype_subscription_pubsub.ReceiveSettings.NumGoroutines = 1

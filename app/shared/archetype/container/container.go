@@ -7,11 +7,13 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-var Dependencies map[string]DependencyContainer = map[string]DependencyContainer{}
+var InstallationsContainer map[string]DependencyContainer = map[string]DependencyContainer{}
+var ComponentsContainer map[string]DependencyContainer = map[string]DependencyContainer{}
+var HTTPServerContainer DependencyContainer = DependencyContainer{}
 
 type DependencyContainer struct {
 	InjectionProps InjectionProps
-	Dependency     Dependency
+	LoadDependency LoadDependency
 	isPresent      bool
 }
 
@@ -20,20 +22,40 @@ type InjectionProps struct {
 	Paralel      bool   // if true injected dependency should be executed as a go routine
 }
 
-type Dependency func() error
+type LoadDependency func() error
 
-func Inject(dependency Dependency, props InjectionProps) error {
+func InjectComponent(dependency LoadDependency, props InjectionProps) error {
 	if props.DependencyID == "" {
 		err := errors.New("container injector error on InjectionProps. DependencyID can't be empty")
 		log.Error().Err(err).Send()
 		return err
 	}
-	if Dependencies[props.DependencyID].isPresent {
+	if ComponentsContainer[props.DependencyID].isPresent {
 		err := errors.New("container injector error. Next dependency already exits : " + props.DependencyID)
 		log.Error().Err(err).Send()
 		return err
 	}
-	Dependencies[props.DependencyID] = DependencyContainer{Dependency: dependency, InjectionProps: props, isPresent: true}
+	ComponentsContainer[props.DependencyID] = DependencyContainer{LoadDependency: dependency, InjectionProps: props, isPresent: true}
+	return nil
+}
+
+func InjectInstallation(dependency LoadDependency, props InjectionProps) error {
+	if props.DependencyID == "" {
+		err := errors.New("container injector error on InjectionProps. DependencyID can't be empty")
+		log.Error().Err(err).Send()
+		return err
+	}
+	if InstallationsContainer[props.DependencyID].isPresent {
+		err := errors.New("container injector error. Next dependency already exits : " + props.DependencyID)
+		log.Error().Err(err).Send()
+		return err
+	}
+	InstallationsContainer[props.DependencyID] = DependencyContainer{LoadDependency: dependency, InjectionProps: props, isPresent: true}
+	return nil
+}
+
+func InjectHTTPServer(dependency LoadDependency, props InjectionProps) error {
+	HTTPServerContainer = DependencyContainer{LoadDependency: dependency, InjectionProps: props, isPresent: true}
 	return nil
 }
 

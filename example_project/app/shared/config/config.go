@@ -8,7 +8,7 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-type ArchetypeConfiguration struct {
+type archetypeConfiguration struct {
 	//HTTP CLIENT IS ENABLED BY DEFAULT
 	EnvironmentPath    string
 	EnablePostgreSQLDB bool
@@ -16,6 +16,10 @@ type ArchetypeConfiguration struct {
 	EnableFirestore    bool
 	EnableHTTPServer   bool
 	EnableRedis        bool
+}
+
+func (e *archetypeConfiguration) SetPubsub(enable bool) {
+	e.EnablePubSub = enable
 }
 
 type Config string
@@ -46,7 +50,15 @@ func (e Config) Get() string {
 	return os.Getenv(string(e))
 }
 
-func Setup(cnf ArchetypeConfiguration) error {
+var Installations = archetypeConfiguration{
+	EnableHTTPServer:   false,
+	EnableFirestore:    false,
+	EnablePubSub:       false,
+	EnableRedis:        false,
+	EnablePostgreSQLDB: false,
+}
+
+func Setup() error {
 
 	errs := []string{}
 
@@ -62,12 +74,12 @@ func Setup(cnf ArchetypeConfiguration) error {
 		SERVICE,
 	}
 
-	if cnf.EnablePubSub || cnf.EnableFirestore {
+	if Installations.EnablePubSub || Installations.EnableFirestore {
 		requiredEnvVars = append(requiredEnvVars, GOOGLE_PROJECT_ID)
 		requiredEnvVars = append(requiredEnvVars, GOOGLE_APPLICATION_CRETENTIALS_B64)
 	}
 
-	if cnf.EnablePostgreSQLDB {
+	if Installations.EnablePostgreSQLDB {
 		requiredEnvVars = append(requiredEnvVars, DATABASE_POSTGRES_HOSTNAME)
 		requiredEnvVars = append(requiredEnvVars, DATABASE_POSTGRES_PORT)
 		requiredEnvVars = append(requiredEnvVars, DATABASE_POSTGRES_NAME)
