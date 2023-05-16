@@ -20,11 +20,11 @@ func Setup() error {
 		return err
 	}
 
-	if err := InjectInstallations(); err != nil {
+	if err := InstallationsContainerSetup(); err != nil {
 		return err
 	}
 
-	if err := injectComponents(); err != nil {
+	if err := ComponentsContainerSetup(); err != nil {
 		return err
 	}
 
@@ -35,7 +35,7 @@ func Setup() error {
 	return nil
 }
 
-func InjectInstallations() error {
+func InstallationsContainerSetup() error {
 	for _, v := range container.InstallationsContainer {
 		if v.InjectionProps.Paralel {
 			go v.LoadDependency()
@@ -50,7 +50,7 @@ func InjectInstallations() error {
 }
 
 // CUSTOM INITIALIZATION OF YOUR DOMAIN COMPONENTS
-func injectComponents() error {
+func ComponentsContainerSetup() error {
 	for _, v := range container.ComponentsContainer {
 		if v.InjectionProps.Paralel {
 			go v.LoadDependency()
