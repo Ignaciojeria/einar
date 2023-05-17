@@ -42,7 +42,7 @@ func CreateContainer(project string) error {
 
 i want to create a new function called InstallResty(project string) that creates client.go file from app/shared/archetype/resty/client.go
 
-and install resty library allocated in cmd/release/latest/.einar.cli.latest.json :
+and install resty library allocated in cmd/release/latest/.einar.cli.json :
 {
     "version": "latest",
     "installation_commands": [

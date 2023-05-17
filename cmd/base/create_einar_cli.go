@@ -10,10 +10,10 @@ func CreateEinarCli(project string) error {
 	sourceEinarCliFilePath := ".einar.cli.json"
 	einarCliFilePath := filepath.Join(project, ".einar.cli.json")
 
-	// Use CopyFile function to copy .einar.cli.latest.json file
+	// Use CopyFile function to copy .einar.cli.json file
 	err := CopyFile(sourceEinarCliFilePath, einarCliFilePath, project)
 	if err != nil {
-		err := fmt.Errorf("error copying .einar.cli.latest.json file: %v", err)
+		err := fmt.Errorf("error copying .einar.cli.json file: %v", err)
 		fmt.Println(err)
 		return err
 	}

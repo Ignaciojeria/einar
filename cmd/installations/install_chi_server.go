@@ -11,7 +11,7 @@ import (
 
 func InstallChiServer(project string) error {
 	// Read the JSON config file
-	config, err := base.ReadEinarCli()
+	config, err := utils.ReadEinarCli()
 	if err != nil {
 		fmt.Println(err)
 		return err
@@ -27,7 +27,7 @@ func InstallChiServer(project string) error {
 	}
 
 	if len(chiLibs) == 0 {
-		err = fmt.Errorf("chi-server libraries not found in .einar.cli.latest.json")
+		err = fmt.Errorf("chi-server libraries not found in .einar.cli.json")
 		fmt.Println(err)
 		return err
 	}
@@ -54,6 +54,8 @@ func InstallChiServer(project string) error {
 
 	fmt.Printf("chi_server directory cloned successfully to %s.\n", destDir)
 
+	configPath := filepath.Join(project, ".einar.cli.json")
+
 	// Install chi-server libraries
 	for _, lib := range chiLibs {
 		cmd := exec.Command("go", "get", lib)
@@ -62,6 +64,12 @@ func InstallChiServer(project string) error {
 		if err != nil {
 			err = fmt.Errorf("error installing chi-server library %s: %v", lib, err)
 			fmt.Println(err)
+			return err
+		}
+
+		// Add the installed library to the JSON config
+		if err := AddInstallation(configPath, "chi-server", lib /*version*/, ""); err != nil {
+			fmt.Println("Failed to update .einar.cli.latest.json:", err)
 			return err
 		}
 	}

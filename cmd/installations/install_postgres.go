@@ -2,6 +2,7 @@ package installations
 
 import (
 	"archetype/cmd/base"
+	"archetype/cmd/utils"
 	"fmt"
 	"os/exec"
 	"path/filepath"
@@ -9,23 +10,23 @@ import (
 
 func InstallPostgres(project string) error {
 	// Read the JSON config file
-	config, err := base.ReadEinarCli()
+	config, err := utils.ReadEinarCli()
 	if err != nil {
 		fmt.Println(err)
 		return err
 	}
 
-	// Find the resty libraries
-	var chiLibs []string
+	// Find the postgres libraries
+	var postgresLibs []string
 	for _, installCommand := range config.InstallationCommands {
 		if installCommand.Name == "postgres" {
-			chiLibs = installCommand.Libraries
+			postgresLibs = installCommand.Libraries
 			break
 		}
 	}
 
-	if len(chiLibs) == 0 {
-		err = fmt.Errorf("postgres libraries not found in .einar.cli.latest.json")
+	if len(postgresLibs) == 0 {
+		err = fmt.Errorf("postgres libraries not found in .einar.cli.json")
 		fmt.Println(err)
 		return err
 	}
@@ -44,16 +45,32 @@ func InstallPostgres(project string) error {
 
 	fmt.Printf("postgres directory cloned successfully to %s.\n", destDir)
 
-	// Install resty libraries
-	for _, lib := range chiLibs {
+	configPath := filepath.Join(project, ".einar.cli.json")
+
+	// Install postgres libraries
+	for _, lib := range postgresLibs {
 		cmd := exec.Command("go", "get", lib)
 		cmd.Dir = project
 		err = cmd.Run()
 		if err != nil {
-			err = fmt.Errorf("error installing postgres library %s: %v\n", lib, err)
+			err = fmt.Errorf("error installing postgres library %s: %v", lib, err)
 			fmt.Println(err)
 			return err
 		}
+
+		// Add the installed library to the JSON config
+		if err := AddInstallation(configPath, "postgres", lib /*version*/, ""); err != nil {
+			fmt.Println("Failed to update .einar.cli.latest.json:", err)
+			return err
+		}
+	}
+
+	// Update setup.go file with the import statement
+	setupFilePath := filepath.Join(project, "app/shared/archetype/setup.go")
+	err = utils.AddImportStatement(setupFilePath, "archetype/app/shared/archetype/postgres")
+	if err != nil {
+		fmt.Println("Failed to add import statement to setup.go:", err)
+		return err
 	}
 
 	return nil

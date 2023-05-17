@@ -1,6 +1,7 @@
 {
     "version": "latest",
     "project":"${project}",
+    "installations_added": [],
     "component_commands": [
         {
             "name":"subscription",

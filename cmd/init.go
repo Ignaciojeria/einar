@@ -3,6 +3,7 @@ package cmd
 import (
 	"archetype/cmd/base"
 	"archetype/cmd/installations"
+	"archetype/cmd/utils"
 	"fmt"
 
 	"github.com/spf13/cobra"
@@ -19,7 +20,7 @@ var initCmd = &cobra.Command{
 
 func runInitCmd(cmd *cobra.Command, args []string) {
 
-	config, err := base.ReadEinarCli()
+	config, err := utils.ReadEinarCli()
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -92,9 +93,13 @@ var installCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 
 		// Read the JSON config file
-		config, _ := base.ReadEinarCli()
+		config, _ := utils.ReadEinarCli()
 		if config.Project == "${project}" {
 			fmt.Println("Run installation command only inside your project.")
+			return
+		}
+		if config.IsInstalled(args[0]) {
+			fmt.Println("installation " + args[0] + " already added")
 			return
 		}
 		// Continue with the installation
@@ -104,6 +109,12 @@ var installCmd = &cobra.Command{
 				fmt.Println("Failed to install Chi Server:", err)
 			} else {
 				fmt.Println("Chi Server installed successfully.")
+			}
+		case "pubsub":
+			if err := installations.InstallPubSub(""); err != nil {
+				fmt.Println("Failed to install Redis Database:", err)
+			} else {
+				fmt.Println("Redis Database installed successfully.")
 			}
 		default:
 			fmt.Println("Unknown installation command.")

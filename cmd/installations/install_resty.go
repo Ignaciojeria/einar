@@ -2,6 +2,7 @@ package installations
 
 import (
 	"archetype/cmd/base"
+	"archetype/cmd/utils"
 	"fmt"
 	"os/exec"
 	"path/filepath"
@@ -9,7 +10,7 @@ import (
 
 func InstallResty(project string) error {
 	// Read the JSON config file
-	config, err := base.ReadEinarCli()
+	config, err := utils.ReadEinarCli()
 	if err != nil {
 		fmt.Println(err)
 		return err
@@ -25,7 +26,7 @@ func InstallResty(project string) error {
 	}
 
 	if len(restyLibs) == 0 {
-		err = fmt.Errorf("resty libraries not found in .einar.cli.latest.json")
+		err = fmt.Errorf("resty libraries not found in .einar.cli.json")
 		fmt.Println(err)
 		return err
 	}
