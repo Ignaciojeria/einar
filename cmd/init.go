@@ -10,12 +10,6 @@ import (
 
 var project string
 
-var dependency_tree []string = []string{
-	"github.com/joho/godotenv@v1.5.1",
-	"github.com/rs/zerolog@v1.29.1",
-	"github.com/go-chi/chi@v1.5.4",
-}
-
 // initCmd represents the init command
 var initCmd = &cobra.Command{
 	Use:   "init",
@@ -30,7 +24,7 @@ func runInitCmd(cmd *cobra.Command, args []string) {
 		fmt.Println(err)
 		return
 	}
-	dependency_tree = make([]string, 0)
+	dependency_tree := make([]string, 0)
 	for _, installBase := range config.InstallationsBase {
 		dependency_tree = append(dependency_tree, installBase.Library)
 	}
@@ -96,7 +90,24 @@ var installCmd = &cobra.Command{
 	Short: "Install command for Einar",
 	Long:  `This command allows you to install various components.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("Specify a subcommand")
+
+		// Read the JSON config file
+		config, _ := base.ReadEinarCli()
+		if config.Project == "${project}" {
+			fmt.Println("Run installation command only inside your project.")
+			return
+		}
+		// Continue with the installation
+		switch args[0] {
+		case "chi-server":
+			if err := installations.InstallChiServer(""); err != nil {
+				fmt.Println("Failed to install Chi Server:", err)
+			} else {
+				fmt.Println("Chi Server installed successfully.")
+			}
+		default:
+			fmt.Println("Unknown installation command.")
+		}
 	},
 }
 
@@ -107,4 +118,5 @@ func init() {
 	initCmd.Flags().StringVarP(&project, "name", "n", "", "Name of the project")
 	initCmd.Flags().StringVarP(&initMode, "mode", "m", "all-in-one", "Mode of initialization (default or all-in-one)")
 	initCmd.MarkFlagRequired("name")
+	rootCmd.AddCommand(installCmd)
 }

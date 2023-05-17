@@ -11,7 +11,10 @@ go build -o einar
 
 # Create a new application using einar
 Create einar project with base installations only
-./einar init -n=example_project -m=all-in-one
+./einar init -n=example_project -m=default
+
+# Inside project :
+../einar install chi-server
 
 Create einar project with all libraries installed by default
 ./einar init -n=example_project -m=all-in-one

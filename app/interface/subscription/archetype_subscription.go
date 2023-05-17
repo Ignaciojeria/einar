@@ -17,20 +17,19 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-var archetype_subscription_stop bool = false
+var __archetype_subscription_stop bool = false
 
-type archetype_subscription_struct struct {
-	dependencyID     string
+type __archetype_subscription_struct struct {
 	subscriptionName string
 }
 
-func archetype_subscription_constructor(
+func __archetype_subscription_constructor(
 	r subscription.Receive,
-	subscriptionName string) (archetype_subscription_struct, error) {
-	if archetype_subscription_stop {
-		return archetype_subscription_struct{}, nil
+	subscriptionName string) (__archetype_subscription_struct, error) {
+	if __archetype_subscription_stop {
+		return __archetype_subscription_struct{}, nil
 	}
-	s := archetype_subscription_struct{
+	s := __archetype_subscription_struct{
 		subscriptionName: subscriptionName,
 	}
 	ctx := context.Background()
@@ -41,34 +40,32 @@ func archetype_subscription_constructor(
 			Str(constants.SUBSCRIPTION_NAME, subscriptionName).
 			Msg(constants.SUSBCRIPTION_SIGNAL_BROKEN)
 		time.Sleep(10 * time.Second)
-		go archetype_subscription_constructor(r, subscriptionName)
+		go __archetype_subscription_constructor(r, subscriptionName)
 		return s, err
 	}
 	return s, nil
 }
 
 func init() {
-	const archetype_subscription_name = "INSERT YOUR SUBSCRIPTION NAME"
-	dependencyID := uuid.NewString()
+	const subscription_name = "INSERT YOUR SUBSCRIPTION NAME"
 	container.InjectComponent(func() error {
-		archetype_subscription_pubsub := archetype.Client.Subscription(archetype_subscription_name)
-		archetype_subscription_pubsub.ReceiveSettings.Synchronous = true
-		archetype_subscription_pubsub.ReceiveSettings.NumGoroutines = 1
-		archetype_subscription_pubsub.ReceiveSettings.MaxOutstandingMessages = 1
-		s, _ := archetype_subscription_constructor(archetype_subscription_pubsub.Receive, archetype_subscription_name)
-		s.dependencyID = dependencyID
+		subscription := archetype.Client.Subscription(subscription_name)
+		subscription.ReceiveSettings.Synchronous = true
+		subscription.ReceiveSettings.NumGoroutines = 1
+		subscription.ReceiveSettings.MaxOutstandingMessages = 1
+		__archetype_subscription_constructor(subscription.Receive, subscription_name)
 		return nil
 	}, container.InjectionProps{
-		DependencyID: dependencyID,
+		DependencyID: uuid.NewString(),
 		Paralel:      true,
 	})
 }
 
-func (s archetype_subscription_struct) receive(ctx context.Context, m *pubsub.Message) {
+func (s __archetype_subscription_struct) receive(ctx context.Context, m *pubsub.Message) {
 	s.processMessage(ctx, m)
 }
 
-func (s archetype_subscription_struct) processMessage(ctx context.Context, m *pubsub.Message) error {
+func (s __archetype_subscription_struct) processMessage(ctx context.Context, m *pubsub.Message) error {
 
 	var replace_by_your_model interface{}
 	err := json.Unmarshal(m.Data, &replace_by_your_model)

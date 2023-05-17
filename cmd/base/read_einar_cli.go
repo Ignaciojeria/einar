@@ -8,6 +8,7 @@ import (
 
 type EinarCli struct {
 	Version              string                 `json:"version"`
+	Project              string                 `json:"project"`
 	InstallationCommands []InstallationCommands `json:"installation_commands"`
 	InstallationsBase    []InstallationsBase    `json:"installations_base"`
 }
@@ -24,7 +25,7 @@ type InstallationsBase struct {
 }
 
 func ReadEinarCli() (EinarCli, error) {
-	jsonFile, err := os.Open("cmd/release/latest/.einar.cli.latest.json")
+	jsonFile, err := os.Open(".einar.cli.json")
 	if err != nil {
 		return EinarCli{}, err
 	}

@@ -1,9 +1,7 @@
 package archetype
 
 import (
-	_ "archetype/app/shared/archetype/chi_server"
 	"archetype/app/shared/archetype/container"
-	_ "archetype/app/shared/archetype/pubsub"
 	"archetype/app/shared/config"
 
 	"github.com/rs/zerolog"
@@ -27,10 +25,12 @@ func Setup() error {
 		return err
 	}
 
+	if !config.Installations.EnableHTTPServer {
+		return nil
+	}
 	if err := container.HTTPServerContainer.LoadDependency(); err != nil {
 		return err
 	}
-
 	return nil
 }
 

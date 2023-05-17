@@ -7,7 +7,7 @@ import (
 
 func CreateEinarCli(project string) error {
 	// Define the source and destination paths
-	sourceEinarCliFilePath := "cmd/release/latest/.einar.cli.latest.json"
+	sourceEinarCliFilePath := ".einar.cli.json"
 	einarCliFilePath := filepath.Join(project, ".einar.cli.json")
 
 	// Use CopyFile function to copy .einar.cli.latest.json file
