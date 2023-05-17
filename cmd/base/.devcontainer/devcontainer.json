@@ -1,0 +1,6 @@
+{
+    "name": "${project}",
+    "dockerFile": "Dockerfile",
+    "forwardPorts": [8080]
+  }
+  
