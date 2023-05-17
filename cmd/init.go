@@ -5,6 +5,7 @@ import (
 	"archetype/cmd/installations"
 	"archetype/cmd/utils"
 	"fmt"
+	"strings"
 
 	"github.com/spf13/cobra"
 )
@@ -98,51 +99,27 @@ var installCmd = &cobra.Command{
 			fmt.Println("Run installation command only inside your project.")
 			return
 		}
+
 		if config.IsInstalled(args[0]) {
 			fmt.Println("installation " + args[0] + " already added")
 			return
 		}
-		// Continue with the installation
-		switch args[0] {
-		case "chi-server":
-			if err := installations.InstallChiServer(""); err != nil {
-				fmt.Println("Failed to install Chi Server:", err)
-			} else {
-				fmt.Println("Chi Server installed successfully.")
-			}
-		case "pubsub":
-			if err := installations.InstallPubSub(""); err != nil {
-				fmt.Println("Failed to install Pubsub Client:", err)
-			} else {
-				fmt.Println("Pubsub Client installed successfully.")
-			}
-		case "firestore":
-			if err := installations.InstallFirestore(""); err != nil {
-				fmt.Println("Failed to install Firestore Database:", err)
-			} else {
-				fmt.Println("Firestore Database installed successfully.")
-			}
-		case "postgres":
-			if err := installations.InstallPostgres(""); err != nil {
-				fmt.Println("Failed to install Postgres Database:", err)
-			} else {
-				fmt.Println("Postgres Database installed successfully.")
-			}
-		case "redis":
-			if err := installations.InstallRedis(""); err != nil {
-				fmt.Println("Failed to install Redis Database:", err)
-			} else {
-				fmt.Println("Redis Database installed successfully.")
-			}
-		case "resty":
-			if err := installations.InstallResty(""); err != nil {
-				fmt.Println("Failed to install Resty Client:", err)
-			} else {
-				fmt.Println("Resty Client installed successfully.")
-			}
-		default:
-			fmt.Println("Unknown installation command.")
+
+		if config.IsInstalled(strings.ReplaceAll(args[0], "dd-", "")) {
+			fmt.Println("installation " + args[0] + " already added")
+			return
 		}
+
+		if installations.Install(args[0]) {
+			return
+		}
+
+		if installations.DDInstall(args[0]) {
+			return
+		}
+
+		fmt.Println("Unknown installation command.")
+
 	},
 }
 

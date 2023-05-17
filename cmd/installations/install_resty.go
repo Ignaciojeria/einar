@@ -1,7 +1,6 @@
 package installations
 
 import (
-	"archetype/cmd/base"
 	"archetype/cmd/utils"
 	"fmt"
 	"os"
@@ -45,7 +44,7 @@ func InstallResty(project string) error {
 	destDir := filepath.Join(project, "app/shared/archetype/resty")
 
 	// Clone the source directory to the destination directory
-	err = base.CopyDirectory(sourceDir, destDir, project)
+	err = utils.CopyDirectory(sourceDir, destDir, project)
 	if err != nil {
 		err := fmt.Errorf("error cloning resty directory: %v", err)
 		fmt.Println(err)

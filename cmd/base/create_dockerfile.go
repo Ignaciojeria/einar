@@ -1,6 +1,7 @@
 package base
 
 import (
+	"archetype/cmd/utils"
 	"fmt"
 	"path/filepath"
 )
@@ -11,7 +12,7 @@ func CreateDockerFile(project string) error {
 	dockerFilePath := filepath.Join(project, "Dockerfile")
 
 	// Use CopyFile function to copy Dockerfile
-	err := CopyFile(sourceDockerFilePath, dockerFilePath, project)
+	err := utils.CopyFile(sourceDockerFilePath, dockerFilePath, project)
 	if err != nil {
 		err := fmt.Errorf("error copying Dockerfile: %v", err)
 		fmt.Println(err)

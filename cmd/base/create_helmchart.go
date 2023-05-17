@@ -1,6 +1,7 @@
 package base
 
 import (
+	"archetype/cmd/utils"
 	"fmt"
 	"path/filepath"
 )
@@ -11,7 +12,7 @@ func CreateHelmChart(project string) error {
 	destDir := filepath.Join(project, "helmchart")
 
 	// Clone the source directory to the destination directory
-	err := CopyDirectory(sourceDir, destDir, project)
+	err := utils.CopyDirectory(sourceDir, destDir, project)
 	if err != nil {
 		err := fmt.Errorf("error cloning helmchart directory: %v", err)
 		fmt.Println(err)

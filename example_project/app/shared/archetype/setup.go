@@ -6,10 +6,6 @@ import (
 
 	"github.com/rs/zerolog"
 	_ "archetype/app/shared/archetype/chi_server"
-	_ "archetype/app/shared/archetype/pubsub"
-	_ "archetype/app/shared/archetype/firestore"
-	_ "archetype/app/shared/archetype/redis"
-	_ "archetype/app/shared/archetype/postgres"
 )
 
 // ARCHETYPE CONFIGURATION

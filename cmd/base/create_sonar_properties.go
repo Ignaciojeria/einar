@@ -1,6 +1,7 @@
 package base
 
 import (
+	"archetype/cmd/utils"
 	"fmt"
 	"path/filepath"
 )
@@ -11,7 +12,7 @@ func CreateSonarProperties(project string) error {
 	sonarPropertiesFilePath := filepath.Join(project, "sonar.properties")
 
 	// Use CopyFile function to copy and process sonar.properties file
-	err := CopyFile(sourceSonarPropertiesFilePath, sonarPropertiesFilePath, project)
+	err := utils.CopyFile(sourceSonarPropertiesFilePath, sonarPropertiesFilePath, project)
 	if err != nil {
 		err := fmt.Errorf("error copying sonar.properties file: %v", err)
 		fmt.Println(err)

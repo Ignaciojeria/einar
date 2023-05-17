@@ -10,7 +10,7 @@ Compile command line tool application :
 go build -o einar
 
 # Create a new application using einar
-Create einar project with base installations only
+Create einar project with base installations only in default mode
 ./einar init -n=example_project -m=default
 
 # Inside project :

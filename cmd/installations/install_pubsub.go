@@ -1,7 +1,6 @@
 package installations
 
 import (
-	"archetype/cmd/base"
 	"archetype/cmd/utils"
 	"fmt"
 	"os"
@@ -45,7 +44,7 @@ func InstallPubSub(project string) error {
 	destDir := filepath.Join(project, "app/shared/archetype/pubsub")
 
 	// Clone the source directory to the destination directory
-	err = base.CopyDirectory(sourceDir, destDir, project)
+	err = utils.CopyDirectory(sourceDir, destDir, project)
 	if err != nil {
 		err := fmt.Errorf("error cloning pubsub directory: %v", err)
 		fmt.Println(err)

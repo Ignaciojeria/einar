@@ -33,7 +33,7 @@ func __archetype_subscription_constructor(
 		subscriptionName: subscriptionName,
 	}
 	ctx := context.Background()
-	if err := r(ctx, s.receive); err != nil {
+	if err := r(ctx, subscription.Middleware(subscriptionName, s.receive)); err != nil {
 		log.
 			Error().
 			Err(err).
@@ -49,11 +49,11 @@ func __archetype_subscription_constructor(
 func init() {
 	const subscription_name = "INSERT YOUR SUBSCRIPTION NAME"
 	container.InjectComponent(func() error {
-		subscription := archetype.Client.Subscription(subscription_name)
-		subscription.ReceiveSettings.Synchronous = true
-		subscription.ReceiveSettings.NumGoroutines = 1
-		subscription.ReceiveSettings.MaxOutstandingMessages = 1
-		__archetype_subscription_constructor(subscription.Receive, subscription_name)
+		subscription_setup := archetype.Client.Subscription(subscription_name)
+		subscription_setup.ReceiveSettings.Synchronous = true
+		subscription_setup.ReceiveSettings.NumGoroutines = 1
+		subscription_setup.ReceiveSettings.MaxOutstandingMessages = 1
+		__archetype_subscription_constructor(subscription_setup.Receive, subscription_name)
 		return nil
 	}, container.InjectionProps{
 		DependencyID: uuid.NewString(),

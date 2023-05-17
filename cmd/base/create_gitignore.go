@@ -1,6 +1,7 @@
 package base
 
 import (
+	"archetype/cmd/utils"
 	"fmt"
 	"path/filepath"
 )
@@ -11,7 +12,7 @@ func CreateGitignore(project string) error {
 	gitignoreFilePath := filepath.Join(project, ".gitignore")
 
 	// Use CopyFile function to copy .gitignore file
-	err := CopyFile(sourceGitignoreFilePath, gitignoreFilePath, project)
+	err := utils.CopyFile(sourceGitignoreFilePath, gitignoreFilePath, project)
 	if err != nil {
 		err := fmt.Errorf("error copying .gitignore file: %v", err)
 		fmt.Println(err)

@@ -1,6 +1,7 @@
 package base
 
 import (
+	"archetype/cmd/utils"
 	"fmt"
 	"path/filepath"
 )
@@ -11,7 +12,7 @@ func CreateContainer(project string) error {
 	destDir := filepath.Join(project, "app/shared/archetype/container")
 
 	// Clone the source directory to the destination directory
-	err := CopyDirectory(sourceDir, destDir, project)
+	err := utils.CopyDirectory(sourceDir, destDir, project)
 	if err != nil {
 		err := fmt.Errorf("error cloning container directory: %v", err)
 		fmt.Println(err)

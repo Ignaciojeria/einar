@@ -1,6 +1,7 @@
 package base
 
 import (
+	"archetype/cmd/utils"
 	"fmt"
 	"path/filepath"
 )
@@ -11,7 +12,7 @@ func CreateEnvironment(project string) error {
 	envFilePath := filepath.Join(project, ".env")
 
 	// Use CopyFile function to copy and process .environment file
-	err := CopyFile(sourceEnvFilePath, envFilePath, project)
+	err := utils.CopyFile(sourceEnvFilePath, envFilePath, project)
 	if err != nil {
 		err := fmt.Errorf("error copying .environment file: %v", err)
 		fmt.Println(err)
