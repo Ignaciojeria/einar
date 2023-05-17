@@ -1,13 +1,11 @@
 package archetype
 
 import (
-	_ "archetype/app/shared/archetype/chi_server"
 	"archetype/app/shared/archetype/container"
-
-	_ "archetype/app/shared/archetype/pubsub"
 	"archetype/app/shared/config"
 
 	"github.com/rs/zerolog"
+	_ "archetype/app/shared/archetype/chi_server"
 )
 
 // ARCHETYPE CONFIGURATION
@@ -20,22 +18,24 @@ func Setup() error {
 		return err
 	}
 
-	if err := InstallationsContainerSetup(); err != nil {
+	if err := InjectInstallations(); err != nil {
 		return err
 	}
 
-	if err := ComponentsContainerSetup(); err != nil {
+	if err := injectComponents(); err != nil {
 		return err
 	}
 
+	if !config.Installations.EnableHTTPServer {
+		return nil
+	}
 	if err := container.HTTPServerContainer.LoadDependency(); err != nil {
 		return err
 	}
-
 	return nil
 }
 
-func InstallationsContainerSetup() error {
+func InjectInstallations() error {
 	for _, v := range container.InstallationsContainer {
 		if v.InjectionProps.Paralel {
 			go v.LoadDependency()
@@ -50,7 +50,7 @@ func InstallationsContainerSetup() error {
 }
 
 // CUSTOM INITIALIZATION OF YOUR DOMAIN COMPONENTS
-func ComponentsContainerSetup() error {
+func injectComponents() error {
 	for _, v := range container.ComponentsContainer {
 		if v.InjectionProps.Paralel {
 			go v.LoadDependency()

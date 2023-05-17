@@ -1,5 +1,6 @@
 {
     "version": "latest",
+    "project":"example_project",
     "component_commands": [
         {
             "name":"subscription",
@@ -59,6 +60,10 @@
         {
             "name":"godotenv",
             "library": "github.com/joho/godotenv"
+        },
+        {
+            "name":"uuid",
+            "library": "github.com/google/uuid"
         }
     ]
 }
