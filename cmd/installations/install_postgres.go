@@ -4,6 +4,7 @@ import (
 	"archetype/cmd/base"
 	"archetype/cmd/utils"
 	"fmt"
+	"os"
 	"os/exec"
 	"path/filepath"
 )
@@ -31,8 +32,16 @@ func InstallPostgres(project string) error {
 		return err
 	}
 
+	// Get the binary path
+	binaryPath, err := os.Executable()
+	if err != nil {
+		err = fmt.Errorf("failed to get binary path: %v", err)
+		fmt.Println(err)
+		return err
+	}
+
 	// Define the source and destination directories
-	sourceDir := "app/shared/archetype/postgres"
+	sourceDir := filepath.Join(filepath.Dir(binaryPath), "app/shared/archetype/postgres")
 	destDir := filepath.Join(project, "app/shared/archetype/postgres")
 
 	// Clone the source directory to the destination directory

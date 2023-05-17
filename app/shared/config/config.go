@@ -89,6 +89,11 @@ func Setup() error {
 		requiredEnvVars = append(requiredEnvVars, DATABASE_POSTGRES_PASSWORD)
 	}
 
+	if Installations.EnableRedis {
+		requiredEnvVars = append(requiredEnvVars, REDIS_ADDRESS)
+		requiredEnvVars = append(requiredEnvVars, REDIS_PASSWORD)
+	}
+
 	for _, envVar := range requiredEnvVars {
 		value := envVar.Get()
 		if value == "" {

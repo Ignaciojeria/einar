@@ -13,6 +13,36 @@
             "libraries": [
                 "cloud.google.com/go/pubsub"
             ]
+        },
+        {
+            "name": "firestore",
+            "libraries": [
+                "cloud.google.com/go/firestore"
+            ]
+        },
+        {
+            "name": "firestore",
+            "libraries": [
+                "firebase.google.com/go"
+            ]
+        },
+        {
+            "name": "redis",
+            "libraries": [
+                "github.com/redis/go-redis/v9"
+            ]
+        },
+        {
+            "name": "postgres",
+            "libraries": [
+                "gorm.io/gorm"
+            ]
+        },
+        {
+            "name": "postgres",
+            "libraries": [
+                "gorm.io/driver/postgres"
+            ]
         }
     ],
     "installation_commands": [

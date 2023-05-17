@@ -5,7 +5,6 @@ import (
 	"archetype/app/shared/config"
 	"archetype/app/shared/utils"
 	"context"
-	"sync"
 
 	"cloud.google.com/go/pubsub"
 	"github.com/google/uuid"
@@ -14,8 +13,6 @@ import (
 )
 
 var Client *pubsub.Client
-
-var once sync.Once
 
 func init() {
 	config.Installations.EnablePubSub = true
@@ -26,16 +23,13 @@ func init() {
 			log.Error().Err(err).Msg("error decoding GOOGLE_APPLICATION_CRETENTIALS_B64")
 			return err
 		}
-		var ex error
-		once.Do(func() {
-			c, err := pubsub.NewClient(context.Background(), projectId, option.WithCredentialsJSON(creds))
-			if err != nil {
-				log.Error().Err(err).Msg("error getting pubsub client")
-				ex = err
-			}
-			Client = c
-		})
-		return ex
+		c, err := pubsub.NewClient(context.Background(), projectId, option.WithCredentialsJSON(creds))
+		if err != nil {
+			log.Error().Err(err).Msg("error getting pubsub client")
+			return err
+		}
+		Client = c
+		return nil
 	}, container.InjectionProps{
 		Paralel:      false,
 		DependencyID: uuid.NewString(),

@@ -112,9 +112,33 @@ var installCmd = &cobra.Command{
 			}
 		case "pubsub":
 			if err := installations.InstallPubSub(""); err != nil {
+				fmt.Println("Failed to install Pubsub Client:", err)
+			} else {
+				fmt.Println("Pubsub Client installed successfully.")
+			}
+		case "firestore":
+			if err := installations.InstallFirestore(""); err != nil {
+				fmt.Println("Failed to install Firestore Database:", err)
+			} else {
+				fmt.Println("Firestore Database installed successfully.")
+			}
+		case "postgres":
+			if err := installations.InstallPostgres(""); err != nil {
+				fmt.Println("Failed to install Postgres Database:", err)
+			} else {
+				fmt.Println("Postgres Database installed successfully.")
+			}
+		case "redis":
+			if err := installations.InstallRedis(""); err != nil {
 				fmt.Println("Failed to install Redis Database:", err)
 			} else {
 				fmt.Println("Redis Database installed successfully.")
+			}
+		case "resty":
+			if err := installations.InstallResty(""); err != nil {
+				fmt.Println("Failed to install Resty Client:", err)
+			} else {
+				fmt.Println("Resty Client installed successfully.")
 			}
 		default:
 			fmt.Println("Unknown installation command.")

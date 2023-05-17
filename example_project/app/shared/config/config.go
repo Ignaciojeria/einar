@@ -16,6 +16,7 @@ type archetypeConfiguration struct {
 	EnableFirestore    bool
 	EnableHTTPServer   bool
 	EnableRedis        bool
+	EnableRestyClient  bool
 }
 
 func (e *archetypeConfiguration) SetPubsub(enable bool) {
@@ -55,6 +56,7 @@ var Installations = archetypeConfiguration{
 	EnableFirestore:    false,
 	EnablePubSub:       false,
 	EnableRedis:        false,
+	EnableRestyClient:  false,
 	EnablePostgreSQLDB: false,
 }
 
