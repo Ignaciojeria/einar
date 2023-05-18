@@ -15,6 +15,8 @@ Create einar project with base installations only in default mode
 
 # Inside project :
 ../einar install chi-server
+../einar install dd-resty
+../einar install dd-pubsub
 
 Create einar project with all libraries installed by default
 ./einar init -n=example_project -m=all-in-one

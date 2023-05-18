@@ -7,6 +7,30 @@
             "libraries": [
                 "github.com/go-chi/chi"
             ]
+        },
+        {
+            "name": "resty",
+            "libraries": [
+                "gopkg.in/DataDog/dd-trace-go.v1/contrib/net/http"
+            ]
+        },
+        {
+            "name": "resty",
+            "libraries": [
+                "github.com/go-resty/resty/v2"
+            ]
+        },
+        {
+            "name": "pubsub",
+            "libraries": [
+                "cloud.google.com/go/pubsub"
+            ]
+        },
+        {
+            "name": "pubsub",
+            "libraries": [
+                "gopkg.in/DataDog/dd-trace-go.v1/ddtrace/tracer"
+            ]
         }
     ],
     "installation_commands": [
@@ -18,9 +42,25 @@
             ]
         },
         {
+            "name": "dd-pubsub",
+            "command": "einar install pubsub",
+            "libraries": [
+                "cloud.google.com/go/pubsub",
+                "gopkg.in/DataDog/dd-trace-go.v1/ddtrace/tracer"
+            ]
+        },
+        {
             "name": "resty",
             "command": "einar install resty",
             "libraries": [
+                "github.com/go-resty/resty/v2"
+            ]
+        },
+        {
+            "name": "dd-resty",
+            "command": "einar install dd-resty",
+            "libraries": [
+                "gopkg.in/DataDog/dd-trace-go.v1/contrib/net/http",
                 "github.com/go-resty/resty/v2"
             ]
         },

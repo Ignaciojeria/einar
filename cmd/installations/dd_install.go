@@ -13,7 +13,7 @@ func DDInstall(installation string) bool {
 			return true
 		}
 	case "dd-pubsub":
-		if err := InstallPubSub(""); err != nil {
+		if err := DDInstallPubSub(""); err != nil {
 			fmt.Println("Failed to install Pubsub Client:", err)
 		} else {
 			fmt.Println("Pubsub Client installed successfully.")
@@ -41,10 +41,10 @@ func DDInstall(installation string) bool {
 			return true
 		}
 	case "dd-resty":
-		if err := InstallResty(""); err != nil {
+		if err := DDInstallResty(""); err != nil {
 			fmt.Println("Failed to install Resty Client:", err)
 		} else {
-			fmt.Println("Resty Client installed successfully.")
+			fmt.Println("Resty Client With Datadog installed successfully.")
 			return true
 		}
 	}
