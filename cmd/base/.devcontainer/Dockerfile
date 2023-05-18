@@ -1,19 +1,33 @@
+# Base image: Latest Go version
 FROM golang:latest
 
-# Establece el directorio de trabajo
-WORKDIR /go/src/app
+# Avoid warnings by switching to noninteractive
+ENV DEBIAN_FRONTEND=noninteractive
 
-# Copia los archivos del proyecto al contenedor
-COPY . .
+# This will automatically be updated at build time
+LABEL org.opencontainers.image.created=${BUILD_DATE}
 
-# Instala las dependencias del proyecto
-RUN go get -d -v ./...
+# Install additional needed packages
+RUN apt-get update \
+    && apt-get -y install --no-install-recommends apt-utils dialog 2>&1 \
+    #
+    # Verify git, process tools, lsb-release (common in install instructions for CLIs) installed
+    && apt-get -y install git iproute2 procps lsb-release
 
-# Compila la aplicación
-RUN go build -o /go/src/app/main .
+# Configure Go
+ENV GOPATH="/go"
+ENV PATH="$GOPATH/bin:$PATH"
 
-# Expone el puerto 8080
-EXPOSE 8080
+# Create Go directory
+RUN mkdir -p "$GOPATH/src" "$GOPATH/bin" && chmod -R 777 "$GOPATH"
 
-# Define el comando para arrancar la aplicación
-CMD ["/go/src/app/main"]
+# Clean up
+RUN apt-get autoremove -y \
+    && apt-get clean -y \
+    && rm -rf /var/lib/apt/lists/*
+
+# Switch back to dialog for any ad-hoc use of apt-get
+ENV DEBIAN_FRONTEND=dialog
+
+# Set the default shell to bash rather than sh
+ENV SHELL /bin/bash
