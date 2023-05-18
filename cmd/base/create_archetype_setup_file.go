@@ -3,20 +3,27 @@ package base
 import (
 	"archetype/cmd/utils"
 	"fmt"
+	"os"
 	"path/filepath"
 )
 
 func CreateArchetypeSetupFile(project string) error {
-	// Define the source and destination paths
-	sourceSetupFilePath := "app/shared/archetype/setup.go"
-	setupFilePath := filepath.Join(project, "app/shared/archetype/setup.go")
+	// Obtain the binary's path
+	binaryPath, err := os.Executable()
+	if err != nil {
+		return fmt.Errorf("error obtaining binary path: %v", err)
+	}
+
+	// Construct the setup.go file's path relative to the binary
+	sourceSetupFilePath := filepath.Join(filepath.Dir(binaryPath), "app", "shared", "archetype", "setup.go")
+
+	// Define the destination path
+	setupFilePath := filepath.Join(project, "app", "shared", "archetype", "setup.go")
 
 	// Use CopyFile function to copy setup.go file
-	err := utils.CopyFile(sourceSetupFilePath, setupFilePath, project)
+	err = utils.CopyFile(sourceSetupFilePath, setupFilePath, project)
 	if err != nil {
-		err := fmt.Errorf("error copying setup.go file: %v", err)
-		fmt.Println(err)
-		return err
+		return fmt.Errorf("error copying setup.go file: %v", err)
 	}
 
 	fmt.Printf("setup.go file generated successfully at %s.\n", setupFilePath)

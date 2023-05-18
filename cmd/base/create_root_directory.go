@@ -20,5 +20,6 @@ func CreateRootDirectory(project string) error {
 		fmt.Println(err)
 		return err
 	}
+
 	return nil
 }
