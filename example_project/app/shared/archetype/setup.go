@@ -5,9 +5,6 @@ import (
 	"archetype/app/shared/config"
 
 	"github.com/rs/zerolog"
-	_ "archetype/app/shared/archetype/chi_server"
-	_ "archetype/app/shared/archetype/resty"
-	_ "archetype/app/shared/archetype/pubsub"
 )
 
 // ARCHETYPE CONFIGURATION

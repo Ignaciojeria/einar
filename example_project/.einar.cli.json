@@ -1,95 +1,69 @@
 {
     "version": "latest",
-    "project": "example_project",
-    "installations_added": [
+    "project":"example_project",
+    "installations_added": [],
+    "component_commands": [
         {
-            "name": "chi-server",
-            "libraries": [
-                "github.com/go-chi/chi"
-            ]
-        },
-        {
-            "name": "resty",
-            "libraries": [
-                "gopkg.in/DataDog/dd-trace-go.v1/contrib/net/http"
-            ]
-        },
-        {
-            "name": "resty",
-            "libraries": [
-                "github.com/go-resty/resty/v2"
-            ]
-        },
-        {
-            "name": "pubsub",
-            "libraries": [
-                "cloud.google.com/go/pubsub"
-            ]
-        },
-        {
-            "name": "pubsub",
-            "libraries": [
-                "gopkg.in/DataDog/dd-trace-go.v1/ddtrace/tracer"
-            ]
+            "name":"subscription",
+            "command":"einar generate subscription ${subscription_name}",
+            "libraries": ["cloud.google.com/go/pubsub"]
         }
     ],
     "installation_commands": [
         {
-            "name": "pubsub",
-            "command": "einar install pubsub",
-            "libraries": [
-                "cloud.google.com/go/pubsub"
-            ]
+            "name":"pubsub",
+            "command":"einar install pubsub",
+            "libraries": ["cloud.google.com/go/pubsub"]
         },
         {
-            "name": "dd-pubsub",
-            "command": "einar install pubsub",
+            "name":"dd-pubsub",
+            "command":"einar install pubsub",
             "libraries": [
                 "cloud.google.com/go/pubsub",
                 "gopkg.in/DataDog/dd-trace-go.v1/ddtrace/tracer"
-            ]
+        ]
         },
         {
-            "name": "resty",
-            "command": "einar install resty",
+            "name":"resty",
+            "command":"einar install resty",
             "libraries": [
                 "github.com/go-resty/resty/v2"
             ]
         },
         {
-            "name": "dd-resty",
-            "command": "einar install dd-resty",
-            "libraries": [
+            "name":"dd-resty",
+            "command":"einar install dd-resty",
+            "libraries":[
                 "gopkg.in/DataDog/dd-trace-go.v1/contrib/net/http",
                 "github.com/go-resty/resty/v2"
             ]
         },
         {
-            "name": "chi-server",
-            "command": "einar install chi-server",
+            "name":"chi-server",
+            "command":"einar install chi-server",
             "libraries": [
                 "github.com/go-chi/chi"
             ]
         },
         {
-            "name": "firestore",
-            "command": "einar install firestore",
+            "name":"firestore",
+            "command":"einar install firestore",
             "libraries": [
                 "cloud.google.com/go/firestore",
                 "firebase.google.com/go"
             ]
         },
         {
-            "name": "postgres",
-            "command": "einar install postgres",
+            "name":"postgres",
+            "command":"einar install postgres",
             "libraries": [
                 "gorm.io/gorm",
                 "gorm.io/driver/postgres"
             ]
         },
         {
-            "name": "redis",
-            "command": "einar install redis",
+            "name":"redis",
+            "command":"einar install redis",
             "libraries": [
                 "github.com/redis/go-redis/v9"
             ]
@@ -97,15 +71,15 @@
     ],
     "installations_base": [
         {
-            "name": "zerolog",
+            "name":"zerolog",
             "library": "github.com/rs/zerolog"
         },
         {
-            "name": "godotenv",
+            "name":"godotenv",
             "library": "github.com/joho/godotenv"
         },
         {
-            "name": "uuid",
+            "name":"uuid",
             "library": "github.com/google/uuid"
         }
     ]
