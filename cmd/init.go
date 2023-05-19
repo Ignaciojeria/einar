@@ -21,7 +21,7 @@ var initCmd = &cobra.Command{
 
 func runInitCmd(cmd *cobra.Command, args []string) {
 
-	config, err := utils.ReadEinarCli()
+	config, err := utils.ReadEinarCliFromBinaryPath()
 	if err != nil {
 		fmt.Println(err)
 		return

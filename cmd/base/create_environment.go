@@ -15,7 +15,7 @@ func CreateEnvironment(project string) error {
 	}
 
 	// Construct the .environment file's path relative to the binary
-	sourceEnvFilePath := filepath.Join(filepath.Dir(binaryPath), "cmd", "base", "environment", ".environment")
+	sourceEnvFilePath := filepath.Join(filepath.Dir(binaryPath), "app", "base", "environment", ".environment")
 
 	// Define the destination path
 	envFilePath := filepath.Join(project, ".env")

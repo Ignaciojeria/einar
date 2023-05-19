@@ -15,7 +15,7 @@ func CreateVersion(project string) error {
 	}
 
 	// Construct the source file's path relative to the binary
-	sourceVersionFilePath := filepath.Join(filepath.Dir(binaryPath), "cmd", "base", "version", ".version")
+	sourceVersionFilePath := filepath.Join(filepath.Dir(binaryPath), "app", "base", "version", ".version")
 
 	// Define the destination path
 	versionPath := filepath.Join(project, ".version")

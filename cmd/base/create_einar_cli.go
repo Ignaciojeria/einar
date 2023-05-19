@@ -15,7 +15,7 @@ func CreateEinarCli(project string) error {
 	}
 
 	// Construct the source file's path relative to the binary
-	sourceEinarCliFilePath := filepath.Join(filepath.Dir(binaryPath), ".einar.cli.json")
+	sourceEinarCliFilePath := filepath.Join(filepath.Dir(binaryPath), "app", "base", "cli", ".einar.cli.json")
 
 	// Define the destination path
 	einarCliFilePath := filepath.Join(project, ".einar.cli.json")

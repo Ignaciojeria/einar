@@ -15,7 +15,7 @@ func CreateGitignore(project string) error {
 	}
 
 	// Construct the source file's path relative to the binary
-	sourceGitignoreFilePath := filepath.Join(filepath.Dir(binaryPath), "cmd", "base", "gitignore", ".gitignore")
+	sourceGitignoreFilePath := filepath.Join(filepath.Dir(binaryPath), "app", "base", "gitignore", ".gitignore")
 
 	// Define the destination path
 	gitignoreFilePath := filepath.Join(project, ".gitignore")

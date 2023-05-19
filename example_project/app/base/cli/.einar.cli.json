@@ -1,6 +1,6 @@
 {
     "version": "latest",
-    "project":"example_project",
+    "project":"${project}",
     "installations_added": [],
     "component_commands": [
         {
