@@ -18,7 +18,7 @@ func CreateDockerFile(project string) error {
 	sourceDockerFilePath := filepath.Join(filepath.Dir(binaryPath), "cmd", "base", "dockerfile", "Dockerfile")
 
 	// Define the destination path
-	dockerFilePath := filepath.Join(project, "Dockerfile")
+	dockerFilePath := filepath.Join("Dockerfile")
 
 	// Use CopyFile function to copy Dockerfile
 	err = utils.CopyFile(sourceDockerFilePath, dockerFilePath, project)

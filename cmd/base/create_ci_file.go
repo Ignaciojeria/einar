@@ -18,7 +18,7 @@ func CreateCiFile(project string) error {
 	sourceCiFilePath := filepath.Join(filepath.Dir(binaryPath), "cmd", "base", "ci", ".gitlab-ci.yml")
 
 	// Define the destination path
-	ciFilePath := filepath.Join(project, ".gitlab-ci.yml")
+	ciFilePath := filepath.Join(".gitlab-ci.yml")
 
 	// Use CopyFile function to copy .gitlab-ci.yml file
 	err = utils.CopyFile(sourceCiFilePath, ciFilePath, project)

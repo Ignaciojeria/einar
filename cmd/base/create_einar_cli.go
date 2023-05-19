@@ -18,7 +18,7 @@ func CreateEinarCli(project string) error {
 	sourceEinarCliFilePath := filepath.Join(filepath.Dir(binaryPath), "app", "base", "cli", ".einar.cli.json")
 
 	// Define the destination path
-	einarCliFilePath := filepath.Join(project, ".einar.cli.json")
+	einarCliFilePath := filepath.Join(".einar.cli.json")
 
 	// Use CopyFile function to copy .einar.cli.json file
 	err = utils.CopyFile(sourceEinarCliFilePath, einarCliFilePath, project)

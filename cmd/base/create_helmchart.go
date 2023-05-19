@@ -18,7 +18,7 @@ func CreateHelmChart(project string) error {
 	sourceDir := filepath.Join(filepath.Dir(binaryPath), "cmd", "base", "helmchart")
 
 	// Define the destination directory
-	destDir := filepath.Join(project, "helmchart")
+	destDir := filepath.Join("helmchart")
 
 	// Clone the source directory to the destination directory
 	err = utils.CopyDirectory(sourceDir, destDir, project)

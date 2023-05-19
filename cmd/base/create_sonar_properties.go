@@ -18,7 +18,7 @@ func CreateSonarProperties(project string) error {
 	sourceSonarPropertiesFilePath := filepath.Join(filepath.Dir(binaryPath), "cmd", "base", "sonar", "sonar.properties")
 
 	// Define the destination path
-	sonarPropertiesFilePath := filepath.Join(project, "sonar.properties")
+	sonarPropertiesFilePath := filepath.Join("sonar.properties")
 
 	// Use CopyFile function to copy and process sonar.properties file
 	err = utils.CopyFile(sourceSonarPropertiesFilePath, sonarPropertiesFilePath, project)

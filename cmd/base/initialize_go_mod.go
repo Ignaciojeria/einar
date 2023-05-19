@@ -5,13 +5,13 @@ import (
 	"os/exec"
 )
 
-func InitializeGoModule(project string, dependencies []string) error {
+func InitializeGoModule(dependencies []string) error {
 	// Initialize a new Go module
 	goModCmd := exec.Command("go", "mod", "init", archetype)
-	goModCmd.Dir = project
+	goModCmd.Dir = ""
 	err := goModCmd.Run()
 	if err != nil {
-		err := fmt.Errorf("error initializing go module for project %s: %s", project, err)
+		err := fmt.Errorf("error initializing go module %s", err)
 		fmt.Println(err)
 		return err
 	}
@@ -19,16 +19,16 @@ func InitializeGoModule(project string, dependencies []string) error {
 	// Get dependencies
 	for _, dependency := range dependencies {
 		goGetCmd := exec.Command("go", "get", dependency)
-		goGetCmd.Dir = project
+		goGetCmd.Dir = ""
 		err := goGetCmd.Run()
 		if err != nil {
-			err := fmt.Errorf("error getting dependency %s for project %s: %s", dependency, project, err)
+			err := fmt.Errorf("error getting dependency %s %s", dependency, err)
 			fmt.Println(err)
 			return err
 		}
 	}
 
 	// Print success message
-	fmt.Printf("Go module '%s' generated successfully with dependencies: %v.\n", project, dependencies)
+	fmt.Printf("Go module '%s' generated successfully with dependencies:", dependencies)
 	return nil
 }

@@ -7,12 +7,13 @@ import (
 	"path/filepath"
 )
 
-func CreateMainFile(project string) error {
+func CreateMainFile() error {
 	// Create the main.go file in the moduleName directory
-	mainFilePath := filepath.Join(project, "main.go")
+	mainFilePath := filepath.Join("main.go")
+
 	mainFile, err := os.Create(mainFilePath)
 	if err != nil {
-		err := fmt.Errorf("error creating main.go file for project %s: %s", project, err)
+		err := fmt.Errorf("error creating main.go file for project %s:", err)
 		fmt.Println(err)
 		return err
 	}
@@ -35,7 +36,7 @@ func main() {
 
 	_, err = io.WriteString(mainFile, mainFileContent)
 	if err != nil {
-		err := fmt.Errorf("error writing to main.go file for project %s: %s", project, err)
+		err := fmt.Errorf("error writing to main.go file for project %s: ", err)
 		fmt.Println(err)
 		return err
 	}

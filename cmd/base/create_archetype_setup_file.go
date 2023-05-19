@@ -18,7 +18,7 @@ func CreateArchetypeSetupFile(project string) error {
 	sourceSetupFilePath := filepath.Join(filepath.Dir(binaryPath), "app", "shared", "archetype", "setup.go")
 
 	// Define the destination path
-	setupFilePath := filepath.Join(project, "app", "shared", "archetype", "setup.go")
+	setupFilePath := filepath.Join("app", "shared", "archetype", "setup.go")
 
 	// Use CopyFile function to copy setup.go file
 	err = utils.CopyFile(sourceSetupFilePath, setupFilePath, project)

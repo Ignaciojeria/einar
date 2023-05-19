@@ -18,7 +18,7 @@ func CreateConfiguration(project string) error {
 	sourceDir := filepath.Join(filepath.Dir(binaryPath), "app", "shared", "config")
 
 	// Define the destination directory
-	destDir := filepath.Join(project, "app", "shared", "config")
+	destDir := filepath.Join("app", "shared", "config")
 
 	// Clone the source directory to the destination directory
 	err = utils.CopyDirectory(sourceDir, destDir, project)

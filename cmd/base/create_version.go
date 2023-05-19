@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 )
 
-func CreateVersion(project string) error {
+func CreateVersion() error {
 	// Obtain the binary's path
 	binaryPath, err := os.Executable()
 	if err != nil {
@@ -18,7 +18,7 @@ func CreateVersion(project string) error {
 	sourceVersionFilePath := filepath.Join(filepath.Dir(binaryPath), "app", "base", "version", ".version")
 
 	// Define the destination path
-	versionPath := filepath.Join(project, ".version")
+	versionPath := filepath.Join(".version")
 
 	// Read the version file content
 	versionContentBytes, err := ioutil.ReadFile(sourceVersionFilePath)

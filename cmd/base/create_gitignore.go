@@ -18,7 +18,7 @@ func CreateGitignore(project string) error {
 	sourceGitignoreFilePath := filepath.Join(filepath.Dir(binaryPath), "app", "base", "gitignore", ".gitignore")
 
 	// Define the destination path
-	gitignoreFilePath := filepath.Join(project, ".gitignore")
+	gitignoreFilePath := filepath.Join(".gitignore")
 
 	// Use CopyFile function to copy .gitignore file
 	err = utils.CopyFile(sourceGitignoreFilePath, gitignoreFilePath, project)

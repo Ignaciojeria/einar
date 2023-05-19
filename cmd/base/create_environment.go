@@ -18,7 +18,7 @@ func CreateEnvironment(project string) error {
 	sourceEnvFilePath := filepath.Join(filepath.Dir(binaryPath), "app", "base", "environment", ".environment")
 
 	// Define the destination path
-	envFilePath := filepath.Join(project, ".env")
+	envFilePath := filepath.Join(".env")
 
 	// Use CopyFile function to copy and process .environment file
 	err = utils.CopyFile(sourceEnvFilePath, envFilePath, project)

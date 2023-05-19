@@ -18,7 +18,7 @@ func CreateContainer(project string) error {
 	sourceDir := filepath.Join(filepath.Dir(binaryPath), "app", "shared", "archetype", "container")
 
 	// Define the destination directory
-	destDir := filepath.Join(project, "app", "shared", "archetype", "container")
+	destDir := filepath.Join("app", "shared", "archetype", "container")
 
 	// Clone the source directory to the destination directory
 	err = utils.CopyDirectory(sourceDir, destDir, project)
