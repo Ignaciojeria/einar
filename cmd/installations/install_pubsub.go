@@ -6,6 +6,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"sync"
 )
 
 func InstallPubSub(project string) error {
@@ -55,20 +56,39 @@ func InstallPubSub(project string) error {
 
 	configPath := filepath.Join(project, ".einar.cli.json")
 
+	var wg sync.WaitGroup
+	errChan := make(chan error, len(pubsubLibs))
 	// Install pubsub libraries
 	for _, lib := range pubsubLibs {
-		cmd := exec.Command("go", "get", lib)
-		cmd.Dir = project
-		err = cmd.Run()
-		if err != nil {
-			err = fmt.Errorf("error installing pubsub library %s: %v", lib, err)
-			fmt.Println(err)
-			return err
-		}
+		wg.Add(1)
+		go func(lib string) {
+			defer wg.Done()
 
-		// Add the installed library to the JSON config
-		if err := AddInstallation(configPath, "pubsub", lib /*version*/, ""); err != nil {
-			fmt.Println("Failed to update .einar.cli.latest.json:", err)
+			cmd := exec.Command("go", "get", lib)
+			cmd.Dir = project
+			cmd.Stdout = os.Stdout // Command's stdout will be attached to system's stdout
+			cmd.Stderr = os.Stderr
+			err := cmd.Run()
+			if err != nil {
+				errChan <- fmt.Errorf("error installing pubsub library %s: %v", lib, err)
+				return
+			}
+
+			// Add the installed library to the JSON config
+			if err := AddInstallation(configPath, "pubsub", lib /*version*/, ""); err != nil {
+				errChan <- fmt.Errorf("failed to update .einar.cli.latest.json: %v", err)
+				return
+			}
+		}(lib)
+	}
+
+	wg.Wait() // Wait for all goroutines to finish
+	close(errChan)
+
+	// Check if any goroutine returned an error
+	for err := range errChan {
+		if err != nil {
+			fmt.Println(err)
 			return err
 		}
 	}

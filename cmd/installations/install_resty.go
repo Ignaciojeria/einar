@@ -4,7 +4,6 @@ import (
 	"archetype/cmd/utils"
 	"fmt"
 	"os"
-	"os/exec"
 	"path/filepath"
 )
 
@@ -57,14 +56,15 @@ func InstallResty(project string) error {
 
 	// Install resty libraries
 	for _, lib := range restyLibs {
-		cmd := exec.Command("go", "get", lib)
-		cmd.Dir = project
-		err = cmd.Run()
-		if err != nil {
-			err = fmt.Errorf("error installing resty library %s: %v", lib, err)
-			fmt.Println(err)
-			return err
-		}
+		/*
+			cmd := exec.Command("go", "get", lib)
+			cmd.Dir = project
+			err = cmd.Run()
+			if err != nil {
+				err = fmt.Errorf("error installing resty library %s: %v", lib, err)
+				fmt.Println(err)
+				return err
+			}*/
 
 		// Add the installed library to the JSON config
 		if err := AddInstallation(configPath, "resty", lib /*version*/, ""); err != nil {
