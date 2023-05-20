@@ -18,51 +18,37 @@ var initCmd = &cobra.Command{
 }
 
 func runInitCmd(cmd *cobra.Command, args []string) {
-
 	_, err := utils.ReadEinarCli()
 	if err == nil {
 		fmt.Println("einar cli already initialized")
 		return
 	}
+	utils.GitCloneTemplateInBinaryPath("https://github.com/Ignaciojeria/einar-cli-template")
 
-	config, err := utils.ReadEinarCliFromBinaryPath()
+	project, _ := utils.GetCurrentFolderName()
+
+	if err := base.CreateFilesFromTemplate(project); err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	if err := base.CreateDirectoriesFromTemplate(project); err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	template, err := utils.ReadEinarTemplateFromBinaryPath()
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 	dependency_tree := make([]string, 0)
-	for _, installBase := range config.InstallationsBase {
+
+	for _, installBase := range template.InstallationsBase {
 		dependency_tree = append(dependency_tree, installBase.Library)
 	}
-	project, _ := utils.GetCurrentFolderName()
-	if err := base.CreateMainFile(); err != nil {
-		return
-	}
+
 	if err := base.InitializeGoModule(dependency_tree); err != nil {
-		return
-	}
-	if err := base.CreateConfiguration(project); err != nil {
-		return
-	}
-	if err := base.CreateContainer(project); err != nil {
-		return
-	}
-	if err := base.CreateEnvironment(project); err != nil {
-		return
-	}
-	if err := base.CreateGitignore(project); err != nil {
-		return
-	}
-	if err := base.CreateVersion(); err != nil {
-		return
-	}
-	if err := base.CreateUtils(); err != nil {
-		return
-	}
-	if err := base.CreateArchetypeSetupFile(project); err != nil {
-		return
-	}
-	if err := base.CreateEinarCli(project); err != nil {
 		return
 	}
 }
@@ -90,10 +76,6 @@ var installCmd = &cobra.Command{
 		}
 
 		if installations.Install(args[0]) {
-			return
-		}
-
-		if installations.DDInstall(args[0]) {
 			return
 		}
 

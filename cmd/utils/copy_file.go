@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"path/filepath"
 )
 
 func CopyFile(srcFile string, dstFile string, project string) error {
@@ -12,6 +13,15 @@ func CopyFile(srcFile string, dstFile string, project string) error {
 		return fmt.Errorf("error opening source file: %v", err)
 	}
 	defer in.Close()
+
+	// Create the destination directory if it doesn't exist yet
+	dstDir := filepath.Dir(dstFile)
+	if _, err := os.Stat(dstDir); os.IsNotExist(err) {
+		err = os.MkdirAll(dstDir, 0755)
+		if err != nil {
+			return fmt.Errorf("error creating directory %s: %v", dstDir, err)
+		}
+	}
 
 	out, err := os.Create(dstFile)
 	if err != nil {
