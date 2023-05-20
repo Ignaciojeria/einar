@@ -1,0 +1,321 @@
+Im using golang cobra cli and i have next function allocated in cmd/utils/copy_directory.go :
+package utils
+
+import (
+	"fmt"
+	"os"
+	"path/filepath"
+)
+
+func CopyDirectory(srcDir string, dstDir string, project string) error {
+	entries, err := os.ReadDir(srcDir)
+	if err != nil {
+		return fmt.Errorf("error reading source directory: %v", err)
+	}
+
+	err = os.MkdirAll(dstDir, os.ModePerm)
+	if err != nil {
+		return fmt.Errorf("error creating destination directory: %v", err)
+	}
+
+	for _, entry := range entries {
+		srcPath := filepath.Join(srcDir, entry.Name())
+		dstPath := filepath.Join(dstDir, entry.Name())
+
+		fileInfo, err := entry.Info()
+		if err != nil {
+			return fmt.Errorf("error retrieving file info: %v", err)
+		}
+
+		if fileInfo.IsDir() {
+			err = CopyDirectory(srcPath, dstPath, project)
+			if err != nil {
+				return err
+			}
+		} else {
+			err = CopyFile(srcPath, dstPath, project)
+			if err != nil {
+				return err
+			}
+		}
+	}
+	return nil
+}
+
+When the cobra binary is generated, the binary clones next to it a folder called "einar-cli-template" and inside that folder I have a file called .einar.template.json that has the following structure:
+{
+    "installations_base": [
+        {
+            "name":"zerolog",
+            "library": "github.com/rs/zerolog"
+        },
+        {
+            "name":"godotenv",
+            "library": "github.com/joho/godotenv"
+        },
+        {
+            "name":"uuid",
+            "library": "github.com/google/uuid"
+        }
+    ],
+    "installation_commands": [
+        {
+            "name":"pubsub",
+            "source_dir": "app/shared/archetype/pubsub",
+            "destination_dir": "app/shared/archetype/pubsub",
+            "command":"einar install pubsub",
+            "libraries": ["cloud.google.com/go/pubsub"]
+        },
+        {
+            "name":"resty",
+            "source_dir": "app/shared/archetype/resty",
+            "destination_dir": "app/shared/archetype/resty",
+            "command":"einar install resty",
+            "libraries": [
+                "github.com/go-resty/resty/v2"
+            ]
+        },
+        {
+            "name":"chi-server",
+            "source_dir": "app/shared/archetype/chi_server",
+            "destination_dir": "app/shared/archetype/chi_server",
+            "command":"einar install chi-server",
+            "libraries": [
+                "github.com/go-chi/chi"
+            ]
+        },
+        {
+            "name":"firestore",
+            "source_dir": "app/shared/archetype/firestore",
+            "destination_dir": "app/shared/archetype/firestore",
+            "command":"einar install firestore",
+            "libraries": [
+                "cloud.google.com/go/firestore",
+                "firebase.google.com/go"
+            ]
+        },
+        {
+            "name":"postgres",
+            "source_dir": "app/shared/archetype/postgres",
+            "destination_dir": "app/shared/archetype/postgres",
+            "command":"einar install postgres",
+            "libraries": [
+                "gorm.io/gorm",
+                "gorm.io/driver/postgres"
+            ]
+        },
+        {
+            "name":"redis",
+            "source_dir": "app/shared/archetype/redis",
+            "destination_dir": "app/shared/archetype/redis",
+            "command":"einar install redis",
+            "libraries": [
+                "github.com/redis/go-redis/v9"
+            ]
+        }
+    ],
+    "base_template": {
+        "description": "Base template allow you copy base files based on your private/public github account inside your einar project when starts",
+        "folders": [
+            {
+                "source_dir": "app/shared/utils",
+                "destination_dir": "app/shared/utils"
+            },
+            {
+                "source_dir": "app/shared/config",
+                "destination_dir": "app/shared/config"
+            },
+            {
+                "source_dir": "app/shared/archetype/container",
+                "destination_dir": "app/shared/archetype/container"
+            },
+            {
+                "source_dir": "app/shared/constants",
+                "destination_dir": "app/shared/constants"
+            }
+        ],
+        "files": [
+            {
+                "source_file": ".environment",
+                "destination_file": ".env"
+            },
+            {
+                "source_file": "main.go",
+                "destination_file": "main.go"
+            },
+            {
+                "source_file": ".einar.cli.json",
+                "destination_file": ".einar.cli.json"
+            },
+            {
+                "source_file": ".gitignore",
+                "destination_file": ".gitignore"
+            },
+            {
+                "source_file": "app/shared/archetype/setup.go",
+                "destination_file": "app/shared/archetype/setup.go"
+            }
+        ]
+    }
+}
+
+for give you more context y have next function for copy files allocated in cmd/utils/copy_file.go :
+
+package utils
+
+import (
+	"fmt"
+	"io"
+	"os"
+	"path/filepath"
+)
+
+func CopyFile(srcFile string, dstFile string, project string) error {
+	in, err := os.Open(srcFile)
+	if err != nil {
+		return fmt.Errorf("error opening source file: %v", err)
+	}
+	defer in.Close()
+
+	// Create the destination directory if it doesn't exist yet
+	dstDir := filepath.Dir(dstFile)
+	if _, err := os.Stat(dstDir); os.IsNotExist(err) {
+		err = os.MkdirAll(dstDir, 0755)
+		if err != nil {
+			return fmt.Errorf("error creating directory %s: %v", dstDir, err)
+		}
+	}
+
+	out, err := os.Create(dstFile)
+	if err != nil {
+		return fmt.Errorf("error creating destination file: %v", err)
+	}
+	defer out.Close()
+
+	_, err = io.Copy(out, in)
+	if err != nil {
+		return fmt.Errorf("error copying file content: %v", err)
+	}
+
+	err = out.Sync()
+	if err != nil {
+		return fmt.Errorf("error syncing destination file: %v", err)
+	}
+
+	// Replace "${project}" placeholder in the copied file
+	err = replacePlaceholder(dstFile, "${project}", project)
+	if err != nil {
+		return fmt.Errorf("error replacing placeholder in file: %v", err)
+	}
+
+	return nil
+}
+
+and im using that function from another one function allocated in cmd/installations/install_pubsub.go :
+package installations
+
+import (
+	"archetype/cmd/utils"
+	"fmt"
+	"os"
+	"os/exec"
+	"path/filepath"
+	"sync"
+)
+
+func InstallPubSub(project string) error {
+	// Read the JSON config file
+	config, err := utils.ReadEinarCli()
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+
+	// Find the PubSub libraries
+	var pubsubLibs []string
+	for _, installCommand := range config.InstallationCommands {
+		if installCommand.Name == "pubsub" {
+			pubsubLibs = installCommand.Libraries
+			break
+		}
+	}
+
+	if len(pubsubLibs) == 0 {
+		err = fmt.Errorf("pubsub libraries not found in .einar.cli.json")
+		fmt.Println(err)
+		return err
+	}
+
+	// Get the binary path
+	binaryPath, err := os.Executable()
+	if err != nil {
+		err = fmt.Errorf("failed to get binary path: %v", err)
+		fmt.Println(err)
+		return err
+	}
+
+	// Define the source and destination directories
+	sourceDir := filepath.Join(filepath.Dir(binaryPath), "app/shared/archetype/pubsub")
+	destDir := filepath.Join(project, "app/shared/archetype/pubsub")
+
+	// Clone the source directory to the destination directory
+	err = utils.CopyDirectory(sourceDir, destDir, project)
+	if err != nil {
+		err := fmt.Errorf("error cloning pubsub directory: %v", err)
+		fmt.Println(err)
+		return err
+	}
+
+	fmt.Printf("PubSub directory cloned successfully to %s.\n", destDir)
+
+	configPath := filepath.Join(project, ".einar.cli.json")
+
+	var wg sync.WaitGroup
+	errChan := make(chan error, len(pubsubLibs))
+	// Install pubsub libraries
+	for _, lib := range pubsubLibs {
+		wg.Add(1)
+		go func(lib string) {
+			defer wg.Done()
+
+			cmd := exec.Command("go", "get", lib)
+			cmd.Dir = project
+			cmd.Stdout = os.Stdout // Command's stdout will be attached to system's stdout
+			cmd.Stderr = os.Stderr
+			err := cmd.Run()
+			if err != nil {
+				errChan <- fmt.Errorf("error installing pubsub library %s: %v", lib, err)
+				return
+			}
+
+			// Add the installed library to the JSON config
+			if err := AddInstallation(configPath, "pubsub", lib /*version*/, ""); err != nil {
+				errChan <- fmt.Errorf("failed to update .einar.cli.latest.json: %v", err)
+				return
+			}
+		}(lib)
+	}
+
+	wg.Wait() // Wait for all goroutines to finish
+	close(errChan)
+
+	// Check if any goroutine returned an error
+	for err := range errChan {
+		if err != nil {
+			fmt.Println(err)
+			return err
+		}
+	}
+
+	// Update setup.go file with the import statement
+	setupFilePath := filepath.Join(project, "app/shared/archetype/setup.go")
+	err = utils.AddImportStatement(setupFilePath, "archetype/app/shared/archetype/pubsub")
+	if err != nil {
+		fmt.Println("Failed to add import statement to setup.go:", err)
+		return err
+	}
+
+	return nil
+}
+
+is possible read "installation_commands"  and refactor "InstallPubSub" to a generic one that install element based on passed key from json file provided?

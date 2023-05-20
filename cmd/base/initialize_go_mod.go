@@ -5,6 +5,8 @@ import (
 	"os/exec"
 )
 
+const archetype = "archetype"
+
 func InitializeGoModule(dependencies []string) error {
 	// Initialize a new Go module
 	goModCmd := exec.Command("go", "mod", "init", archetype)
@@ -17,6 +19,7 @@ func InitializeGoModule(dependencies []string) error {
 	}
 
 	// Get dependencies
+
 	for _, dependency := range dependencies {
 		goGetCmd := exec.Command("go", "get", dependency)
 		goGetCmd.Dir = ""

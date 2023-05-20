@@ -7,16 +7,16 @@ Create new command :
 /workspace/go/bin/cobra-cli add $command
 
 Compile command line tool application : 
-go build -o einar
+go build -o einar/einar
+cd example_project
 
 # Create a new application using einar
 Create einar project with base installations only in default mode
-../einar init
+../einar/einar init
+cd ..
 
 # Inside project :
-../einar install chi-server
-../einar install dd-resty
-../einar install dd-pubsub
+../einar/einar install chi-server
 
 Create einar project with all libraries installed by default
 ./einar init -n=example_project -m=all-in-one
