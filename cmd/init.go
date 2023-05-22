@@ -10,6 +10,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var repositoryURL string
+
 // initCmd represents the init command
 var initCmd = &cobra.Command{
 	Use:   "init",
@@ -23,7 +25,12 @@ func runInitCmd(cmd *cobra.Command, args []string) {
 		fmt.Println("einar cli already initialized")
 		return
 	}
-	utils.GitCloneTemplateInBinaryPath("https://github.com/Ignaciojeria/einar-cli-template")
+
+	if repositoryURL == "" {
+		repositoryURL = "https://github.com/Ignaciojeria/einar-cli-template" // Default repository URL
+	}
+
+	utils.GitCloneTemplateInBinaryPath(repositoryURL)
 
 	project, _ := utils.GetCurrentFolderName()
 
@@ -42,13 +49,14 @@ func runInitCmd(cmd *cobra.Command, args []string) {
 		fmt.Println(err)
 		return
 	}
-	dependency_tree := make([]string, 0)
+
+	dependencyTree := make([]string, 0)
 
 	for _, installBase := range template.InstallationsBase {
-		dependency_tree = append(dependency_tree, installBase.Library)
+		dependencyTree = append(dependencyTree, installBase.Library)
 	}
 
-	if err := base.InitializeGoModule(dependency_tree); err != nil {
+	if err := base.InitializeGoModule(dependencyTree); err != nil {
 		return
 	}
 }
@@ -80,11 +88,11 @@ var installCmd = &cobra.Command{
 		}
 
 		fmt.Println("Unknown installation command.")
-
 	},
 }
 
 func init() {
+	initCmd.Flags().StringVar(&repositoryURL, "repository", "", "URL of the repository") // Add a flag for repository URL
 	rootCmd.AddCommand(initCmd)
 	rootCmd.AddCommand(installCmd)
 }

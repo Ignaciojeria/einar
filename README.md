@@ -12,7 +12,7 @@ cd example_project
 
 # Create a new application using einar
 Create einar project with base installations only in default mode
-../einar/einar init
+../einar/einar init --repository https://github.com/Ignaciojeria/einar-cli-template
 cd ..
 
 # Inside project :
