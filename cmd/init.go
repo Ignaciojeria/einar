@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"archetype/cmd/base"
+	"archetype/cmd/components"
 	"archetype/cmd/installations"
 	"archetype/cmd/utils"
 	"fmt"
@@ -64,6 +65,7 @@ var installCmd = &cobra.Command{
 	Use:   "install",
 	Short: "Install command for Einar",
 	Long:  `This command allows you to install various components.`,
+	Args:  cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		// Read the JSON config file
 		config, _ := utils.ReadEinarCli()
@@ -83,8 +85,32 @@ var installCmd = &cobra.Command{
 	},
 }
 
+// generateCmd represents the generate command
+var generateCmd = &cobra.Command{
+	Use:   "generate [component type] [component name]",
+	Short: "generate component. for example: einar generate subscription my-subscription",
+	Args:  cobra.ExactArgs(2), // Ensure exactly 2 arguments are provided
+	Run:   runGenerateCmd,
+}
+
+func runGenerateCmd(cmd *cobra.Command, args []string) {
+	componentKind := args[0]
+	componentName := args[1]
+
+	componentName = utils.ConvertStringCase(componentName, "kebab")
+
+	if err := components.GenerateComponenteCommand(
+		"",
+		componentKind, componentName); err != nil {
+		return
+	}
+
+	fmt.Println("Generate command executed for:", componentKind, "with name:", componentName)
+}
+
 func init() {
 	initCmd.Flags().StringVar(&repositoryURL, "repository", "", "URL of the repository") // Add a flag for repository URL
 	rootCmd.AddCommand(initCmd)
 	rootCmd.AddCommand(installCmd)
+	rootCmd.AddCommand(generateCmd)
 }

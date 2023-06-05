@@ -17,7 +17,8 @@ Create einar project with base installations only in default mode
 cd ..
 
 # Inside project :
-../einar/einar install chi-server
+../einar/einar install pubsub
+../einar/einar generate subscription mySubscription
 
 Create einar project with all libraries installed by default
 ./einar init -n=example_project -m=all-in-one
