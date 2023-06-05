@@ -3,7 +3,7 @@ package domain
 type EinarCli struct {
 	Version              string                `json:"version"`
 	Project              string                `json:"project"`
-	InstallationsAdded   []Installation        `json:"installations_added"`
+	Installations        []Installation        `json:"installations"`
 	InstallationCommands []InstallationCommand `json:"installation_commands"`
 }
 
@@ -13,7 +13,7 @@ type Installation struct {
 }
 
 func (c EinarCli) IsInstalled(component string) bool {
-	for _, installation := range c.InstallationsAdded {
+	for _, installation := range c.Installations {
 		if installation.Name == component {
 			return true
 		}

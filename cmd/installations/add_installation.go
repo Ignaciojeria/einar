@@ -55,7 +55,7 @@ func AddInstallation(project, commandName string) error {
 	}
 
 	// add the command to the CLI
-	cli.InstallationsAdded = append(cli.InstallationsAdded, domain.Installation{
+	cli.Installations = append(cli.Installations, domain.Installation{
 		Name:      command.Name,
 		Libraries: command.Libraries,
 	})

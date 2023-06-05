@@ -5,7 +5,6 @@ import (
 	"archetype/cmd/installations"
 	"archetype/cmd/utils"
 	"fmt"
-	"strings"
 
 	"github.com/spf13/cobra"
 )
@@ -74,11 +73,6 @@ var installCmd = &cobra.Command{
 		}
 
 		if config.IsInstalled(args[0]) {
-			fmt.Println("installation " + args[0] + " already added")
-			return
-		}
-
-		if config.IsInstalled(strings.ReplaceAll(args[0], "dd-", "")) {
 			fmt.Println("installation " + args[0] + " already added")
 			return
 		}
