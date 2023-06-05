@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 )
 
-func CopyDirectory(srcDir string, dstDir string, project string) error {
+func CopyDirectory(srcDir string, dstDir string, placeholders []string, values []string) error {
 	entries, err := os.ReadDir(srcDir)
 	if err != nil {
 		return fmt.Errorf("error reading source directory: %v", err)
@@ -27,12 +27,12 @@ func CopyDirectory(srcDir string, dstDir string, project string) error {
 		}
 
 		if fileInfo.IsDir() {
-			err = CopyDirectory(srcPath, dstPath, project)
+			err = CopyDirectory(srcPath, dstPath, placeholders, values)
 			if err != nil {
 				return err
 			}
 		} else {
-			err = CopyFile(srcPath, dstPath, project)
+			err = CopyFile(srcPath, dstPath, placeholders, values)
 			if err != nil {
 				return err
 			}

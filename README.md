@@ -8,6 +8,7 @@ Create new command :
 
 Compile command line tool application : 
 go build -o einar/einar
+mkdir example_project
 cd example_project
 
 # Create a new application using einar

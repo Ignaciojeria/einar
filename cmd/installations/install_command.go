@@ -45,7 +45,7 @@ func InstallCommand(project string, commandName string) error {
 	sourceDir := filepath.Join(filepath.Dir(binaryPath), "einar-cli-template", installCommand.SourceDir)
 	destDir := filepath.Join(project, installCommand.DestinationDir)
 
-	err = utils.CopyDirectory(sourceDir, destDir, project)
+	err = utils.CopyDirectory(sourceDir, destDir, []string{"${project}"}, []string{project})
 	if err != nil {
 		return fmt.Errorf("error cloning %s directory: %v", commandName, err)
 	}

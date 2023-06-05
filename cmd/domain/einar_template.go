@@ -34,3 +34,18 @@ type InstallationsBase struct {
 	Name    string `json:"name"`
 	Library string `json:"library"`
 }
+
+type ComponentGenerationCommand struct {
+	Name string
+}
+
+type ComponentFile struct {
+	SourceFile     string          `json:"source_file"`
+	DestinationDir string          `json:"destination_dir"`
+	DependsOn      string          `json:"depends_on"`
+	ReplaceHolders []ReplaceHolder `json:"replace_holders"`
+}
+
+type ReplaceHolder struct{
+	
+}

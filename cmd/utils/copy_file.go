@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 )
 
-func CopyFile(srcFile string, dstFile string, project string) error {
+func CopyFile(srcFile string, dstFile string, placeholders []string, values []string) error {
 	in, err := os.Open(srcFile)
 	if err != nil {
 		return fmt.Errorf("error opening source file: %v", err)
@@ -40,7 +40,7 @@ func CopyFile(srcFile string, dstFile string, project string) error {
 	}
 
 	// Replace "${project}" placeholder in the copied file
-	err = replacePlaceholder(dstFile, "${project}", project)
+	err = replacePlaceholders(dstFile, placeholders, values)
 	if err != nil {
 		return fmt.Errorf("error replacing placeholder in file: %v", err)
 	}
