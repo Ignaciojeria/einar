@@ -77,11 +77,9 @@ var installCmd = &cobra.Command{
 			return
 		}
 
-		if installations.Install(args[0]) {
+		if err := installations.InstallCommand("", args[0]); err != nil {
 			return
 		}
-
-		fmt.Println("Unknown installation command.")
 	},
 }
 

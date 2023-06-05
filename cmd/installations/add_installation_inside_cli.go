@@ -1,4 +1,4 @@
-package components
+package installations
 
 import (
 	"archetype/cmd/domain"
@@ -9,7 +9,7 @@ import (
 	"path/filepath"
 )
 
-func AddComponent(project, commandName string) error {
+func addInstallationInsideCli(project, commandName string) error {
 	binaryPath, err := os.Executable()
 	if err != nil {
 		return fmt.Errorf("failed to get binary path: %v", err)

@@ -63,7 +63,7 @@ func InstallCommand(project string, commandName string) error {
 		}
 	}
 
-	if err := AddInstallation(project, commandName); err != nil {
+	if err := addInstallationInsideCli(project, commandName); err != nil {
 		return fmt.Errorf("failed to update .einar.template.json: %v", err)
 	}
 

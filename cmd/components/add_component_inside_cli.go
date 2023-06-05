@@ -1,4 +1,4 @@
-package installations
+package components
 
 import (
 	"archetype/cmd/domain"
@@ -9,7 +9,7 @@ import (
 	"path/filepath"
 )
 
-func AddInstallation(project, commandName string) error {
+func addComponentInsideCli(project, componentKind string, componentName string) error {
 	binaryPath, err := os.Executable()
 	if err != nil {
 		return fmt.Errorf("failed to get binary path: %v", err)
@@ -29,16 +29,16 @@ func AddInstallation(project, commandName string) error {
 	}
 
 	// find the command
-	var command domain.InstallationCommand
-	for _, cmd := range template.InstallationCommands {
-		if cmd.Name == commandName {
+	var command domain.ComponentCommands
+	for _, cmd := range template.ComponentCommands {
+		if cmd.Kind == componentKind {
 			command = cmd
 			break
 		}
 	}
 
-	if command.Name == "" {
-		return fmt.Errorf("command %s not found in .einar.template.json", commandName)
+	if command.Kind == "" {
+		return fmt.Errorf("command %s not found in .einar.template.json", componentKind)
 	}
 
 	// read einar.cli.json
@@ -55,9 +55,9 @@ func AddInstallation(project, commandName string) error {
 	}
 
 	// add the command to the CLI
-	cli.Installations = append(cli.Installations, domain.Installation{
-		Name:      command.Name,
-		Libraries: command.Libraries,
+	cli.Components = append(cli.Components, domain.Component{
+		Kind: componentKind,
+		Name: componentName,
 	})
 
 	// write back the updated einar.cli.json
