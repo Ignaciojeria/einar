@@ -22,12 +22,10 @@ Now, build the binary file using the Go build command. The -o flag allows you to
 
 ## Step 4: Add the Binary to Your PATH
 
-To ensure that the system can find your newly created binary, you'll need to add it to your PATH. This process can vary depending on your setup, but generally, you can use the following command:
+To ensure that the system can find your newly created binary, you'll need to add it to your PATH. Since you're using the Zsh shell, you can use the following command:
 
-    echo 'export PATH=$PATH:/path-to-your-einar-directory' >> ~/.bash_profile
-    source ~/.bash_profile
-
-Remember to replace /path-to-your-einar-directory with the actual path where you built the einar binary.
+    echo 'export PATH=$PATH:/path-to-your-einar-directory' >> ~/.zshrc
+    source ~/.zshrc
 
 ## Step 5: Verify the Installation
 
