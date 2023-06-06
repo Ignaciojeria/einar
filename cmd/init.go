@@ -10,30 +10,30 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var repositoryURL string
-
 // initCmd represents the init command
 var initCmd = &cobra.Command{
-	Use:   "init",
+	Use:   "init [project name] [repository template]",
 	Short: "Initialize a new Go module",
+	Args:  cobra.ExactArgs(3),
 	Run:   runInitCmd,
 }
 
 func runInitCmd(cmd *cobra.Command, args []string) {
+
 	_, err := utils.ReadEinarCli()
+
 	if err == nil {
 		fmt.Println("einar cli already initialized")
 		return
 	}
 
-	if repositoryURL == "" {
-		repositoryURL = "https://github.com/Ignaciojeria/einar-cli-template" // Default repository URL
+	utils.GitCloneTemplateInBinaryPath(args[1], args[2])
+
+	project := args[0]
+	if args[0] == "." {
+		project, _ = utils.GetCurrentFolderName()
 	}
-
-	utils.GitCloneTemplateInBinaryPath(repositoryURL)
-
-	project, _ := utils.GetCurrentFolderName()
-
+	project = utils.ConvertStringCase(project, "kebab")
 	if err := base.CreateFilesFromTemplate(project); err != nil {
 		fmt.Println(err)
 		return
@@ -56,7 +56,7 @@ func runInitCmd(cmd *cobra.Command, args []string) {
 		dependencyTree = append(dependencyTree, installBase.Library)
 	}
 
-	if err := base.InitializeGoModule(dependencyTree); err != nil {
+	if err := base.InitializeGoModule(dependencyTree, project); err != nil {
 		return
 	}
 }
@@ -79,7 +79,7 @@ var installCmd = &cobra.Command{
 			return
 		}
 
-		if err := installations.InstallCommand("", args[0]); err != nil {
+		if err := installations.InstallCommand(config.Project, args[0]); err != nil {
 			return
 		}
 	},
@@ -99,8 +99,15 @@ func runGenerateCmd(cmd *cobra.Command, args []string) {
 
 	componentName = utils.ConvertStringCase(componentName, "kebab")
 
+	// Read the JSON config file
+	config, _ := utils.ReadEinarCli()
+	if config.Project == "${project}" {
+		fmt.Println("Run installation command only inside your project.")
+		return
+	}
+
 	if err := components.GenerateComponenteCommand(
-		"",
+		config.Project,
 		componentKind, componentName); err != nil {
 		return
 	}
@@ -109,7 +116,6 @@ func runGenerateCmd(cmd *cobra.Command, args []string) {
 }
 
 func init() {
-	initCmd.Flags().StringVar(&repositoryURL, "repository", "", "URL of the repository") // Add a flag for repository URL
 	rootCmd.AddCommand(initCmd)
 	rootCmd.AddCommand(installCmd)
 	rootCmd.AddCommand(generateCmd)

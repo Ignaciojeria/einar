@@ -41,15 +41,38 @@ func GenerateComponenteCommand(project string, componentKind string, componentNa
 		return fmt.Errorf("%s command not found in .einar.template.json", componentKind)
 	}
 
+	// read einar.cli.json
+	cliPath := filepath.Join( /*project*/ "", ".einar.cli.json")
+	cliBytes, err := ioutil.ReadFile(cliPath)
+	if err != nil {
+		return fmt.Errorf("failed to read .einar.cli.json: %v", err)
+	}
+
+	var cli domain.EinarCli
+	err = json.Unmarshal(cliBytes, &cli)
+	if err != nil {
+		return fmt.Errorf("failed to unmarshal .einar.cli.json: %v", err)
+	}
+
+	setupFilePath := filepath.Join( /*project*/ "", "app/shared/archetype/setup.go")
+
 	// Iterate over the Files slice
 	for _, file := range installCommand.ComponentFiles {
+
+		if file.IocDiscovery {
+			err = utils.AddImportStatement(setupFilePath, fmt.Sprintf(cli.Project+"/"+file.DestinationDir))
+		}
+
+		if file.IocDiscovery && err != nil {
+			return fmt.Errorf("failed to add import statement to setup.go: %v", err)
+		}
 
 		// Construct the source and destination paths
 		sourcePath := filepath.Join(filepath.Dir(binaryPath), "einar-cli-template", file.SourceFile)
 		destinationPath := file.DestinationDir + "/" + utils.ConvertStringCase(componentName, "snake_case") + ".go"
 
-		placeHolders := []string{}
-		placeHoldersReplace := []string{}
+		placeHolders := []string{`"archetype`}
+		placeHoldersReplace := []string{`"` + project}
 		for _, v := range file.ReplaceHolders {
 			placeHolders = append(placeHolders, v.Name)
 			placeHoldersReplace = append(placeHoldersReplace,

@@ -17,12 +17,19 @@ func AddImportStatement(filePath, importPath string) error {
 	var lines []string
 	var inImportBlock bool
 	scanner := bufio.NewScanner(file)
+	alreadyImported := false
 	for scanner.Scan() {
 		line := scanner.Text()
 		if inImportBlock && strings.TrimSpace(line) == ")" {
 			inImportBlock = false
 			// add the import just before the closing parenthesis of the import block
-			lines = append(lines, fmt.Sprintf("\t_ \"%s\"", importPath))
+			if !alreadyImported {
+				lines = append(lines, fmt.Sprintf("\t_ \"%s\"", importPath))
+			}
+		}
+		// check if the import already exists
+		if inImportBlock && strings.Contains(line, importPath) {
+			alreadyImported = true
 		}
 		lines = append(lines, line)
 		if strings.Contains(line, "import (") {

@@ -12,8 +12,9 @@ mkdir example_project
 cd example_project
 
 # Create a new application using einar
-Create einar project with base installations only in default mode
-../einar/einar init --repository https://github.com/Ignaciojeria/einar-cli-template
+Create einar project based on your external template : 
+../einar/einar init my-project https://github.com/Ignaciojeria/einar-cli-template no-auth
+../einar/einar init my-project https://github.com/private_repository user:token
 cd ..
 
 # Inside project :

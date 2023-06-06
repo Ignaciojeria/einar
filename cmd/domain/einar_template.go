@@ -45,6 +45,7 @@ type ComponentCommands struct {
 type ComponentFile struct {
 	SourceFile     string          `json:"source_file"`
 	DestinationDir string          `json:"destination_dir"`
+	IocDiscovery   bool            `json:"ioc_discovery"`
 	ReplaceHolders []ReplaceHolder `json:"replace_holders"`
 }
 

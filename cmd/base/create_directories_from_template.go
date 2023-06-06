@@ -40,7 +40,11 @@ func CreateDirectoriesFromTemplate(project string) error {
 		destinationDir := folder.DestinationDir
 
 		// Copy the directory
-		err = utils.CopyDirectory(sourceDir, destinationDir, []string{"${project}"}, []string{project})
+		err = utils.CopyDirectory(
+			sourceDir, destinationDir,
+			[]string{`"archetype`, "${project}"},
+			[]string{`"` + project, project})
+
 		if err != nil {
 			return fmt.Errorf("error copying directory from %s to %s: %v for project %v", sourceDir, destinationDir, err, project)
 		}
