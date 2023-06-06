@@ -11,7 +11,7 @@ go build -o einar/einar
 mkdir example_project
 cd example_project
 
-# Create a new application using einar
+# Create a new application using einar.
 Create einar project based on your external template : 
 ../einar/einar init my-project https://github.com/Ignaciojeria/einar-cli-template no-auth
 ../einar/einar init my-project https://github.com/private_repository user:token
