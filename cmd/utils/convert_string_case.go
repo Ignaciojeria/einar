@@ -21,11 +21,13 @@ func ConvertStringCase(s, caseType string) string {
 		return s
 	}
 }
+
 func toKebabCase(s string) string {
-	re := regexp.MustCompile(`([a-z])([A-Z])`)
+	re := regexp.MustCompile(`([a-z0-9])([A-Z])`)
 	s = re.ReplaceAllStringFunc(s, func(match string) string {
 		return match[:1] + "-" + match[1:]
 	})
+	s = strings.ReplaceAll(s, "_", "-")
 	return strings.ToLower(s)
 }
 
