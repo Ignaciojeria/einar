@@ -21,6 +21,9 @@ cd ..
 ../einar/einar install pubsub
 ../einar/einar generate subscription mySubscription
 
+../einar/einar install firestore
+../einar/einar generate firestore-repository myRepository
+
 Create einar project with all libraries installed by default
 ./einar init -n=example_project -m=all-in-one
 

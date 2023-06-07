@@ -46,7 +46,13 @@ type ComponentFile struct {
 	SourceFile     string          `json:"source_file"`
 	DestinationDir string          `json:"destination_dir"`
 	IocDiscovery   bool            `json:"ioc_discovery"`
+	Port           Port            `json:"port"`
 	ReplaceHolders []ReplaceHolder `json:"replace_holders"`
+}
+
+type Port struct {
+	SourceFile     string `json:"source_file"`
+	DestinationDir string `json:"destination_dir"`
 }
 
 type ReplaceHolder struct {
