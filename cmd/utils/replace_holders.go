@@ -32,3 +32,4 @@ func replacePlaceholders(filename string, placeholders []string, values []string
 
 	return nil
 }
+

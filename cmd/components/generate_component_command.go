@@ -81,6 +81,17 @@ func GenerateComponenteCommand(project string, componentKind string, componentNa
 					v.AppendAtEnd)
 		}
 		// Copy the file
+
+		if file.Port.SourceFile != "" {
+			sourcePath := filepath.Join(filepath.Dir(binaryPath), "einar-cli-template", file.Port.SourceFile)
+			destinationPath := file.Port.DestinationDir + "/" + utils.ConvertStringCase(componentName, "snake_case") + ".go"
+			err = utils.CopyFile(sourcePath, destinationPath, placeHolders, placeHoldersReplace)
+		}
+
+		if err != nil {
+			return fmt.Errorf("error copying file from %s to %s: %v for project %v", sourcePath, destinationPath, err, project)
+		}
+
 		err = utils.CopyFile(sourcePath, destinationPath, placeHolders, placeHoldersReplace)
 		if err != nil {
 			return fmt.Errorf("error copying file from %s to %s: %v for project %v", sourcePath, destinationPath, err, project)
