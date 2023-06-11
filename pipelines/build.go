@@ -3,21 +3,12 @@ package pipelines
 import (
 	"context"
 	"fmt"
-	"os"
-
 	"dagger.io/dagger"
 )
 
-func Build(ctx context.Context) error {
+func Build(ctx context.Context,client *dagger.Client) error {
 	fmt.Println("Building with Dagger")
-
-	// initialize Dagger client
-	client, err := dagger.Connect(ctx, dagger.WithLogOutput(os.Stderr))
-	if err != nil {
-		return err
-	}
-	defer client.Close()
-
+	
 	// get reference to the local project
 	src := client.Host().Directory("./einar")
 
@@ -35,7 +26,7 @@ func Build(ctx context.Context) error {
 	output := golang.Directory(path)
 
 	// write contents of container build/ directory to the host
-	_, err = output.Export(ctx, path)
+	_, err := output.Export(ctx, path)
 	if err != nil {
 		return err
 	}
