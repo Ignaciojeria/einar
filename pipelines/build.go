@@ -19,13 +19,13 @@ func Build(ctx context.Context) error {
 	defer client.Close()
 
 	// get reference to the local project
-	src := client.Host().Directory("./src")
+	src := client.Host().Directory("./einar")
 
 	// get `golang` image
 	golang := client.Container().From("golang:latest")
 
 	// mount cloned repository into `golang` image
-	golang = golang.WithDirectory("/src", src).WithWorkdir("/src")
+	golang = golang.WithDirectory("/einar", src).WithWorkdir("/einar")
 
 	// define the application build command
 	path := "build/"
