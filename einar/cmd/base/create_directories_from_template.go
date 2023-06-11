@@ -1,8 +1,8 @@
 package base
 
 import (
-	"einar/cmd/domain"
-	"einar/cmd/utils"
+	"github.com/Ignaciojeria/einar-cli/einar/cmd/domain"
+	"github.com/Ignaciojeria/einar-cli/einar/cmd/utils"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
