@@ -1,8 +1,8 @@
 package base
 
 import (
-	"archetype/cmd/domain"
-	"archetype/cmd/utils"
+	"einar/cmd/domain"
+	"einar/cmd/utils"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -10,7 +10,7 @@ import (
 	"path/filepath"
 )
 
-func CreateDirectoriesFromTemplate(project string) error {
+func CreateFilesFromTemplate(project string) error {
 	// Obtain the binary's path
 	binaryPath, err := os.Executable()
 	if err != nil {
@@ -33,19 +33,19 @@ func CreateDirectoriesFromTemplate(project string) error {
 		return fmt.Errorf("error unmarshalling JSON file: %v for project %v", err, project)
 	}
 
-	// Iterate over the Folders slice
-	for _, folder := range template.BaseTemplate.Folders {
+	// Iterate over the Files slice
+	for _, file := range template.BaseTemplate.Files {
 		// Construct the source and destination paths
-		sourceDir := filepath.Join(filepath.Dir(binaryPath), "einar-cli-template", folder.SourceDir)
-		destinationDir := folder.DestinationDir
+		sourcePath := filepath.Join(filepath.Dir(binaryPath), "einar-cli-template", file.SourceFile)
+		destinationPath := file.DestinationFile
 
-		// Copy the directory
-		err = utils.CopyDirectory(sourceDir, destinationDir, project)
+		// Copy the file
+		err = utils.CopyFile(sourcePath, destinationPath, []string{`"einar`, "${project}"}, []string{`"` + project, project})
 		if err != nil {
-			return fmt.Errorf("error copying directory from %s to %s: %v for project %v", sourceDir, destinationDir, err, project)
+			return fmt.Errorf("error copying file from %s to %s: %v for project %v", sourcePath, destinationPath, err, project)
 		}
 
-		fmt.Printf("Directory copied successfully from %s to %s.\n", sourceDir, destinationDir)
+		fmt.Printf("File copied successfully from %s to %s.\n", sourcePath, destinationPath)
 	}
 
 	return nil

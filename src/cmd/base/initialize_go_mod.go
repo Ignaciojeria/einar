@@ -5,11 +5,9 @@ import (
 	"os/exec"
 )
 
-const archetype = "archetype"
-
-func InitializeGoModule(dependencies []string) error {
+func InitializeGoModule(dependencies []string, project string) error {
 	// Initialize a new Go module
-	goModCmd := exec.Command("go", "mod", "init", archetype)
+	goModCmd := exec.Command("go", "mod", "init", project)
 	goModCmd.Dir = ""
 	err := goModCmd.Run()
 	if err != nil {

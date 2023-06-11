@@ -1,10 +1,13 @@
-/*
-Copyright © 2023 NAME HERE <EMAIL ADDRESS>
-*/
 package main
 
-import "archetype/cmd"
+import (
+	"context"
+	"dagger/pipelines"
+	"fmt"
+)
 
 func main() {
-	cmd.Execute()
+	if err := pipelines.Build(context.Background()); err != nil {
+		fmt.Println(err)
+	}
 }
