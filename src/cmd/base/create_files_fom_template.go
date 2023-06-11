@@ -1,8 +1,8 @@
 package base
 
 import (
-	"archetype/cmd/domain"
-	"archetype/cmd/utils"
+	"einar/cmd/domain"
+	"einar/cmd/utils"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -40,7 +40,7 @@ func CreateFilesFromTemplate(project string) error {
 		destinationPath := file.DestinationFile
 
 		// Copy the file
-		err = utils.CopyFile(sourcePath, destinationPath, []string{`"archetype`, "${project}"}, []string{`"` + project, project})
+		err = utils.CopyFile(sourcePath, destinationPath, []string{`"einar`, "${project}"}, []string{`"` + project, project})
 		if err != nil {
 			return fmt.Errorf("error copying file from %s to %s: %v for project %v", sourcePath, destinationPath, err, project)
 		}

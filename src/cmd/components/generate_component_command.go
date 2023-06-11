@@ -1,8 +1,8 @@
 package components
 
 import (
-	"archetype/cmd/domain"
-	"archetype/cmd/utils"
+	"einar/cmd/domain"
+	"einar/cmd/utils"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -80,7 +80,7 @@ func GenerateComponenteCommand(project string, componentKind string, componentNa
 		return errors.New("dependencies are not present")
 	}
 
-	setupFilePath := filepath.Join( /*project*/ "", "app/shared/archetype/setup.go")
+	setupFilePath := filepath.Join( /*project*/ "", "app/shared/einar/setup.go")
 
 	if err := addComponentInsideCli( /*"project"*/ "", componentKind, componentName); err != nil {
 		return fmt.Errorf("failed to update .einar.template.json: %v", err)
@@ -101,7 +101,7 @@ func GenerateComponenteCommand(project string, componentKind string, componentNa
 		sourcePath := filepath.Join(filepath.Dir(binaryPath), "einar-cli-template", file.SourceFile)
 		destinationPath := file.DestinationDir + "/" + utils.ConvertStringCase(componentName, "snake_case") + ".go"
 
-		placeHolders := []string{`"archetype`}
+		placeHolders := []string{`"einar`}
 		placeHoldersReplace := []string{`"` + project}
 		for _, v := range file.ReplaceHolders {
 			placeHolders = append(placeHolders, v.Name)

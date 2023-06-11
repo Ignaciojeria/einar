@@ -3,7 +3,7 @@ Copyright © 2023 NAME HERE <EMAIL ADDRESS>
 */
 package main
 
-import "archetype/cmd"
+import "einar/cmd"
 
 func main() {
 	cmd.Execute()

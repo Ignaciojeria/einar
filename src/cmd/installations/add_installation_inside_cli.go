@@ -1,7 +1,7 @@
 package installations
 
 import (
-	"archetype/cmd/domain"
+	"einar/cmd/domain"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"

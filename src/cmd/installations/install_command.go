@@ -1,8 +1,8 @@
 package installations
 
 import (
-	"archetype/cmd/domain"
-	"archetype/cmd/utils"
+	"einar/cmd/domain"
+	"einar/cmd/utils"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -45,7 +45,7 @@ func InstallCommand(project string, commandName string) error {
 	sourceDir := filepath.Join(filepath.Dir(binaryPath), "einar-cli-template", installCommand.SourceDir)
 	destDir := filepath.Join( /*project*/ "", installCommand.DestinationDir)
 
-	err = utils.CopyDirectory(sourceDir, destDir, []string{`"archetype`, "${project}"}, []string{`"` + project, project})
+	err = utils.CopyDirectory(sourceDir, destDir, []string{`"einar`, "${project}"}, []string{`"` + project, project})
 	if err != nil {
 		return fmt.Errorf("error cloning %s directory: %v", commandName, err)
 	}
@@ -67,8 +67,8 @@ func InstallCommand(project string, commandName string) error {
 		return fmt.Errorf("failed to update .einar.template.json: %v", err)
 	}
 
-	setupFilePath := filepath.Join( /*project*/ "", "app/shared/archetype/setup.go")
-	err = utils.AddImportStatement(setupFilePath, fmt.Sprintf(project+"/app/shared/archetype/%s", strings.ReplaceAll(commandName, "-", "_")))
+	setupFilePath := filepath.Join( /*project*/ "", "app/shared/einar/setup.go")
+	err = utils.AddImportStatement(setupFilePath, fmt.Sprintf(project+"/app/shared/einar/%s", strings.ReplaceAll(commandName, "-", "_")))
 	if err != nil {
 		return fmt.Errorf("failed to add import statement to setup.go: %v", err)
 	}

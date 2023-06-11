@@ -1,7 +1,7 @@
 # Intall Goreleaser :
 go install github.com/goreleaser/goreleaser@latest
 
-# Einar Archetype Code Generator
+# Einar einar Code Generator
 
 Cobra installation :
 go install github.com/spf13/cobra-cli@latest

@@ -1,4 +1,4 @@
-module archetype
+module einar
 
 go 1.19
 

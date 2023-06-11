@@ -1,10 +1,10 @@
 package cmd
 
 import (
-	"archetype/cmd/base"
-	"archetype/cmd/components"
-	"archetype/cmd/installations"
-	"archetype/cmd/utils"
+	"einar/cmd/base"
+	"einar/cmd/components"
+	"einar/cmd/installations"
+	"einar/cmd/utils"
 	"fmt"
 
 	"github.com/spf13/cobra"
