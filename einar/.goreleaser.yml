@@ -5,7 +5,7 @@ before:
 
 builds:
   - id: "myapplication"
-    main: "./cmd/myapplication/main.go"
+    main: "main.go"
     binary: "myapplication"
     goos:
       - linux
@@ -37,3 +37,7 @@ changelog:
     exclude:
       - '^docs:'
       - '^test:'
+release:
+  github:
+    owner: Ignaciojeria
+    name: einar-cli

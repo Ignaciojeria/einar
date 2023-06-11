@@ -13,17 +13,17 @@ func Build(ctx context.Context,client *dagger.Client) error {
 	src := client.Host().Directory("./einar")
 
 	// get `golang` image
-	golang := client.Container().From("golang:latest")
+	container := client.Container().From("golang:latest")
 
 	// mount cloned repository into `golang` image
-	golang = golang.WithDirectory("/einar", src).WithWorkdir("/einar")
+	container = container.WithDirectory("/einar", src).WithWorkdir("/einar")
 
 	// define the application build command
 	path := "build/"
-	golang = golang.WithExec([]string{"go", "build", "-o", path})
+	container = container.WithExec([]string{"go", "build", "-o", path})
 
 	// get reference to build output directory in container
-	output := golang.Directory(path)
+	output := container.Directory(path)
 
 	// write contents of container build/ directory to the host
 	_, err := output.Export(ctx, path)

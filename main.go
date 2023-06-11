@@ -15,6 +15,7 @@ func main() {
 	if err != nil {
 	  fmt.Println(err)
 	}
+	os.Setenv("EINAR_CLI_VERSION",version)
 	// initialize Dagger client
 	ctx := context.Background()
 	client, err := dagger.Connect(ctx, dagger.WithLogOutput(os.Stderr))
@@ -31,6 +32,11 @@ func main() {
 	}
 
 	if err := pipelines.CreateReleaseTag(ctx,"v"+version,"Release version v"+version);err!=nil{
+		fmt.Println(err)
+		//return
+	}
+
+	if err := pipelines.PublishRelease(ctx,client); err != nil {
 		fmt.Println(err)
 		return
 	}

@@ -6,10 +6,8 @@ import (
 	"github.com/Ignaciojeria/einar-cli/einar/cmd/installations"
 	"github.com/Ignaciojeria/einar-cli/einar/cmd/utils"
 	"fmt"
-
 	"github.com/spf13/cobra"
 )
-
 // initCmd represents the init command
 var versionCmd = &cobra.Command{
 	Use:   "version",
