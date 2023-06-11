@@ -4,6 +4,7 @@ import (
 	"archetype/cmd/domain"
 	"archetype/cmd/utils"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"os"
@@ -54,7 +55,36 @@ func GenerateComponenteCommand(project string, componentKind string, componentNa
 		return fmt.Errorf("failed to unmarshal .einar.cli.json: %v", err)
 	}
 
+	for _, v := range cli.Components {
+		if v.Kind == componentKind && v.Name == componentName {
+			fmt.Printf("The component '%s' for '%s' already exists.\n", componentName, componentKind)
+			return errors.New("component already exists")
+		}
+	}
+
+	var dependencyIsPresent bool
+	for _, dependency := range installCommand.DependsOn {
+		for _, installation := range cli.Installations {
+			if dependency == installation.Name {
+				dependencyIsPresent = true
+				break
+			}
+		}
+	}
+
+	if !dependencyIsPresent {
+		fmt.Println("Some dependencies are missing. Please install the following dependencies:")
+		for _, v := range installCommand.DependsOn {
+			fmt.Println("einar install " + v)
+		}
+		return errors.New("dependencies are not present")
+	}
+
 	setupFilePath := filepath.Join( /*project*/ "", "app/shared/archetype/setup.go")
+
+	if err := addComponentInsideCli( /*"project"*/ "", componentKind, componentName); err != nil {
+		return fmt.Errorf("failed to update .einar.template.json: %v", err)
+	}
 
 	// Iterate over the Files slice
 	for _, file := range installCommand.ComponentFiles {

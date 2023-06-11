@@ -40,6 +40,7 @@ type ComponentCommands struct {
 	Kind           string          `json:"kind"`
 	Name           string          `json:"name"`
 	ComponentFiles []ComponentFile `json:"files"`
+	DependsOn      []string        `json:"depends_on"`
 }
 
 type ComponentFile struct {
