@@ -11,6 +11,17 @@ import (
 )
 
 // initCmd represents the init command
+var versionCmd = &cobra.Command{
+	Use:   "version",
+	Short: "retrieve einar version",
+	Run:   runVersionCmd,
+}
+
+func runVersionCmd(cmd *cobra.Command, args []string) {
+	fmt.Println("beta")
+}
+
+// initCmd represents the init command
 var initCmd = &cobra.Command{
 	Use:   "init [project name] [repository template]",
 	Short: "Initialize a new Go module",
@@ -119,4 +130,5 @@ func init() {
 	rootCmd.AddCommand(initCmd)
 	rootCmd.AddCommand(installCmd)
 	rootCmd.AddCommand(generateCmd)
+	rootCmd.AddCommand(versionCmd)
 }
