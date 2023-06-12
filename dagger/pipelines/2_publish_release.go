@@ -7,7 +7,7 @@ import (
 	"dagger.io/dagger"
 )
 
-func BuildRelease(ctx context.Context,client *dagger.Client) error {
+func PublishRelease(ctx context.Context,client *dagger.Client) error {
 	fmt.Println("Building with Dagger")
 	
 	// get reference to the local project
@@ -24,7 +24,7 @@ func BuildRelease(ctx context.Context,client *dagger.Client) error {
 
 	// define the application build command
 	path := "dist/"
-	container = container.WithExec([]string{"release","--snapshot","--config", ".goreleaser.yml"})
+	container = container.WithExec([]string{"release","--config", ".goreleaser.yml"})
 	
 	// get reference to build output directory in container
 	output := container.Directory(path)

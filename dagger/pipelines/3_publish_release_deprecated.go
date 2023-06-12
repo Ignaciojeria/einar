@@ -15,7 +15,7 @@ import (
 const changelogPath = "dist/CHANGELOG.md" // Specify the constant changelog path
 const distFolder = "dist" // Specify the constant dist folder path
 
-func PublishRelease(ctx context.Context, tagName string) error {
+func PublishReleaseDeprecated(ctx context.Context, tagName string) error {
 	ts := oauth2.StaticTokenSource(
 		&oauth2.Token{AccessToken: os.Getenv("GITHUB_ACCESS_TOKEN")},
 	)
