@@ -20,11 +20,11 @@ func BuildRelease(ctx context.Context,client *dagger.Client) error {
 	container = container.WithEnvVariable("GITHUB_TOKEN",os.Getenv("GITHUB_ACCESS_TOKEN"))
 
 	// mount cloned repository into `goreleaser` image
-	container = container.WithDirectory("/src", src).WithWorkdir("/src/einar")
+	container = container.WithDirectory("/src", src).WithWorkdir("/src")
 
 	// define the application build command
 	path := "dist/"
-	container = container.WithExec([]string{"release","--snapshot","--config", "/src/.goreleaser.yml"})
+	container = container.WithExec([]string{"release","--snapshot","--config", ".goreleaser.yml"})
 	
 	// get reference to build output directory in container
 	output := container.Directory(path)

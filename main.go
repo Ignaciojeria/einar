@@ -1,43 +1,10 @@
+/*
+Copyright © 2023 NAME HERE <EMAIL ADDRESS>
+*/
 package main
 
-import (
-	"context"
-	"github.com/Ignaciojeria/einar/pipelines"
-	"fmt"
-	"os"
-	"dagger.io/dagger"
-	"github.com/joho/godotenv"
-)
+import "github.com/Ignaciojeria/einar/cmd"
 
 func main() {
-	err := godotenv.Load()
-	if err != nil {
-	  fmt.Println(err)
-	}
-	// initialize Dagger client
-	ctx := context.Background()
-	client, err := dagger.Connect(ctx, dagger.WithLogOutput(os.Stderr))
-	defer client.Close()
-	
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	
-	if err := pipelines.Build(ctx,client); err != nil {
-		fmt.Println(err)
-		return
-	}
-
-	if err := pipelines.BuildRelease(ctx,client); err != nil {
-		fmt.Println(err)
-		return
-	}
-
-	if err := pipelines.PublishRelease(ctx,"v1.10.0"); err != nil {
-		fmt.Println(err)
-		return
-	}
-
-
+	cmd.Execute()
 }

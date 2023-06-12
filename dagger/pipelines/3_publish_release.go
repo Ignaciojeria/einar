@@ -26,7 +26,7 @@ func PublishRelease(ctx context.Context, tagName string) error {
 	// Read changelog file
 	changelogBytes, err := ioutil.ReadFile(changelogPath) // Use the constant changelog path
 	if err != nil {
-		return err
+		fmt.Println("changelog is not present")
 	}
 	changelog := string(changelogBytes)
 
