@@ -4,9 +4,9 @@ before:
     - go generate ./...
 
 builds:
-  - id: "myapplication"
-    main: "main.go"
-    binary: "myapplication"
+  - id: "einar"
+    main: "./main.go"
+    binary: "einar"
     goos:
       - linux
       - windows
@@ -19,7 +19,7 @@ builds:
       - -s -w -X main.version={{.Version}} -X main.commit={{.Commit}} -X main.date={{.Date}}
 
 archives:
-  - id: "myapplication"
+  - id: "einar"
     format: tar.gz
     files:
       - none*

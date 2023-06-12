@@ -11,7 +11,7 @@ func PublishRelease(ctx context.Context,client *dagger.Client) error {
 	fmt.Println("Building with Dagger")
 	
 	// get reference to the local project
-	src := client.Host().Directory("./einar")
+	src := client.Host().Directory(".")
 
 	// get `goreleaser` image
 	container := client.Container().From("goreleaser/goreleaser:latest")
@@ -20,11 +20,12 @@ func PublishRelease(ctx context.Context,client *dagger.Client) error {
 	container = container.WithEnvVariable("GITHUB_TOKEN",os.Getenv("GITHUB_ACCESS_TOKEN"))
 
 	// mount cloned repository into `goreleaser` image
-	container = container.WithDirectory("/einar", src).WithWorkdir("/einar")
+	container = container.WithDirectory("/src", src).WithWorkdir("/src/einar")
 
 	// define the application build command
 	path := "dist/"
-	container = container.WithExec([]string{"release", "--snapshot"})
+	container = container.WithExec([]string{"release"/*,"--snapshot"*/,"--config","/src/.goreleaser.yml"})
+	
 	// get reference to build output directory in container
 	output := container.Directory(path)
 
