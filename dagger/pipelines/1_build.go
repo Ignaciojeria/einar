@@ -19,7 +19,7 @@ func Build(ctx context.Context, client *dagger.Client) error {
 	container = container.WithDirectory("/src", src).WithWorkdir("/src") 
 
 	// define the application build command
-	path := "build"
+	path := "build/"
 	container = container.WithExec([]string{"go", "build", "-o", path, "main.go"}) // Notice the added "main.go"
 
 	// get reference to build output directory in container
