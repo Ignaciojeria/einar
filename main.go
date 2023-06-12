@@ -31,7 +31,7 @@ func main() {
 		return
 	}
 	tagName := "v"+version
-	if err := pipelines.CreateReleaseTag(ctx,tagName,"Release version v"+version);err!=nil{
+	if err := pipelines.SetReleaseTag(ctx,tagName,"Release version v"+version);err!=nil{
 		fmt.Println(err)
 		//return
 	}

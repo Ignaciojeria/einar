@@ -7,7 +7,7 @@ import (
 	"golang.org/x/oauth2"
 )
 
-func CreateReleaseTag(ctx context.Context, tagName, tagMessage string) error {
+func SetReleaseTag(ctx context.Context, tagName, tagMessage string) error {
 	ts := oauth2.StaticTokenSource(
 		&oauth2.Token{AccessToken: os.Getenv("GITHUB_ACCESS_TOKEN")},
 	)
