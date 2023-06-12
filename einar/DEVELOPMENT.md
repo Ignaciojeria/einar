@@ -3,9 +3,9 @@ go install github.com/goreleaser/goreleaser@latest
 
 
 # Tag geneartion
- 1.- git tag -d v1.0.1
- 2.- git tag v1.0.1
- 3.- git push origin v1.0.1 here : package pipelines
+ 1.- git tag -d v1.0.3
+ 2.- git tag v1.0.3
+ 3.- git push origin v1.0.3
 
 # Einar einar Code Generator Installation
 
