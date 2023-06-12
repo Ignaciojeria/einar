@@ -1,8 +1,8 @@
 package components
 
 import (
-	"github.com/Ignaciojeria/einar-cli/einar/cmd/domain"
-	"github.com/Ignaciojeria/einar-cli/einar/cmd/utils"
+	"github.com/Ignaciojeria/einar/cmd/domain"
+	"github.com/Ignaciojeria/einar/cmd/utils"
 	"encoding/json"
 	"errors"
 	"fmt"

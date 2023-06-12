@@ -1,7 +1,7 @@
 package installations
 
 import (
-	"github.com/Ignaciojeria/einar-cli/einar/cmd/domain"
+	"github.com/Ignaciojeria/einar/cmd/domain"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"

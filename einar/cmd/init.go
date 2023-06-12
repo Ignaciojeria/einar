@@ -1,10 +1,10 @@
 package cmd
 
 import (
-	"github.com/Ignaciojeria/einar-cli/einar/cmd/base"
-	"github.com/Ignaciojeria/einar-cli/einar/cmd/components"
-	"github.com/Ignaciojeria/einar-cli/einar/cmd/installations"
-	"github.com/Ignaciojeria/einar-cli/einar/cmd/utils"
+	"github.com/Ignaciojeria/einar/cmd/base"
+	"github.com/Ignaciojeria/einar/cmd/components"
+	"github.com/Ignaciojeria/einar/cmd/installations"
+	"github.com/Ignaciojeria/einar/cmd/utils"
 	"fmt"
 	"github.com/spf13/cobra"
 )

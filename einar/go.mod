@@ -1,4 +1,4 @@
-module github.com/Ignaciojeria/einar-cli/einar
+module github.com/Ignaciojeria/einar
 
 go 1.19
 
