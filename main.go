@@ -8,23 +8,14 @@ import (
 	"dagger.io/dagger"
 	"github.com/joho/godotenv"
 )
-var version = "1.0.2"
 
 func main() {
 	err := godotenv.Load()
 	if err != nil {
 	  fmt.Println(err)
 	}
-	os.Setenv("EINAR_CLI_VERSION",version)
 	// initialize Dagger client
 	ctx := context.Background()
-	tagName := "v"+version
-	
-	if err := pipelines.SetReleaseTag(ctx,tagName,"Release version v"+version);err!=nil{
-		fmt.Println(err)
-		//return
-	}
-	
 	client, err := dagger.Connect(ctx, dagger.WithLogOutput(os.Stderr))
 	defer client.Close()
 	
@@ -38,7 +29,7 @@ func main() {
 		return
 	}
 
-	if err := pipelines.PublishRelease(ctx,client,tagName); err != nil {
+	if err := pipelines.PublishRelease(ctx,client); err != nil {
 		fmt.Println(err)
 		return
 	}

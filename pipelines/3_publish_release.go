@@ -7,7 +7,7 @@ import (
 	"dagger.io/dagger"
 )
 
-func PublishRelease(ctx context.Context,client *dagger.Client,tagName string) error {
+func PublishRelease(ctx context.Context,client *dagger.Client) error {
 	fmt.Println("Building with Dagger")
 	
 	// get reference to the local project
