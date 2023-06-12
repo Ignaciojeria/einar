@@ -8,7 +8,7 @@ import (
 	"dagger.io/dagger"
 	"github.com/joho/godotenv"
 )
-var version = "1.0.1"
+var version = "1.0.2"
 
 func main() {
 	err := godotenv.Load()
@@ -30,13 +30,13 @@ func main() {
 		fmt.Println(err)
 		return
 	}
-
-	if err := pipelines.CreateReleaseTag(ctx,"v"+version,"Release version v"+version);err!=nil{
+	tagName := "v"+version
+	if err := pipelines.CreateReleaseTag(ctx,tagName,"Release version v"+version);err!=nil{
 		fmt.Println(err)
 		//return
 	}
 
-	if err := pipelines.PublishRelease(ctx,client); err != nil {
+	if err := pipelines.PublishRelease(ctx,client,tagName); err != nil {
 		fmt.Println(err)
 		return
 	}
