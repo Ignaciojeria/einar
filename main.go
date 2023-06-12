@@ -8,7 +8,7 @@ import (
 	"dagger.io/dagger"
 	"github.com/joho/godotenv"
 )
-var version = "1.0.1"
+var version = "1.0.2"
 
 func main() {
 	err := godotenv.Load()

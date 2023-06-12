@@ -15,10 +15,19 @@ func SetReleaseTag(ctx context.Context, tagName, tagMessage string) error {
 
 	client := github.NewClient(tc)
 
+	// Delete existing tag
+	_, err := client.Git.DeleteRef(ctx, os.Getenv("GITHUB_OWNER"), os.Getenv("GITHUB_REPO"), "tags/"+tagName)
+	if err != nil {
+		// Ignore error if the tag doesn't exist
+		if _, ok := err.(*github.AcceptedError); !ok {
+			return err
+		}
+	}
+
 	ref, _, err := client.Git.GetRef(
-		ctx, 
-		os.Getenv("GITHUB_OWNER"), 
-		os.Getenv("GITHUB_REPO"), 
+		ctx,
+		os.Getenv("GITHUB_OWNER"),
+		os.Getenv("GITHUB_REPO"),
 		"refs/heads/"+os.Getenv("GITHUB_BRANCH"))
 	if err != nil {
 		return err
@@ -36,7 +45,7 @@ func SetReleaseTag(ctx context.Context, tagName, tagMessage string) error {
 		return err
 	}
 
-	/*
+	// Create reference for new tag
 	refObj := github.Reference{
 		Ref:    github.String("refs/tags/" + *tag.Tag),
 		Object: &github.GitObject{SHA: tag.SHA, Type: github.String("tag")},
@@ -46,20 +55,6 @@ func SetReleaseTag(ctx context.Context, tagName, tagMessage string) error {
 	if err != nil {
 		return err
 	}
-
-	// Update "latest" tag to point to same commit as new tag
-	latestRefObj := github.Reference{
-		Ref:    github.String("refs/tags/latest"),
-		Object: &github.GitObject{SHA: tag.SHA, Type: github.String("tag")},
-	}
-
-	_, _, err = client.Git.UpdateRef(ctx, os.Getenv("GITHUB_OWNER"), os.Getenv("GITHUB_REPO"), &latestRefObj, true)
-	if err != nil { 
-		// git tag -d v1.0.1
-		// git tag v1.0.1
-		// git push origin v1.0.1
-		return err
-	}*/
 
 	return nil
 }
