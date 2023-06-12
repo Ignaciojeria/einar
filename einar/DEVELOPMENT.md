@@ -1,7 +1,13 @@
 # Intall Goreleaser :
 go install github.com/goreleaser/goreleaser@latest
 
-# Einar einar Code Generator
+
+# Tag geneartion
+ 1.- git tag -d v1.0.1
+ 2.- git tag v1.0.1
+ 3.- git push origin v1.0.1 here : package pipelines
+
+# Einar einar Code Generator Installation
 
 Cobra installation :
 go install github.com/spf13/cobra-cli@latest

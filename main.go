@@ -2,7 +2,7 @@ package main
 
 import (
 	"context"
-	"dagger/pipelines"
+	"github.com/Ignaciojeria/einar-cli/einar/pipelines"
 	"fmt"
 	"os"
 	"dagger.io/dagger"

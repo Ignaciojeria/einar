@@ -1,4 +1,4 @@
-module dagger
+module github.com/Ignaciojeria/einar-cli/einar
 
 go 1.19
 
