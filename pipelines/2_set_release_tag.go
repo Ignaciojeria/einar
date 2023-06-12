@@ -36,6 +36,7 @@ func SetReleaseTag(ctx context.Context, tagName, tagMessage string) error {
 		return err
 	}
 
+	/*
 	refObj := github.Reference{
 		Ref:    github.String("refs/tags/" + *tag.Tag),
 		Object: &github.GitObject{SHA: tag.SHA, Type: github.String("tag")},
@@ -53,9 +54,12 @@ func SetReleaseTag(ctx context.Context, tagName, tagMessage string) error {
 	}
 
 	_, _, err = client.Git.UpdateRef(ctx, os.Getenv("GITHUB_OWNER"), os.Getenv("GITHUB_REPO"), &latestRefObj, true)
-	if err != nil {
+	if err != nil { 
+		// git tag -d v1.0.1
+		// git tag v1.0.1
+		// git push origin v1.0.1
 		return err
-	}
+	}*/
 
 	return nil
 }
