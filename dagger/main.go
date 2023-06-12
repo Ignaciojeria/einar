@@ -34,11 +34,4 @@ func main() {
 		return
 	}
 	
-	/*
-	if err := pipelines.PublishRelease(ctx,"v1.12.0"); err != nil {
-		fmt.Println(err)
-		return
-	}*/
-
-
 }

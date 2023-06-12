@@ -9,6 +9,7 @@ go install github.com/goreleaser/goreleaser@latest
  4.- go run ./dagger/main.go
 
 # Einar einar Code Generator Installation
+go install github.com/Ignaciojeria/einar@v1.14.0
 
 Cobra installation :
 go install github.com/spf13/cobra-cli@latest
