@@ -24,7 +24,7 @@ func PublishRelease(ctx context.Context,client *dagger.Client,tagName string) er
 
 	// define the application build command
 	path := "dist/"
-	container = container.WithExec([]string{"release",/* "--snapshot",*/ "--release-notes", tagName, "--config", "/src/.goreleaser.yml"})
+	container = container.WithExec([]string{"release", "--config", "/src/.goreleaser.yml"})
 	
 	// get reference to build output directory in container
 	output := container.Directory(path)
