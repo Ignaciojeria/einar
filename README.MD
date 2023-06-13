@@ -6,7 +6,7 @@ With EinarCLI, get ready to turn up the heat :fire: on your programming skills a
 
 ## :wrench: Installation
 
-(Installation instructions here)
+  go install github.com/Ignaciojeria/einar@v1.14.0
 
 ## :star: Features
 
