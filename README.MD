@@ -9,7 +9,7 @@ To install EinarCLI, use the following command:
 
     go install github.com/Ignaciojeria/einar@v1.14.0
     
-### Verifying the Installation
+#### Verifying the Installation
 To verify your EinarCLI installation, run:
 
     einar version
