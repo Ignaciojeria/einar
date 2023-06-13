@@ -15,9 +15,13 @@ To verify your EinarCLI installation, run:
 
 ## :computer: Usage
 #### Starting a new Einar project with the official template
+Use the following command to create a new project using the official EinarCLI template:
+
     einar init my-project-name https://github.com/Ignaciojeria/einar-cli-template no-auth
     
 #### Starting a new Einar project with your custom private template
+To initiate a new project using a private custom template, execute the following command:
+
     einar init my-project-name https://github.com/private-template user:token
 
 ## :star: Features
