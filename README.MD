@@ -4,7 +4,7 @@ EinarCLI is a blazingly fast :fire: and powerful command-line interface tool des
 
 With EinarCLI, get ready to turn up the heat :fire: on your programming skills and develop applications like never before!
 
-## 🏗️ Minimum Requirements
+## 🏗 Minimum Requirements
 
 - [Golang 1.20](https://golang.org/doc/install)
 
