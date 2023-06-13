@@ -8,7 +8,7 @@ With EinarCLI, get ready to turn up the heat :fire: on your programming skills a
     go install github.com/Ignaciojeria/einar@v1.14.0
 
 ## :computer: Usage
-# Init einar project using official template
+### Init einar project using official template
 (Usage instructions here)
 
 ## :star: Features
