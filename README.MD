@@ -9,7 +9,7 @@ With EinarCLI, get ready to turn up the heat :fire: on your programming skills a
 
 ## :computer: Usage
 ### Init einar project using official template
-(Usage instructions here)
+    einar init my-project https://github.com/Ignaciojeria/einar-cli-template no-auth
 
 ## :star: Features
 
