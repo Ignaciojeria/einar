@@ -11,7 +11,7 @@ With EinarCLI, get ready to turn up the heat :fire: on your programming skills a
 ### Init einar project using official template
     einar init my-project-name https://github.com/Ignaciojeria/einar-cli-template no-auth
 ### Init einar project using your private custom template
-    einar init my-project-name https://github.com/private_repository user:token
+    einar init my-project-name https://github.com/private-template user:token
 
 ## :star: Features
 
