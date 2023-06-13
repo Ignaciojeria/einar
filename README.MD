@@ -14,7 +14,7 @@ To verify your EinarCLI installation, run:
     einar version
 
 ## :computer: Usage
-### Init einar project using official template
+### Starting a new Einar project with the official template
     einar init my-project-name https://github.com/Ignaciojeria/einar-cli-template no-auth
     
 ### Init einar project using your private custom template
