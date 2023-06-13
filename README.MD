@@ -8,13 +8,13 @@ With EinarCLI, get ready to turn up the heat :fire: on your programming skills a
 
     go install github.com/Ignaciojeria/einar@v1.14.0
 
-## :star: Features
-
-(Feature list here)
-
 ## :computer: Usage
 
 (Usage instructions here)
+
+## :star: Features
+
+(Feature list here)
 
 ## :telephone_receiver: Support
 
