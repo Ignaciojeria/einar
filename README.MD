@@ -6,7 +6,7 @@ With EinarCLI, get ready to turn up the heat :fire: on your programming skills a
 
 ## :rocket: Minimum Requirements
 
-- Golang 1.20
+- [Golang 1.20](https://golang.org/doc/install)
 
 ## :wrench: Installation
 To install EinarCLI, use the following command:
