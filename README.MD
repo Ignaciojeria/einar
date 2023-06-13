@@ -14,10 +14,10 @@ With EinarCLI, get ready to turn up the heat :fire: on your programming skills a
     einar version
 
 ## :computer: Usage
-#### Starting a new Einar project with the official template
+## Starting a new Einar project with the official template
     einar init my-project-name https://github.com/Ignaciojeria/einar-cli-template no-auth
     
-#### Init einar project using your private custom template
+## Starting a new Einar project with your custom private template
     einar init my-project-name https://github.com/private-template user:token
 
 ## :star: Features
