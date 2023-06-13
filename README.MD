@@ -5,11 +5,10 @@ EinarCLI is a blazingly fast :fire: and powerful command-line interface tool des
 With EinarCLI, get ready to turn up the heat :fire: on your programming skills and develop applications like never before!
 
 ## :wrench: Installation
-
     go install github.com/Ignaciojeria/einar@v1.14.0
 
 ## :computer: Usage
-
+# Init einar project using official template
 (Usage instructions here)
 
 ## :star: Features
