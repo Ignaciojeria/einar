@@ -5,19 +5,19 @@ EinarCLI is a blazingly fast :fire: and powerful command-line interface tool des
 With EinarCLI, get ready to turn up the heat :fire: on your programming skills and develop applications like never before!
 
 ## :wrench: Installation
-To install EinarCLI, use the following command:
+#### To install EinarCLI, use the following command:
 
     go install github.com/Ignaciojeria/einar@v1.14.0
 
-To verify your EinarCLI installation, run:
+#### To verify your EinarCLI installation, run:
 
     einar version
 
 ## :computer: Usage
-### Starting a new Einar project with the official template
+#### Starting a new Einar project with the official template
     einar init my-project-name https://github.com/Ignaciojeria/einar-cli-template no-auth
     
-### Init einar project using your private custom template
+#### Init einar project using your private custom template
     einar init my-project-name https://github.com/private-template user:token
 
 ## :star: Features
