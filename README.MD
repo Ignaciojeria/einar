@@ -6,6 +6,7 @@ With EinarCLI, get ready to turn up the heat :fire: on your programming skills a
 
 ## :wrench: Installation
 To install EinarCLI, use the following command:
+
     go install github.com/Ignaciojeria/einar@v1.14.0
     
 ### Verify installation
