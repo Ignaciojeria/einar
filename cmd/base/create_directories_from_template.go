@@ -42,7 +42,7 @@ func CreateDirectoriesFromTemplate(project string) error {
 		// Copy the directory
 		err = utils.CopyDirectory(
 			sourceDir, destinationDir,
-			[]string{`"einar`, "${project}"},
+			[]string{`"archetype`, "${project}"},
 			[]string{`"` + project, project})
 
 		if err != nil {
