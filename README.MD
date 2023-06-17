@@ -19,6 +19,7 @@ To verify your EinarCLI installation, run:
 
 ## :computer: Usage
 #### Starting a new Einar project with the official template
+![Diagram](ddd_sketching/einar.drawio.svg)
 To use the official EinarCLI template for creating a new project, execute the following command:
 
     einar init my-project-name https://github.com/Ignaciojeria/einar-cli-template no-auth
