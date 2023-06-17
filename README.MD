@@ -9,7 +9,7 @@ With EinarCLI, get ready to turn up the heat :fire: on your programming skills a
 - [Golang 1.20](https://golang.org/doc/install)
 
 ## 🔧 Setup
-To install EinarCLI, use the following command:
+To setup EinarCLI, use the following command:
 
     go install github.com/Ignaciojeria/einar@v1.15.0
 
