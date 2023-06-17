@@ -13,7 +13,7 @@ To setup EinarCLI, use the following command:
 
     go install github.com/Ignaciojeria/einar@v1.15.0
 
-To verify your EinarCLI installation, run:
+To verify your EinarCLI setup, run:
 
     einar version
 
