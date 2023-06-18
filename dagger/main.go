@@ -2,7 +2,9 @@ package main
 
 import (
 	"context"
-	"github.com/Ignaciojeria/einar/dagger/pipelines"
+	"github.com/Ignaciojeria/einar/dagger/build"
+	"github.com/Ignaciojeria/einar/dagger/cmd_tests"
+	//"github.com/Ignaciojeria/einar/dagger/release"
 	"fmt"
 	"os"
 	"dagger.io/dagger"
@@ -24,14 +26,27 @@ func main() {
 		return
 	}
 	
-	if err := pipelines.Build(ctx,client); err != nil {
+	container,err := build.Binary(ctx,client);
+
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	if err := cmd_tests.EinarVersion(ctx,container); err!=nil{
 		fmt.Println(err)
 		return
 	}
 	
-	if err := pipelines.PublishRelease(ctx,client); err != nil {
+	if err := cmd_tests.EinarInit(ctx,container); err!=nil{
 		fmt.Println(err)
 		return
 	}
+
+	/*
+	if err := release.Publish(ctx,client); err != nil {
+		fmt.Println(err)
+		return
+	}*/
 	
 }

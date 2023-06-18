@@ -37,7 +37,7 @@ func CreateDirectoriesFromTemplate(project string) error {
 	for _, folder := range template.BaseTemplate.Folders {
 		// Construct the source and destination paths
 		sourceDir := filepath.Join(filepath.Dir(binaryPath), "einar-cli-template", folder.SourceDir)
-		destinationDir := folder.DestinationDir
+		destinationDir := os.Getenv("BUILD_DIRECTORY")+folder.DestinationDir
 
 		// Copy the directory
 		err = utils.CopyDirectory(
