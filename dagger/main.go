@@ -4,7 +4,7 @@ import (
 	"context"
 	"github.com/Ignaciojeria/einar/dagger/build"
 	"github.com/Ignaciojeria/einar/dagger/cmd_tests"
-	//"github.com/Ignaciojeria/einar/dagger/release"
+
 	"fmt"
 	"os"
 	"dagger.io/dagger"
@@ -38,15 +38,15 @@ func main() {
 		return
 	}
 	
-	if err := cmd_tests.EinarInit(ctx,container); err!=nil{
+	container,err = cmd_tests.EinarInit(ctx,container);
+	if  err!=nil{
 		fmt.Println(err)
 		return
 	}
 
-	/*
-	if err := release.Publish(ctx,client); err != nil {
+	container,err = cmd_tests.EinarInstall(ctx,container);
+	if  err!=nil{
 		fmt.Println(err)
 		return
-	}*/
-	
+	}
 }

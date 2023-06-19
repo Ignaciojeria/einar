@@ -2,10 +2,11 @@ package cmd_tests
 
 import (
 	"context"
+	"github.com/Ignaciojeria/einar/dagger/export"
 	"dagger.io/dagger"
 )
 
-func EinarInit(ctx context.Context, container *dagger.Container) error {
+func EinarInit(ctx context.Context, container *dagger.Container) (*dagger.Container,error) {
 
 	// define the application einar init command
 	path := "output/"
@@ -18,14 +19,9 @@ func EinarInit(ctx context.Context, container *dagger.Container) error {
 		"https://github.com/Ignaciojeria/einar-cli-template",
 		"no-auth"}) // Notice the added "main.go"
 
-	// get reference to build output directory in container
-	output := container.Directory(path)
-
-	// write contents of container build/ directory to the host
-	_, err := output.Export(ctx, path)
-	if err != nil {
-		return err
+	if err := export.Output(ctx,container);err!=nil{
+		return nil,err
 	}
 
-	return nil
+	return container,nil
 }

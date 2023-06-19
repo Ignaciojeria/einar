@@ -2,6 +2,8 @@ package build
 
 import (
 	"context"
+	"github.com/Ignaciojeria/einar/dagger/constants"
+	"github.com/Ignaciojeria/einar/dagger/export"
 	"fmt"
 	"dagger.io/dagger"
 	"os"
@@ -20,20 +22,16 @@ func Binary(ctx context.Context, client *dagger.Client) (*dagger.Container,error
 	container = container.WithDirectory("/src", src).WithWorkdir("/src") 
 
 	// define the application build command
-	path := "output/"
-	binaryName := "einar"
-	container = container.WithExec([]string{"go", "build", "-o", path+binaryName, "main.go"}) // Notice the added "main.go"
+
+	container = container.WithExec([]string{"go", "build", "-o", 
+	constants.PATH+
+	constants.BINARY_NAME, "main.go"}) // Notice the added "main.go"
 	
 	container = container.WithEnvVariable("BUILD_DIRECTORY",os.Getenv("BUILD_DIRECTORY"))
 
-	// get reference to build output directory in container
-	output := container.Directory(path)
-
-	// write contents of container build/ directory to the host
-	_, err := output.Export(ctx, path)
-	if err != nil {
-		return container,err
+	if err := export.Output(ctx,container);err!=nil{
+		return nil,err
 	}
-
+	
 	return container,nil
 }
