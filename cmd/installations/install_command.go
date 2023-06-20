@@ -33,7 +33,7 @@ func InstallCommand(project string, commandName string) error {
 	var installCommand domain.InstallationCommand
 	for _, command := range template.InstallationCommands {
 		if command.Name == commandName {
-			command.DestinationDir = os.Getenv("BUILD_DIRECTORY")+ command.DestinationDir
+			command.DestinationDir = command.DestinationDir
 			installCommand = command
 			break
 		}

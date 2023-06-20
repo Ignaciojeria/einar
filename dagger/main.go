@@ -32,12 +32,12 @@ func main() {
 		fmt.Println(err)
 		return
 	}
-
+/*
 	if err := cmd_tests.EinarVersion(ctx,container); err!=nil{
 		fmt.Println(err)
 		return
 	}
-	
+*/	
 	container,err = cmd_tests.EinarInit(ctx,container);
 	if  err!=nil{
 		fmt.Println(err)
@@ -49,4 +49,11 @@ func main() {
 		fmt.Println(err)
 		return
 	}
+
+	container,err = cmd_tests.EinarGenerate(ctx,container);
+	if  err!=nil{
+		fmt.Println(err)
+		return
+	}
+
 }

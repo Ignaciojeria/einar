@@ -8,18 +8,17 @@ import (
 func EinarVersion(ctx context.Context, container *dagger.Container) error {
 
 	// define the application einar version command
-	path := "output/"
-	binaryName := "einar"
+	binary := "einar" // Use the full path to the binary
 	container = container.WithExec(
 		[]string{
-		path+binaryName,
-		"version"}) // Notice the added "main.go"
+		binary,
+		"version"})
 
 	// get reference to build output directory in container
-	output := container.Directory(path)
+	output := container.Directory("/output") // Use the correct path to the directory
 
 	// write contents of container build/ directory to the host
-	_, err := output.Export(ctx, path)
+	_, err := output.Export(ctx, "host_output") // Replace "path_on_host" with the actual path on the host
 	if err != nil {
 		return err
 	}

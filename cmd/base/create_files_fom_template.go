@@ -37,7 +37,7 @@ func CreateFilesFromTemplate(project string) error {
 	for _, file := range template.BaseTemplate.Files {
 		// Construct the source and destination paths
 		sourcePath := filepath.Join(filepath.Dir(binaryPath), "einar-cli-template", file.SourceFile)
-		destinationPath := os.Getenv("BUILD_DIRECTORY")+file.DestinationFile
+		destinationPath := file.DestinationFile
 
 		// Copy the file
 		err = utils.CopyFile(sourcePath, destinationPath, []string{`"archetype`, "${project}"}, []string{`"` + project, project})
