@@ -13,12 +13,10 @@ func EinarInstall(ctx context.Context, container *dagger.Container) (*dagger.Con
 	installations := []string{
 		"echo-server",
 		"pubsub",
-					/*
-			"resty",
-			"firestore",
-			"postgres",
-			"redis"
-		*/
+		"resty",
+		"firestore",
+		"postgres",
+		"redis",
 	}
 
 	// Iterate over the installations and execute the einar install command

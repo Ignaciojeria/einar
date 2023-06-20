@@ -16,8 +16,24 @@ func EinarGenerate(ctx context.Context, container *dagger.Container) (*dagger.Co
 
 	installations := []GenerateCommand{
 		{
-		Type : "get-controller",
-		Name: "get-customer",
+			Type : "get-controller",
+			Name: "get-customer",
+		},
+		{
+			Type : "post-controller",
+			Name: "post-customer",
+		},
+		{
+			Type : "patch-controller",
+			Name: "patch-customer",
+		},
+		{
+			Type : "put-controller",
+			Name: "put-customer",
+		},
+		{
+			Type : "put-controller",
+			Name: "delete-customer",
 		},
 	}
 
