@@ -2,7 +2,7 @@ package main
 
 import (
 	"context"
-	"github.com/Ignaciojeria/einar/dagger/build"
+	"github.com/Ignaciojeria/einar/dagger/export"
 	"github.com/Ignaciojeria/einar/dagger/cmd_tests"
 
 	"fmt"
@@ -25,35 +25,25 @@ func main() {
 		fmt.Println(err)
 		return
 	}
+
+	if err := export.Binary(ctx,client); err!=nil{
+		panic(err)
+	}
 	
-	container,err := build.Binary(ctx,client);
-
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-/*
-	if err := cmd_tests.EinarVersion(ctx,container); err!=nil{
-		fmt.Println(err)
-		return
-	}
-*/	
-	container,err = cmd_tests.EinarInit(ctx,container);
-	if  err!=nil{
-		fmt.Println(err)
-		return
+	if err := cmd_tests.EinarVersion(ctx,client); err!=nil{
+		panic(err)
 	}
 
-	container,err = cmd_tests.EinarInstall(ctx,container);
-	if  err!=nil{
-		fmt.Println(err)
-		return
+	if err := cmd_tests.EinarInit(ctx,client); err!=nil{
+		panic(err)
 	}
 
-	container,err = cmd_tests.EinarGenerate(ctx,container);
-	if  err!=nil{
-		fmt.Println(err)
-		return
+	if err := cmd_tests.EinarInstall(ctx,client); err!=nil{
+		panic(err)
+	}
+
+	if err := cmd_tests.EinarGenerate(ctx,client); err!=nil{
+		panic(err)
 	}
 
 }
