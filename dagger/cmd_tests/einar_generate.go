@@ -34,6 +34,38 @@ func EinarGenerate(ctx context.Context, client *dagger.Client) error {
 			Type : "put-controller",
 			Name: "delete-customer",
 		},
+		{
+			Type:"subscription",
+			Name:"pull_customer_created",
+		},
+		{
+			Type:"subscription",
+			Name:"pull_customer_updated",
+		},
+		{
+			Type:"subscription",
+			Name:"pull_customer_deleted",
+		},
+		{
+			Type:"publisher",
+			Name:"publish_customer",
+		},
+		{
+			Type:"firestore-repository",
+			Name:"read_customer",
+		},
+		{
+			Type:"firestore-repository",
+			Name:"save_customer",
+		},
+		{
+			Type:"firestore-repository",
+			Name:"update_customer",
+		},
+		{
+			Type:"firestore-repository",
+			Name:"delete_customer",
+		},
 	}
 	
 	container :=client.
