@@ -62,7 +62,7 @@ To check the status of the running application, visit the following URL in your 
 
 📡 **Google PubSub Integration**:
    - Client Installation & Setup: Streamlines the setup process for Google PubSub.
-   - Subscriptions Generation: Easily generate subscription configurations.
+   - Subscriptions Generation: Easily generate subscriptions.
    - Publishers Generation: Quickly set up publishers for message distribution.
 
 🌐 **Chi Server Integration**:
@@ -71,7 +71,7 @@ To check the status of the running application, visit the following URL in your 
 
 🔥 **Google Firestore Integration**:
    - Firestore Installation & Setup: Streamlines Firestore database setup.
-   - Repositories Generation: Quickly generate repository configurations.
+   - Repositories Generation: Quickly generate repositories.
 
 👨‍💻 **Code Ownership and Control**:
    - Full Control of Generated Code: You have complete control over the code that is generated.
