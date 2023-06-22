@@ -34,7 +34,7 @@ We are using Echo to manage HTTP requests efficiently. To install the Echo Serve
 
     einar install echo-server
     
-#### 🔍 Check Running Port 
+#### 🔍 Check Application Port 
 To check the running port of your HTTP server, you can go to the .env file located in the root of your Einar project.
 
 #### 🔍 Run Application
