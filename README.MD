@@ -53,7 +53,7 @@ To check the status of the running application, visit the following URL in your 
 
 ## :hammer: HTTP Server - Inbound Adapter
 
-⭐ Features
+## ⭐ Features
 
 🔧 **Core Concepts**:
    - No Hidden Dependencies: Ensures transparency in the code dependencies.
