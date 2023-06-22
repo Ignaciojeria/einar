@@ -51,7 +51,7 @@ To check the status of the running application, visit the following URL in your 
 
 ![Img](ddd_sketching/check_running_application_status.jpeg)
 
-## :hammer: HTTP Server - Add New Inbound Adapter
+## :hammer: HTTP Server - Inbound Adapter
 
 ## :star: Features
 
