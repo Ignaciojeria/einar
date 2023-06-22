@@ -34,23 +34,23 @@ We are using Echo to manage HTTP requests efficiently. To install the Echo Serve
 
     einar install echo-server
     
-### 🔍 Check Running Port 
+#### 🔍 Check Running Port 
 To check the running port of your HTTP server, you can go to the .env file located in the root of your Einar project.
 
-### 🔍 Run Application
+#### 🔍 Run Application
 To run application you can start the application as traditional golang application running:
 
     go run main.go
 this will start your application in default configurated port
 
-### 🔍 Check Running Application Status
+#### 🔍 Check Running Application Status
 To check running application status go to the next url:
 
 [http://localhost:8080/health](http://localhost:8080/health) 
 
 ![Img](ddd_sketching/check_running_application_status.jpeg)
 
-Note: if port allocated in .env was changed you should change port of the healthy checkv -> http://localhost:ReplaceByYourPort/health
+Note: if port allocated in .env was changed you should change port of the healthy check: http://localhost:ReplaceByYourPort/health
 
 ## :star: Features
 
