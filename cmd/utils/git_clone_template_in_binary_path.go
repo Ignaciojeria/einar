@@ -21,18 +21,8 @@ func GitCloneTemplateInBinaryPath(repositoryUrl string, userCreds string) {
 	// Define the target path for the git clone.
 	targetPath := filepath.Join(executablePath, "./einar-cli-template")
 
-	// Check if the target directory already exists.
-	_, err = os.Stat(targetPath)
-	if err == nil {
-		fmt.Println("The target directory already exists:", targetPath)
-		return
-	}
-
-	cloneOptions := &git.CloneOptions{
-		URL:      repositoryUrl,
-		Progress: os.Stdout,
-	}
-
+	// Setup auth if userCreds is provided
+	var auth *http.BasicAuth
 	if userCreds != "no-auth" {
 		user, accessToken, invalidCredsErr := SplitCredentials(userCreds)
 		if invalidCredsErr != nil {
@@ -40,19 +30,54 @@ func GitCloneTemplateInBinaryPath(repositoryUrl string, userCreds string) {
 			return
 		}
 
-		cloneOptions.Auth = &http.BasicAuth{
+		auth = &http.BasicAuth{
 			Username: user,
 			Password: accessToken,
 		}
 	}
 
-	// Clone the repository.
-	_, err = git.PlainClone(targetPath, false, cloneOptions)
+	// Check if the target directory already exists.
+	if _, err = os.Stat(targetPath); err == nil {
+		// Directory exists, perform a git pull
+		repo, err := git.PlainOpen(targetPath)
+		if err != nil {
+			fmt.Println("Failed to open repository:", err)
+			return
+		}
 
+		workTree, err := repo.Worktree()
+		if err != nil {
+			fmt.Println("Failed to fetch worktree:", err)
+			return
+		}
+
+		pullOptions := &git.PullOptions{
+			RemoteName: "origin",
+			Auth:       auth,
+		}
+
+		err = workTree.Pull(pullOptions)
+		if err != nil && err != git.NoErrAlreadyUpToDate {
+			fmt.Println("Failed to pull updates from the remote:", err)
+			return
+		}
+
+		fmt.Println("Repository updated:", targetPath)
+		return
+	}
+
+	// If directory doesn't exist, perform a git clone
+	cloneOptions := &git.CloneOptions{
+		URL:      repositoryUrl,
+		Progress: os.Stdout,
+		Auth:     auth,
+	}
+
+	_, err = git.PlainClone(targetPath, false, cloneOptions)
 	if err != nil {
 		fmt.Println("Failed to clone repository:", err)
 		return
 	}
 
-	fmt.Println("Repository cloned to: ", targetPath)
+	fmt.Println("Repository cloned to:", targetPath)
 }

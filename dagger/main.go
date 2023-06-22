@@ -28,5 +28,4 @@ func main() {
 	if err := cmd_tests.EinarGenerate(ctx); err!=nil{
 		panic(err)
 	}
-
 }
