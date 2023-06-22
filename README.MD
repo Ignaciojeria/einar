@@ -56,6 +56,18 @@ To check the status of the running application, visit the following URL in your 
 ## :star: Features
 
 (Feature list here)
+- No Hidden Dependencies
+- Dependency Container
+- Inversion Of Control
+- Google PubSub Client Installation & Setup
+- Google PubSub Subscriptions Generation
+- Google PubSub Publishers Generation
+- Chi Server Installation
+- Controllers for Chi Server Generation
+- Google Firestore Installation & Setup
+- Google Firestore Repositories Generation
+- You Have All Control Of Generated Code
+- You Are Owner Of Generated Code
 
 ## :telephone_receiver: Support
 
