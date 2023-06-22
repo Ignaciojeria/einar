@@ -3,9 +3,16 @@ package cmd_tests
 import (
 	"context"
 	"dagger.io/dagger"
+	"os"
 )
 
-func EinarGenerate(ctx context.Context, client *dagger.Client) error {
+func EinarGenerate(ctx context.Context) error {	
+	// initialize Dagger client
+	client, err := dagger.Connect(ctx, dagger.WithLogOutput(os.Stderr))
+	defer client.Close()
+	if err != nil {
+		return err
+	}
 
 	type GenerateCommand struct{
 		Type string
@@ -88,7 +95,7 @@ func EinarGenerate(ctx context.Context, client *dagger.Client) error {
 	hostOutputDirectory := "host_output"
 	
 	// Export the contents of the container's output directory to the host
-	_, err := output.Export(ctx, hostOutputDirectory)
+	_, err = output.Export(ctx, hostOutputDirectory)
 	if err != nil {
 		return err
 	}

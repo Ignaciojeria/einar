@@ -4,9 +4,17 @@ import (
 	"context"
 	"fmt"
 	"dagger.io/dagger"
+	"os"
 )
 
-func EinarVersion(ctx context.Context, client *dagger.Client) error {
+func EinarVersion(ctx context.Context) error {
+
+	client, err := dagger.Connect(ctx, dagger.WithLogOutput(os.Stderr))
+	defer client.Close()
+	if err != nil {
+		return err
+	}
+
 	src := client.Host().Directory("./host_output")
 	val,err :=client.
 	Container().

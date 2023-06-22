@@ -1,12 +1,20 @@
-package export
+package cmd_tests
 
 import (
 	"context"
 	"fmt"
 	"dagger.io/dagger"
+	"os"
 )
 
-func Binary(ctx context.Context, client *dagger.Client) error {
+func BuildEinarCli(ctx context.Context) error {
+	// initialize Dagger client
+	client, err := dagger.Connect(ctx, dagger.WithLogOutput(os.Stderr))
+	defer client.Close()
+	if err != nil {
+		return err
+	}
+
 	fmt.Println("Building with Dagger")
 
 	// get reference to the local project
@@ -31,10 +39,9 @@ func Binary(ctx context.Context, client *dagger.Client) error {
 	hostOutputDirectory := "host_output"
 
 	// Export the contents of the container's output directory to the host
-	_, err := output.Export(ctx, hostOutputDirectory)
+	_, err = output.Export(ctx, hostOutputDirectory)
 	if err != nil {
 		return err
 	}
-	
 	return nil
 }

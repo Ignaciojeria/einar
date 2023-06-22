@@ -3,9 +3,17 @@ package cmd_tests
 import (
 	"context"
 	"dagger.io/dagger"
+	"os"
 )
 
-func EinarInstall(ctx context.Context, client *dagger.Client) error {
+func EinarInstall(ctx context.Context) error {
+	// initialize Dagger client
+	client, err := dagger.Connect(ctx, dagger.WithLogOutput(os.Stderr))
+	defer client.Close()
+	if err != nil {
+		return err
+	}
+
 	// Define the installations to run
 	installations := []string{
 		"echo-server",
@@ -23,8 +31,7 @@ func EinarInstall(ctx context.Context, client *dagger.Client) error {
 	WithWorkdir("/src")
 
 	for _, v := range installations {
-		container = container.WithExec([]string{"./einar","install",v})
-	}
+	container = container.WithExec([]string{"./einar","install",v})
 
 	// Specify the directory in the container where einar writes its output
 	containerOutputDirectory := "/src"
@@ -39,6 +46,7 @@ func EinarInstall(ctx context.Context, client *dagger.Client) error {
 	_, err := output.Export(ctx, hostOutputDirectory)
 	if err != nil {
 		return err
+	}
 	}
 
 	return nil

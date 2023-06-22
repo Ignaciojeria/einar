@@ -3,9 +3,18 @@ package cmd_tests
 import (
 	"context"
 	"dagger.io/dagger"
+	"os"
 )
 
-func EinarInit(ctx context.Context, client *dagger.Client) error {
+func EinarInit(ctx context.Context) error {
+
+	// initialize Dagger client
+	client, err := dagger.Connect(ctx, dagger.WithLogOutput(os.Stderr))
+	defer client.Close()
+	if err != nil {
+		return err
+	}
+
 	src := client.Host().Directory("./host_output")
 	container :=client.
 	Container().
@@ -24,7 +33,7 @@ func EinarInit(ctx context.Context, client *dagger.Client) error {
 	hostOutputDirectory := "host_output"
 	
 	// Export the contents of the container's output directory to the host
-	_, err := output.Export(ctx, hostOutputDirectory)
+	_, err = output.Export(ctx, hostOutputDirectory)
 	if err != nil {
 		return err
 	}
