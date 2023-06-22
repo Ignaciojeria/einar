@@ -50,8 +50,6 @@ To check running application status go to the next url:
 
 ![Img](ddd_sketching/check_running_application_status.jpeg)
 
-Note: if port allocated in .env was changed you should change port of the healthy check: http://localhost:ReplaceByYourPort/health
-
 ## :star: Features
 
 (Feature list here)
