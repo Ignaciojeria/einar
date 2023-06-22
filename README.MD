@@ -29,6 +29,14 @@ If you wish to utilize your own corporate private template to initiate a new pro
 
     einar init my-project-name https://github.com/your-corporative-private-einar-cli-template user:token
 
+## Installing HTTP Server
+We are using Echo to manage HTTP requests efficiently. To install the Echo Server, run the following command in your terminal:
+
+    einar install echo-server
+    
+### 🔍 Check Running Port 
+To check the running port of your HTTP server, you can go to the .env file located in the root of your Einar project.
+
 ## :star: Features
 
 (Feature list here)
