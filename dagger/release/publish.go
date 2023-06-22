@@ -2,13 +2,17 @@ package release
 
 import (
 	"context"
-	"fmt"
 	"os"
 	"dagger.io/dagger"
 )
 
-func Publish(ctx context.Context,client *dagger.Client) error {
-	fmt.Println("Building with Dagger")
+func Publish(ctx context.Context) error {
+
+	client, err := dagger.Connect(ctx, dagger.WithLogOutput(os.Stderr))
+	defer client.Close()
+	if err != nil {
+		return err
+	}
 	
 	// get reference to the local project
 	src := client.Host().Directory(".")
@@ -30,7 +34,7 @@ func Publish(ctx context.Context,client *dagger.Client) error {
 	output := container.Directory(path)
 
 	// write contents of container build/ directory to the host
-	_, err := output.Export(ctx, path)
+	_, err = output.Export(ctx, path)
 	if err != nil {
 		return err
 	}

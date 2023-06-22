@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"github.com/Ignaciojeria/einar/dagger/cmd_tests"
+	"github.com/Ignaciojeria/einar/dagger/release"
 	"fmt"
 	"github.com/joho/godotenv"
 )
@@ -26,6 +27,9 @@ func main() {
 		panic(err)
 	}
 	if err := cmd_tests.EinarGenerate(ctx); err!=nil{
+		panic(err)
+	}
+	if err := release.Publish(ctx); err!=nil{
 		panic(err)
 	}
 }
