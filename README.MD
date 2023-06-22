@@ -53,21 +53,30 @@ To check the status of the running application, visit the following URL in your 
 
 ## :hammer: HTTP Server - Inbound Adapter
 
-## :star: Features
+⭐ Features
 
-(Feature list here)
-- No Hidden Dependencies
-- Dependency Container
-- Inversion Of Control
-- Google PubSub Client Installation & Setup
-- Google PubSub Subscriptions Generation
-- Google PubSub Publishers Generation
-- Chi Server Installation
-- Controllers for Chi Server Generation
-- Google Firestore Installation & Setup
-- Google Firestore Repositories Generation
-- You Have All Control Of Generated Code
-- You Are Owner Of Generated Code
+🔧 **Core Concepts**:
+   - No Hidden Dependencies: Ensures transparency in the code dependencies.
+   - Dependency Container: Manages object instances and dependencies.
+   - Inversion of Control: Decouples modules and promotes code flexibility.
+
+📡 **Google PubSub Integration**:
+   - Client Installation & Setup: Streamlines the setup process for Google PubSub.
+   - Subscriptions Generation: Easily generate subscription configurations.
+   - Publishers Generation: Quickly set up publishers for message distribution.
+
+🌐 **Chi Server Integration**:
+   - Chi Server Installation: Simplifies the installation process of the Chi Server.
+   - Controllers Generation: Generates controllers for handling HTTP requests.
+
+🔥 **Google Firestore Integration**:
+   - Firestore Installation & Setup: Streamlines Firestore database setup.
+   - Repositories Generation: Quickly generate repository configurations.
+
+👨‍💻 **Code Ownership and Control**:
+   - Full Control of Generated Code: You have complete control over the code that is generated.
+   - Code Ownership: The generated code is yours to keep and use as you wish.
+
 
 ## :telephone_receiver: Support
 
