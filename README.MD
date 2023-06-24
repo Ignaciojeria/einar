@@ -75,8 +75,8 @@ When running the Einar commands to generate controllers, the following directory
         - delete_customer.go # Generated with 'einar generate delete-controller delete-customer'
 ```
 
-#### File structure
-When you generate a controller using the `einar generate get-controller get-customer` command, Einar CLI will create a new `.go` file with the following structure:
+#### 🔍 File structure
+For example, when you generate a controller using the einar generate get-controller get-customer command, Einar CLI will create a new .go file with the following structure:
 
 ```go
 package controller
