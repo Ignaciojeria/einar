@@ -71,7 +71,7 @@ When running the Einar commands to generate controllers, the following directory
         - get_customer.go   # Generated with 'einar generate get-controller get-customer'
         - post_customer.go  # Generated with 'einar generate post-controller post-customer'
         - patch_customer.go # Generated with 'einar generate patch-controller patch-customer'
-
+```
 
 ## ⭐ Features
 
