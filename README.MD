@@ -65,8 +65,8 @@ To check the status of the running application, visit the following URL in your 
    - Subscriptions Generation: Easily generate subscriptions.
    - Publishers Generation: Quickly set up publishers for message distribution.
 
-🌐 **Chi Server Integration**:
-   - Chi Server Installation: Simplifies the installation process of the Chi Server.
+🌐 **Echo Server Integration**:
+   - Echo Server Installation: Simplifies the installation process of the Echo Server.
    - Controllers Generation: Generates controllers for handling HTTP requests.
 
 🔥 **Google Firestore Integration**:
