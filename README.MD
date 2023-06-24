@@ -92,7 +92,7 @@ import (
 )
 
 func init() {
-	container.InjectInBoundAdapter(func() error {
+	container.InjectInboundAdapter(func() error {
 		einar.Echo.GET("/INSERT_YOUR_PATTERN_HERE", getCustomer)
 		return nil
 	}, container.InjectionProps{
