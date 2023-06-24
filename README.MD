@@ -60,6 +60,19 @@ An HTTP Inbound Adapter is the same as a controller in a web application. To cre
     einar generate patch-controller patch-customer
     einar generate delete-controller delete-customer
 
+####  🔍 Directory Structure
+When running the Einar commands to generate controllers, the following directory structure will be created in your project:
+
+```bash
+/app
+  /adapter
+    /in
+      /controller
+        - get_customer.go   # Generated with 'einar generate get-controller get-customer'
+        - post_customer.go  # Generated with 'einar generate post-controller post-customer'
+        - patch_customer.go # Generated with 'einar generate patch-controller patch-customer'
+
+
 ## ⭐ Features
 
 🔧 **Core Concepts**:
