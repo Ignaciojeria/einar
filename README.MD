@@ -52,11 +52,17 @@ To check the status of the running application, visit the following URL in your 
 ![Img](ddd_sketching/check_running_application_status.jpeg)
 
 ## :hammer: HTTP Server - Inbound Adapter
-Http Inbound adapter is the same as controller on a web application, to create a new http inbound adapter we need execute next :
+An HTTP Inbound Adapter is the same as a controller in a web application. To create a new HTTP inbound adapter, we need to execute the following commands:
 
     einar generate get-controller  get-customer
+
     einar generate post-controller post-customer
+
+    einar generate put-controller put-customer
+
     einar generate patch-controller patch-customer
+
+    einar generate delete-controller delete-customer
 
 ## ⭐ Features
 
