@@ -75,6 +75,37 @@ When running the Einar commands to generate controllers, the following directory
         - delete_customer.go # Generated with 'einar generate delete-controller delete-customer'
 ```
 
+#### File structure
+When you generate a controller using the `einar generate get-controller get-customer` command, Einar CLI will create a new `.go` file with the following structure:
+
+```go
+package controller
+
+import (
+	"my-project/app/shared/archetype/container"
+	einar "my-project/app/shared/archetype/echo_server"
+
+	"net/http"
+
+	"github.com/google/uuid"
+	"github.com/labstack/echo/v4"
+)
+
+func init() {
+	container.InjectInBoundAdapter(func() error {
+		einar.Echo.GET("/INSERT_YOUR_PATTERN_HERE", getCustomer)
+		return nil
+	}, container.InjectionProps{
+		DependencyID: uuid.NewString(),
+	})
+}
+
+func getCustomer(c echo.Context) error {
+	//PUT HERE YOUR HANDLING PROCESS
+	return c.JSON(http.StatusOK, "INSERT_YOUR_CUSTOM_RESPONSE")
+}
+```
+
 ## ⭐ Features
 
 🔧 **Core Concepts**:
