@@ -106,6 +106,19 @@ func getCustomer(c echo.Context) error {
 }
 ```
 
+#### 🔍 Understanding the Controller Template
+
+In the generated controller template:
+
+- `"/INSERT_YOUR_PATTERN_HERE"` is a placeholder for your route pattern. Replace this with the actual endpoint pattern for your route (for example, `"/customer"` for a route that handles customer data).
+
+- `getCustomer` is the function that handles the route. It currently includes a placeholder comment, `//PUT HERE YOUR HANDLING PROCESS`. Replace this comment with the actual logic that should be executed when a request is made to this route.
+
+- `"INSERT_YOUR_CUSTOM_RESPONSE"` is a placeholder for the response that your route will return. Replace this with the actual response that you want to send back to the client.
+
+Remember to adjust these placeholders according to your project's needs.
+
+
 ## ⭐ Features
 
 🔧 **Core Concepts**:
