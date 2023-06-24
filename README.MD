@@ -118,6 +118,8 @@ In the generated controller template:
 
 Remember to adjust these placeholders according to your project's needs.
 
+For more information on the Echo framework used in this template, visit the [Echo documentation](https://echo.labstack.com/).
+
 
 ## ⭐ Features
 
