@@ -105,9 +105,6 @@ func getCustomer(c echo.Context) error {
 	return c.JSON(http.StatusOK, "INSERT_YOUR_CUSTOM_RESPONSE")
 }
 ```
-
-#### 🔍 Understanding the Controller Template
-
 In the generated controller template:
 
 - `"/INSERT_YOUR_PATTERN_HERE"` is a placeholder for your route pattern. Replace this with the actual endpoint pattern for your route (for example, `"/customer"` for a route that handles customer data).
