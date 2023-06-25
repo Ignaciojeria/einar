@@ -143,6 +143,8 @@ GOOGLE_PROJECT_ID = "secret"
 GOOGLE_APPLICATION_CRETENTIALS_B64 = "base64_secret"
 ```
 
+## :hammer: Google PubSub - Inbound Adapter
+
 ## ⭐ Features
 
 🔧 **Core Concepts**:
