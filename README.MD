@@ -123,7 +123,7 @@ For more information on the Echo framework, visit the [Echo documentation](https
 	einar install pubsub
 
 #### 🔍 Check Pubsub Configuration
-After installing Pub/Sub, when you run the application, it will ask you for valid Google application credentials and project ID to start working with Google Pub/Sub:
+After installing Pub/Sub, when you run the application, it will ask you for valid Google application credentials and project ID to start working with Google Pub/Sub.
 
 Make sure to allocate the following configuration in the .env file located at the root of your project:
 
