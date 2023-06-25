@@ -118,6 +118,9 @@ Remember to adjust these placeholders according to your project's needs.
 For more information on the Echo framework, visit the [Echo documentation](https://echo.labstack.com/).
 
 ## 🔧 Installing Google PubSub
+ To install PubSub Client, run the following command in your terminal:
+
+	einar install pubsub
 
 ## ⭐ Features
 
