@@ -122,7 +122,14 @@ For more information on the Echo framework, visit the [Echo documentation](https
 
 	einar install pubsub
 
-#### 🔍 Check Pubsub Environment Configuration
+#### 🔍 Check Pubsub Configuration
+After installing Pub/Sub, when you run the application, it will ask you for valid Google application credentials and project ID to start working with Google Pub/Sub:
+
+``` .env
+#ENABLE FOR PUBSUB OR FIRESTORE ARCHETYPE INSTALLATION
+GOOGLE_PROJECT_ID = "secret"
+GOOGLE_APPLICATION_CRETENTIALS_B64 = "secret"
+```
 
 ## ⭐ Features
 
