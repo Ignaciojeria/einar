@@ -35,7 +35,17 @@ We are using Echo to manage HTTP requests efficiently. To install the Echo Serve
     einar install echo-server
     
 #### 🔍 Check Application Port 
-To check the port that your HTTP server is using for your application, you can refer to the .env file located in the root directory of your Einar project
+To check the port that your HTTP server is using for your application, you can refer to the .env file located in the root directory of your Einar project:
+
+``` .env
+# THIS IS REFERENCE FILE OF YOUR ENVIRONMENT VARIABLES
+# DONT STORE YOUR ENVIRONMENT VARIABLES ON YOUR REPOSITORY!
+PORT = "8080"
+COUNTRY = "CL"
+SERVICE = "my-project-name"
+ENV = "local"
+```
+
 
 #### 🔍 Run Application
 To run the application, you can start it as a traditional Golang application by executing the following command:
