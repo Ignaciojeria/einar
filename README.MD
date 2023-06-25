@@ -122,6 +122,8 @@ For more information on the Echo framework, visit the [Echo documentation](https
 
 	einar install pubsub
 
+#### 🔍 Check Pubsub Environment Configuration
+
 ## ⭐ Features
 
 🔧 **Core Concepts**:
