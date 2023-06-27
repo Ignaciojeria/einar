@@ -185,7 +185,7 @@ func PullCustomerCreated(
  // DEFAULT SUBSCRIPTION CONFIGURATION SETUP
 func init() {
 	const subscription_name = "INSERT YOUR SUBSCRIPTION NAME"
-	container.InjectInBoundAdapter(func() error {
+	container.InjectInboundAdapter(func() error {
 		subscription_setup := einar.Client.Subscription(subscription_name)
 		subscription_setup.ReceiveSettings.Synchronous = true
 		subscription_setup.ReceiveSettings.NumGoroutines = 1
