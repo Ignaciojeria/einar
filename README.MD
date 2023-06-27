@@ -160,6 +160,24 @@ type pullCustomerCreated struct {
 	subscriptionName string
 }
 
+func (s pullCustomerCreated) processMessage(ctx context.Context, m *pubsub.Message) error {
+
+	var replace_by_your_model interface{}
+	err := json.Unmarshal(m.Data, &replace_by_your_model)
+
+	if err != nil {
+		log.
+			Error().
+			Str(constants.SUBSCRIPTION_NAME, s.subscriptionName).
+			Err(err).
+			Msg("error unmarshaling m.Data")
+		m.Ack()
+		return err
+	}
+	m.Ack()
+	return nil
+}
+
 func PullCustomerCreated(
 	r subscription.Receive,
 	subscriptionName string) (pullCustomerCreated, error) {
@@ -201,23 +219,6 @@ func (s pullCustomerCreated) receive(ctx context.Context, m *pubsub.Message) {
 	s.processMessage(ctx, m)
 }
 
-func (s pullCustomerCreated) processMessage(ctx context.Context, m *pubsub.Message) error {
-
-	var replace_by_your_model interface{}
-	err := json.Unmarshal(m.Data, &replace_by_your_model)
-
-	if err != nil {
-		log.
-			Error().
-			Str(constants.SUBSCRIPTION_NAME, s.subscriptionName).
-			Err(err).
-			Msg("error unmarshaling m.Data")
-		m.Ack()
-		return err
-	}
-	m.Ack()
-	return nil
-}
 ```
 
 ## ⭐ Features
