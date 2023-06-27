@@ -148,6 +148,8 @@ Creating a new Google PubSub Inbound Adapter, in our case, involves generating a
 
 	einar generate subscription pull-customer
 
+####  🔍 Directory Structure
+
 ## ⭐ Features
 
 🔧 **Core Concepts**:
