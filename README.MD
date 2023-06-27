@@ -223,6 +223,8 @@ func (s pullCustomerCreated) processMessage(ctx context.Context, m *pubsub.Messa
 
 ```
 
+## :hammer: Google PubSub - Outbound Adapter
+
 ## ⭐ Features
 
 🔧 **Core Concepts**:
