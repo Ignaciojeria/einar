@@ -144,7 +144,7 @@ GOOGLE_APPLICATION_CRETENTIALS_B64 = "base64_secret"
 ```
 
 ## :hammer: Google PubSub - Inbound Adapter
-A Google PubSub Inbound Adapter is the same as a Google PubSub Topic Pull Subscription. To create a new Google PubSub inbound adapter, we need to execute the following command:
+Creating a new Google PubSub Inbound Adapter, in our case, involves generating a pull subscription to a topic. This can be done by executing the following command:
 
 	einar generate subscription pull-customer
 
