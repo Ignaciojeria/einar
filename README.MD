@@ -145,7 +145,7 @@ Creating a new Google PubSub Inbound Adapter, in our case, involves generating a
   /adapter
     /in
       /subscription
-	- pull_customer_created # Generated with 'einar generate subscription pull-customer-created'
+	- pull_customer_created.go # Generated with 'einar generate subscription pull-customer-created'
 ```
 
 #### 🔍 File structure
@@ -226,8 +226,17 @@ func (s pullCustomerCreated) processMessage(ctx context.Context, m *pubsub.Messa
 ## :hammer: Google PubSub - Outbound Adapter
 Creating a new Google PubSub Outbound Adapter, in our case, involves generating a publisher that sends messages to a Google Cloud topic. This can be done by executing the following command:
 
-	einar generate publisher publish-customer-created
+	einar generate publisher publish-customer
 
+####  🔍 Directory Structure
+
+```bash
+/app
+  /adapter
+    /out
+      /publisher
+	- publish_customer.go # Generated with 'einar generate publisher publish-customer
+```
 
 
 ## ⭐ Features
