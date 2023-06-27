@@ -146,7 +146,7 @@ GOOGLE_APPLICATION_CRETENTIALS_B64 = "base64_secret"
 ## :hammer: Google PubSub - Inbound Adapter
 Creating a new Google PubSub Inbound Adapter, in our case, involves generating a pull subscription to a topic. This can be done by executing the following command:
 
-	einar generate subscription pull-customer
+	einar generate subscription pull-customer-created
 
 ####  🔍 Directory Structure
 
@@ -155,11 +155,97 @@ Creating a new Google PubSub Inbound Adapter, in our case, involves generating a
   /adapter
     /in
       /subscription
-	- pull_customer # Generated with 'einar generate subscription pull-customer'
+	- pull_customer_created # Generated with 'einar generate subscription pull-customer-created'
 ```
 
 #### 🔍 File structure
-For example, when you generate a subscription using the `einar generate subscription pull-customer` command, Einar CLI will create a new .go file with the following structure:
+For example, when you generate a subscription using the `einar generate subscription pull-customer-created` command, Einar CLI will create a new .go file with the following structure:
+
+```go
+package subscription
+
+import (
+	"context"
+	"encoding/json"
+
+	"my-project/app/shared/archetype/container"
+	einar "my-project/app/shared/archetype/pubsub"
+	"my-project/app/shared/archetype/pubsub/subscription"
+
+	"my-project/app/shared/constants"
+
+	"time"
+
+	"cloud.google.com/go/pubsub"
+	"github.com/google/uuid"
+	"github.com/rs/zerolog/log"
+)
+
+var pull_customer_created_stop bool = false
+
+type pullCustomerCreated struct {
+	subscriptionName string
+}
+
+func PullCustomerCreated(
+	r subscription.Receive,
+	subscriptionName string) (pullCustomerCreated, error) {
+	if pull_customer_created_stop {
+		return pullCustomerCreated{}, nil
+	}
+	s := pullCustomerCreated{
+		subscriptionName: subscriptionName,
+	}
+	ctx := context.Background()
+	if err := r(ctx, subscription.Middleware(subscriptionName, s.receive)); err != nil {
+		log.
+			Error().
+			Err(err).
+			Str(constants.SUBSCRIPTION_NAME, subscriptionName).
+			Msg(constants.SUSBCRIPTION_SIGNAL_BROKEN)
+		time.Sleep(10 * time.Second)
+		go PullCustomerCreated(r, subscriptionName)
+		return s, err
+	}
+	return s, nil
+}
+
+func init() {
+	const subscription_name = "INSERT YOUR SUBSCRIPTION NAME"
+	container.InjectInBoundAdapter(func() error {
+		subscription_setup := einar.Client.Subscription(subscription_name)
+		subscription_setup.ReceiveSettings.Synchronous = true
+		subscription_setup.ReceiveSettings.NumGoroutines = 1
+		subscription_setup.ReceiveSettings.MaxOutstandingMessages = 1
+		go PullCustomerCreated(subscription_setup.Receive, subscription_name)
+		return nil
+	}, container.InjectionProps{
+		DependencyID: uuid.NewString(),
+	})
+}
+
+func (s pullCustomerCreated) receive(ctx context.Context, m *pubsub.Message) {
+	s.processMessage(ctx, m)
+}
+
+func (s pullCustomerCreated) processMessage(ctx context.Context, m *pubsub.Message) error {
+
+	var replace_by_your_model interface{}
+	err := json.Unmarshal(m.Data, &replace_by_your_model)
+
+	if err != nil {
+		log.
+			Error().
+			Str(constants.SUBSCRIPTION_NAME, s.subscriptionName).
+			Err(err).
+			Msg("error unmarshaling m.Data")
+		m.Ack()
+		return err
+	}
+	m.Ack()
+	return nil
+}
+```
 
 ## ⭐ Features
 
