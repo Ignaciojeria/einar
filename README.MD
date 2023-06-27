@@ -241,6 +241,52 @@ Creating a new Google PubSub Outbound Adapter, in our case, involves generating 
 #### 🔍 File structure
 For example, when you generate a publisher using the `einar generate publisher publish-customer` command, Einar CLI will create a new .go file with the following structure:
 
+```go
+package pubsub
+
+var publishCustomerTopic *pubsub.Topic
+
+func init() {
+	container.InjectOutboundAdapter(func() error {
+		publishCustomerTopic = einar.Client.Topic("INSERT YOUR TOPIC NAME HERE")
+		return nil
+	}, container.InjectionProps{
+		DependencyID: uuid.NewString(),
+	})
+}
+
+var PublishCustomer out.PublishCustomer = func(ctx context.Context, REPLACE_BY_YOUR_DOMAIN map[string]string) error {
+
+	bytes, err := json.Marshal(REPLACE_BY_YOUR_DOMAIN)
+	if err != nil {
+		fmt.Println("Error:", err)
+		return err
+	}
+
+	message := &pubsub.Message{
+		Attributes: map[string]string{
+			"customAttribute1": "attr1",
+			"customAttribute2": "attr2",
+		},
+		Data: bytes,
+	}
+
+	result := publishCustomerTopic.Publish(ctx, message)
+
+	// Get the server-generated message ID.
+	messageID, err := result.Get(ctx)
+	if err != nil {
+		// Handle the error
+		fmt.Println("Error occurred while publishing the result:", err.Error())
+		// Perform any necessary error handling actions
+		return err
+	}
+
+	// Successful publishing
+	fmt.Println("Message published with ID:", messageID)
+	return nil
+}
+```
 
 ## ⭐ Features
 
