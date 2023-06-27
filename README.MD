@@ -158,6 +158,9 @@ Creating a new Google PubSub Inbound Adapter, in our case, involves generating a
 	- pull_customer # Generated with 'einar generate subscription pull-customer'
 ```
 
+#### 🔍 File structure
+For example, when you generate a subscription using the `einar generate subscription pull-customer` command, Einar CLI will create a new .go file with the following structure:
+
 ## ⭐ Features
 
 🔧 **Core Concepts**:
