@@ -91,16 +91,6 @@ For example, when you generate a controller using the `einar generate get-contro
 ```go
 package controller
 
-import (
-	"my-project/app/shared/archetype/container"
-	einar "my-project/app/shared/archetype/echo_server"
-
-	"net/http"
-
-	"github.com/google/uuid"
-	"github.com/labstack/echo/v4"
-)
-
 func init() {
 	container.InjectInboundAdapter(func() error {
 		einar.Echo.GET("/INSERT_YOUR_PATTERN_HERE", getCustomer)
@@ -163,23 +153,6 @@ For example, when you generate a subscription using the `einar generate subscrip
 
 ```go
 package subscription
-
-import (
-	"context"
-	"encoding/json"
-
-	"my-project/app/shared/archetype/container"
-	einar "my-project/app/shared/archetype/pubsub"
-	"my-project/app/shared/archetype/pubsub/subscription"
-
-	"my-project/app/shared/constants"
-
-	"time"
-
-	"cloud.google.com/go/pubsub"
-	"github.com/google/uuid"
-	"github.com/rs/zerolog/log"
-)
 
 var pull_customer_created_stop bool = false
 
