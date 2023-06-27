@@ -150,6 +150,16 @@ Creating a new Google PubSub Inbound Adapter, in our case, involves generating a
 
 ####  🔍 Directory Structure
 
+```bash
+/app
+  /adapter
+    /in
+      /controller
+        - post_customer.go   # Generated with 'einar generate get-controller get-customer'
+      /subscription
+	- pull_customer # Generated with 'einar generate subscription pull-customer'
+```
+
 ## ⭐ Features
 
 🔧 **Core Concepts**:
