@@ -224,6 +224,11 @@ func (s pullCustomerCreated) processMessage(ctx context.Context, m *pubsub.Messa
 ```
 
 ## :hammer: Google PubSub - Outbound Adapter
+Creating a new Google PubSub Outbound Adapter, in our case, involves generating a publisher that sends messages to a Google Cloud topic. This can be done by executing the following command:
+
+	einar generate publisher publish-customer-created
+
+
 
 ## ⭐ Features
 
