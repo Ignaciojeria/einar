@@ -235,7 +235,7 @@ Creating a new Google PubSub Outbound Adapter, in our case, involves generating 
   /adapter
     /out
       /publisher
-	- publish_customer.go # Generated with 'einar generate publisher publish-customer
+	- publish_customer.go # Generated with 'einar generate publisher publish-customer'
 ```
 
 
