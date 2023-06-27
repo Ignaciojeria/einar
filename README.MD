@@ -162,6 +162,8 @@ type pullCustomerCreated struct {
 
 func (s pullCustomerCreated) processMessage(ctx context.Context, m *pubsub.Message) error {
 
+	//PUT HERE YOUR SUBSCRIPTION PROCESS
+
 	var replace_by_your_model interface{}
 	err := json.Unmarshal(m.Data, &replace_by_your_model)
 
