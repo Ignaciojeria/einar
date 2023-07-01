@@ -328,7 +328,7 @@ Creating a new Google Firestore Outbound Adapter, in our case, involves generati
   /adapter
     /out
       /firestore
-	- publish_customer.go # Generated with 'einar generate firestore-repository update-customer'
+	- update_customer.go # Generated with 'einar generate firestore-repository update-customer'
 ```
 
 
