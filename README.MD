@@ -250,6 +250,13 @@ Creating a new Google PubSub Outbound Adapter, in our case, involves generating 
 For example, when you generate a publisher using the `einar generate publisher publish-customer` command, Einar CLI will create a new .go file with the following structure:
 
 ```go
+package out
+
+type PublishCustomer func(ctx context.Context, REPLACE_BY_YOUR_DOMAIN map[string]string) error
+
+```
+
+```go
 package pubsub
 
 var publishCustomerTopic *pubsub.Topic
