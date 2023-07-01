@@ -29,7 +29,7 @@ If you wish to utilize your own corporate private template to initiate a new pro
 
     einar init my-project-name https://github.com/your-corporative-private-einar-cli-template user:token
 
-## 🔧 Installing HTTP Server
+## 🌐  Installing HTTP Server
 We are using Echo to manage HTTP requests efficiently. To install the Echo Server, run the following command in your terminal:
 
     einar install echo-server
@@ -117,7 +117,7 @@ Remember to adjust these placeholders according to your project's needs.
 
 For more information on the Echo framework, visit the [Echo documentation](https://echo.labstack.com/).
 
-## 🔧 Installing Google PubSub
+## 📡 Installing Google PubSub
  To install PubSub Client, run the following command in your terminal:
 
 	einar install pubsub
@@ -302,6 +302,11 @@ var PublishCustomer out.PublishCustomer = func(ctx context.Context, REPLACE_BY_Y
 	return nil
 }
 ```
+
+## 🔥 Installing Google Firestore
+To install Firestore Client, run the following command in your terminal:
+
+	einar install firestore
 
 ## :hammer: Google Firestore - Outbound Adapter
 Creating a new Google Firestore Outbound Adapter, in our case, involves generating a repository that does database operations to a Specific firestore collection. This can be done by executing the following command:
