@@ -232,6 +232,14 @@ Creating a new Google PubSub Outbound Adapter, in our case, involves generating 
 
 ```bash
 /app
+  /domain
+    /ports
+      /out
+	- publish_customer.go # Generated with 'einar generate publisher publish-customer'
+```
+
+```bash
+/app
   /adapter
     /out
       /publisher
