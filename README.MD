@@ -303,6 +303,12 @@ var PublishCustomer out.PublishCustomer = func(ctx context.Context, REPLACE_BY_Y
 }
 ```
 
+## :hammer: Google Firestore - Outbound Adapter
+Creating a new Google Firestore Outbound Adapter, in our case, involves generating a repository that does database operations to a Specific firestore collection. This can be done by executing the following command:
+
+	einar generate firestore-repository update-customer
+
+
 ## ⭐ Features
 
 🔧 **Core Concepts**:
