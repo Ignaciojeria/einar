@@ -344,16 +344,6 @@ type SaveCustomer func(ctx context.Context, REPLACE_BY_YOUR_DOMAIN map[string]st
 ```go
 package firestore
 
-import (
-	"my-project/app/domain/ports/out"
-	"my-project/app/shared/archetype/container"
-	einar "my-project/app/shared/archetype/firestore"
-	"context"
-
-	"cloud.google.com/go/firestore"
-	"github.com/google/uuid"
-)
-
 var saveCustomer *firestore.CollectionRef
 
 func init() {
