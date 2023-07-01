@@ -313,6 +313,24 @@ Creating a new Google Firestore Outbound Adapter, in our case, involves generati
 
 	einar generate firestore-repository update-customer
 
+####  🔍 Directory Structure
+
+```bash
+/app
+  /domain
+    /ports
+      /out
+	- update_customer.go # Generated with 'einar generate firestore-repository update-customer'
+```
+
+```bash
+/app
+  /adapter
+    /out
+      /firestore
+	- publish_customer.go # Generated with 'einar generate firestore-repository update-customer'
+```
+
 
 ## ⭐ Features
 
