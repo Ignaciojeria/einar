@@ -311,7 +311,7 @@ To install Firestore Client, run the following command in your terminal:
 ## :hammer: Google Firestore - Outbound Adapter
 Creating a new Google Firestore Outbound Adapter, in our case, involves generating a repository that does database operations to a Specific firestore collection. This can be done by executing the following command:
 
-	einar generate firestore-repository update-customer
+	einar generate firestore-repository save-customer
 
 ####  🔍 Directory Structure
 
