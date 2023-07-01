@@ -308,6 +308,17 @@ To install Firestore Client, run the following command in your terminal:
 
 	einar install firestore
 
+#### 🔍 Check Firestore Configuration
+After installing Firestore, when you run the application, it will ask you for valid Google application credentials and project ID to start working with Firestore.
+
+Make sure to allocate the following configuration in the .env file located at the root of your project:
+
+``` .env
+#ENABLE FOR PUBSUB OR FIRESTORE ARCHETYPE INSTALLATION
+GOOGLE_PROJECT_ID = "secret"
+GOOGLE_APPLICATION_CRETENTIALS_B64 = "base64_secret"
+```
+
 ## :hammer: Google Firestore - Outbound Adapter
 Creating a new Google Firestore Outbound Adapter, in our case, involves generating a repository that does database operations to a specific firestore collection. This can be done by executing the following command:
 
