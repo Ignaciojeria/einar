@@ -331,6 +331,49 @@ Creating a new Google Firestore Outbound Adapter, in our case, involves generati
 	- save_customer.go # Generated with 'einar generate firestore-repository save-customer'
 ```
 
+#### 🔍 File structure
+For example, when you generate a repository using the `einar generate firestore-repository save-customer` command, Einar CLI will create a new .go files with the following structure:
+
+```go
+package out
+
+type SaveCustomer func(ctx context.Context, REPLACE_BY_YOUR_DOMAIN map[string]string) error
+
+```
+
+```go
+package firestore
+
+import (
+	"my-project/app/domain/ports/out"
+	"my-project/app/shared/archetype/container"
+	einar "my-project/app/shared/archetype/firestore"
+	"context"
+
+	"cloud.google.com/go/firestore"
+	"github.com/google/uuid"
+)
+
+var saveCustomer *firestore.CollectionRef
+
+func init() {
+	container.InjectOutBoundAdapter(func() error {
+		saveCustomer = einar.Client.Collection("INSERT_YOUR_COLLECTION_CONSTANTS_HERE")
+		return nil
+	}, container.InjectionProps{
+		DependencyID: uuid.NewString(),
+	})
+}
+
+var SaveCustomer out.SaveCustomer = func(ctx context.Context, REPLACE_BY_YOUR_DOMAIN map[string]string) error {
+	//PUT YOUR FIRESTORE OPERATION HERE :
+	//....saveCustomer.Doc()
+	//....saveCustomer.Add()
+	//....
+	return nil
+}
+```
+
 
 ## ⭐ Features
 
