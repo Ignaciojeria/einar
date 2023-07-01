@@ -313,6 +313,7 @@ var PublishCustomer out.PublishCustomer = func(ctx context.Context, REPLACE_BY_Y
 📡 **Google PubSub Integration**:
    - Client Installation & Setup: Streamlines the setup process for Google PubSub.
    - Subscriptions Generation: Easily generate subscriptions.
+   - Battle-tested automatic pull subscription reinitialization when the signal is broken.
    - Publishers Generation: Quickly set up publishers for message distribution.
 
 🌐 **Echo Server Integration**:
