@@ -247,7 +247,7 @@ Creating a new Google PubSub Outbound Adapter, in our case, involves generating 
 ```
 
 #### 🔍 File structure
-For example, when you generate a publisher using the `einar generate publisher publish-customer` command, Einar CLI will create a new .go file with the following structure:
+For example, when you generate a publisher using the `einar generate publisher publish-customer` command, Einar CLI will create a new .go files with the following structure:
 
 ```go
 package out
