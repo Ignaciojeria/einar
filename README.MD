@@ -1,6 +1,6 @@
 # :fire:EinarCLI: Accelerate Your Application Development:fire:
 
-![fb6d6e6b83c522aae4a24782fefbba4c.jpeg](https://imgtr.ee/images/2023/07/10/fb6d6e6b83c522aae4a24782fefbba4c.jpeg)
+![70cd9f974aadde34d580b10bb87f743a.jpeg](https://imgtr.ee/images/2023/07/10/70cd9f974aadde34d580b10bb87f743a.jpeg)
 
 EinarCLI is a blazingly fast :fire: and powerful command-line interface tool designed to supercharge :rocket: your application development process. It helps to streamline and expedite the creation of your applications, enabling you to code faster, smoother, and smarter.
 
