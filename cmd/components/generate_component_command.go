@@ -9,6 +9,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"strings"
 )
 
 func GenerateComponenteCommand(project string, componentKind string, componentName string) error {
@@ -89,8 +90,21 @@ func GenerateComponenteCommand(project string, componentKind string, componentNa
 	// Iterate over the Files slice
 	for _, file := range installCommand.ComponentFiles {
 
+		// Extract the final component name and construct the nested folder structure
+		componentParts := strings.Split(componentName, "/")
+		nestedFolders := strings.Join(componentParts[:len(componentParts)-1], "/")
+		if nestedFolders != "" {
+			nestedFolders += "/"
+		}
+		componentName = componentParts[len(componentParts)-1]
+		destinationDirParts := strings.Split(file.DestinationDir, "/")
+		baseFolder := destinationDirParts[0]
+		// Remove the first folder from Dir
+		file.DestinationDir =  strings.TrimPrefix(file.DestinationDir, baseFolder+"/")
+		file.Port.DestinationDir = strings.TrimPrefix(file.Port.DestinationDir, baseFolder+"/")
+
 		if file.IocDiscovery {
-			err = utils.AddImportStatement(setupFilePath, fmt.Sprintf(cli.Project+"/"+file.DestinationDir))
+			err = utils.AddImportStatement(setupFilePath, fmt.Sprintf(cli.Project+"/"+baseFolder+"/"+nestedFolders+file.DestinationDir))
 		}
 
 		if file.IocDiscovery && err != nil {
@@ -99,7 +113,7 @@ func GenerateComponenteCommand(project string, componentKind string, componentNa
 
 		// Construct the source and destination paths
 		sourcePath := filepath.Join(filepath.Dir(binaryPath), "einar-cli-template", file.SourceFile)
-		destinationPath := file.DestinationDir + "/" + utils.ConvertStringCase(componentName, "snake_case") + ".go"
+		destinationPath := baseFolder+"/"+nestedFolders+file.DestinationDir + "/" + utils.ConvertStringCase(componentName, "snake_case") + ".go"
 
 		placeHolders := []string{`"archetype`}
 		placeHoldersReplace := []string{`"` + project}
@@ -114,7 +128,7 @@ func GenerateComponenteCommand(project string, componentKind string, componentNa
 
 		if file.Port.SourceFile != "" {
 			sourcePath := filepath.Join(filepath.Dir(binaryPath), "einar-cli-template", file.Port.SourceFile)
-			destinationPath := file.Port.DestinationDir + "/" + utils.ConvertStringCase(componentName, "snake_case") + ".go"
+			destinationPath := baseFolder+"/"+nestedFolders+file.Port.DestinationDir + "/" + utils.ConvertStringCase(componentName, "snake_case") + ".go"
 			err = utils.CopyFile(sourcePath, destinationPath, placeHolders, placeHoldersReplace)
 		}
 
