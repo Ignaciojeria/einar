@@ -33,7 +33,6 @@ func InstallCommand(project string, commandName string) error {
 	var installCommand domain.InstallationCommand
 	for _, command := range template.InstallationCommands {
 		if command.Name == commandName {
-			command.DestinationDir = command.DestinationDir
 			installCommand = command
 			break
 		}
@@ -43,15 +42,16 @@ func InstallCommand(project string, commandName string) error {
 		return fmt.Errorf("%s command not found in .einar.template.json", commandName)
 	}
 
-	sourceDir := filepath.Join(filepath.Dir(binaryPath), "einar-cli-template", installCommand.SourceDir)
-	destDir := filepath.Join( /*project*/ "", installCommand.DestinationDir)
-
-	err = utils.CopyDirectory(sourceDir, destDir, []string{`"archetype`, "${project}"}, []string{`"` + project, project})
-	if err != nil {
-		return fmt.Errorf("error cloning %s directory: %v", commandName, err)
+	for _, v := range installCommand.Folders {
+		sourceDir := filepath.Join(filepath.Dir(binaryPath), "einar-cli-template",v.SourceDir)
+		destDir := filepath.Join( /*project*/ "",v.DestinationDir)
+		err = utils.CopyDirectory(sourceDir, destDir, []string{`"archetype`, "${project}"}, []string{`"` + project, project})
+		if err != nil {
+			return fmt.Errorf("error cloning %s directory: %v", commandName, err)
+		}
+		fmt.Printf("%s directory cloned successfully to %s.\n", commandName, destDir)
 	}
 
-	fmt.Printf("%s directory cloned successfully to %s.\n", commandName, destDir)
 
 	for _, lib := range installCommand.Libraries {
 		cmd := exec.Command("go", "get", lib)

@@ -24,10 +24,9 @@ type File struct {
 }
 
 type InstallationCommand struct {
-	Name           string   `json:"name"`
-	SourceDir      string   `json:"source_dir"`
-	DestinationDir string   `json:"destination_dir"`
 	Command        string   `json:"command"`
+	Name           string   `json:"name"`
+	Folders        []Folder `json:"folders"`
 	Libraries      []string `json:"libraries"`
 }
 
