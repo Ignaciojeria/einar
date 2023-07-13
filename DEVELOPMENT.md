@@ -68,6 +68,7 @@ cd ..
 # Inside project :
 ../einar/einar install pubsub
 ../einar/einar generate subscription mySubscription
+../einar/einar generate subscription projecta/mySubscription1
 
 ../einar/einar install firestore
 ../einar/einar generate firestore-repository myRepository
