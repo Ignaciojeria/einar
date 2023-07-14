@@ -115,8 +115,8 @@ func GenerateComponenteCommand(project string, componentKind string, componentNa
 		sourcePath := filepath.Join(filepath.Dir(binaryPath), "einar-cli-template", file.SourceFile)
 		destinationPath := baseFolder+"/"+nestedFolders+file.DestinationDir + "/" + utils.ConvertStringCase(componentName, "snake_case") + ".go"
 
-		placeHolders := []string{`"archetype`}
-		placeHoldersReplace := []string{`"` + project}
+		placeHolders := []string{`"archetype`,baseFolder+"/"+file.Port.DestinationDir}
+		placeHoldersReplace := []string{`"` + project,baseFolder+"/"+nestedFolders+file.Port.DestinationDir}
 		for _, v := range file.ReplaceHolders {
 			placeHolders = append(placeHolders, v.Name)
 			placeHoldersReplace = append(placeHoldersReplace,
