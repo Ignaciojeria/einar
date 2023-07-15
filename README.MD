@@ -257,6 +257,16 @@ type PublishCustomer func(ctx context.Context, REPLACE_BY_YOUR_DOMAIN map[string
 ```go
 package pubsub
 
+import (
+	"archetype/app/domain/ports/out"
+	einar "archetype/app/shared/archetype/pubsub"
+	"context"
+	"encoding/json"
+	"fmt"
+
+	"cloud.google.com/go/pubsub"
+)
+
 var PublishCustomer out.PublishCustomer = func(ctx context.Context, REPLACE_BY_YOUR_DOMAIN map[string]string) error {
 
 	bytes, err := json.Marshal(REPLACE_BY_YOUR_DOMAIN)
