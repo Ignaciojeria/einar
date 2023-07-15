@@ -257,17 +257,6 @@ type PublishCustomer func(ctx context.Context, REPLACE_BY_YOUR_DOMAIN map[string
 ```go
 package pubsub
 
-var publishCustomerTopic *pubsub.Topic
-
-func init() {
-	container.InjectOutboundAdapter(func() error {
-		publishCustomerTopic = einar.Client.Topic("INSERT YOUR TOPIC NAME HERE")
-		return nil
-	}, container.InjectionProps{
-		DependencyID: uuid.NewString(),
-	})
-}
-
 var PublishCustomer out.PublishCustomer = func(ctx context.Context, REPLACE_BY_YOUR_DOMAIN map[string]string) error {
 
 	bytes, err := json.Marshal(REPLACE_BY_YOUR_DOMAIN)
@@ -283,8 +272,9 @@ var PublishCustomer out.PublishCustomer = func(ctx context.Context, REPLACE_BY_Y
 		},
 		Data: bytes,
 	}
-
-	result := publishCustomerTopic.Publish(ctx, message)
+	// einar.Topic("INSERT YOUR TOPIC NAME HERE") returns an instance of *pubsub.Topic type.
+	// For more details, please consult the documentation here: https://pkg.go.dev/cloud.google.com/go/pubsub#section-readme
+	result := einar.Topic("INSERT YOUR TOPIC NAME HERE").Publish(ctx, message)
 
 	// Get the server-generated message ID.
 	messageID, err := result.Get(ctx)
@@ -362,9 +352,9 @@ import (
 )
 
 var SaveCustomer out.SaveCustomer = func(ctx context.Context, REPLACE_BY_YOUR_DOMAIN map[string]string) error {
-	// einar.Client.Collection() returns an instance of *firestore.CollectionRef type.
+	// einar.Collection("INSERT_YOUR_COLLECTION_CONSTANT_HERE") returns an instance of *firestore.CollectionRef type.
 	// For more details, please consult the documentation here: https://firebase.google.com/docs/firestore/quickstart?hl=es-419#go
-	var _ *firestore.CollectionRef = einar.Client.Collection("INSERT_YOUR_COLLECTION_CONSTANT_HERE")
+	var _ *firestore.CollectionRef = einar.Collection("INSERT_YOUR_COLLECTION_CONSTANT_HERE")
 	return nil
 }
 ```
