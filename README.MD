@@ -355,8 +355,6 @@ type SaveCustomer func(ctx context.Context, REPLACE_BY_YOUR_DOMAIN map[string]st
 ```go
 package firestore
 
-package firestore
-
 // ArchetypeRepository implements the out.ArchetypeOutBoundPort interface
 // which represents the outbound port for the archetype model repository.
 var ArchetypeRepository out.ArchetypeOutBoundPort = func(ctx context.Context, REPLACE_BY_YOUR_DOMAIN map[string]string) error {
