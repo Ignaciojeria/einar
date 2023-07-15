@@ -355,17 +355,18 @@ type SaveCustomer func(ctx context.Context, REPLACE_BY_YOUR_DOMAIN map[string]st
 ```go
 package firestore
 
+import (
+	"archetype/app/domain/ports/out"
+	einar "archetype/app/shared/archetype/firestore"
+	"context"
+
+	"cloud.google.com/go/firestore"
+)
+
 var SaveCustomer out.SaveCustomer = func(ctx context.Context, REPLACE_BY_YOUR_DOMAIN map[string]string) error {
 	// einar.Client.Collection() returns an instance of Firestore's CollectionReference type.
 	// For more details, please consult the documentation here: https://firebase.google.com/docs/firestore/quickstart?hl=es-419#go
-	collectionReference := einar.Client.Collection("INSERT_YOUR_COLLECTION_CONSTANTS_HERE")
-
-	// This line is temporary and can be removed once Firestore operations are implemented
-	_ = collectionReference 
-
-	// YOUR FIRESTORE OPERATION GOES HERE:
-	// Make sure you handle errors and return values properly in your Firestore operations.
-	//....
+	var _ *firestore.CollectionRef = einar.Client.Collection("INSERT_YOUR_COLLECTION_CONSTANTS_HERE")
 	return nil
 }
 ```
