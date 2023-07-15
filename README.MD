@@ -355,24 +355,24 @@ type SaveCustomer func(ctx context.Context, REPLACE_BY_YOUR_DOMAIN map[string]st
 ```go
 package firestore
 
-var saveCustomer *firestore.CollectionRef
+// ArchetypeRepository implements the out.ArchetypeOutBoundPort interface
+// which represents the outbound port for the archetype model repository.
+var ArchetypeRepository out.ArchetypeOutBoundPort = func(ctx context.Context, REPLACE_BY_YOUR_DOMAIN map[string]string) error {
+	// Access the Firestore collection specified by INSERT_YOUR_COLLECTION_CONSTANTS_HERE
+	collectionReference := einar.Client.Collection("INSERT_YOUR_COLLECTION_CONSTANTS_HERE")
 
-func init() {
-	container.InjectOutBoundAdapter(func() error {
-		saveCustomer = einar.Client.Collection("INSERT_YOUR_COLLECTION_CONSTANTS_HERE")
-		return nil
-	}, container.InjectionProps{
-		DependencyID: uuid.NewString(),
-	})
-}
+	// This line is temporary and can be removed once Firestore operations are implemented
+	_ = collectionReference 
 
-var SaveCustomer out.SaveCustomer = func(ctx context.Context, REPLACE_BY_YOUR_DOMAIN map[string]string) error {
-	//PUT YOUR FIRESTORE OPERATION HERE :
-	//....saveCustomer.Doc()
-	//....saveCustomer.Add()
+	// YOUR FIRESTORE OPERATION GOES HERE:
+	// For example, you could do something like collectionReference.Doc() to get a specific document
+	// or collectionReference.Add() to add a new document to the collection.
+	// Make sure you handle errors and return values properly in your Firestore operations.
 	//....
+
 	return nil
 }
+
 ```
 
 
