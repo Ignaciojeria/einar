@@ -379,6 +379,7 @@ var SaveCustomer out.SaveCustomer = func(ctx context.Context, REPLACE_BY_YOUR_DO
 
 📡 **Google PubSub Integration**:
    - Client Installation & Setup: Streamlines the setup process for Google PubSub.
+   - Avoid the common mistake of creating many topic instances when you use them to publish by default.
    - Subscriptions Generation: Easily generate subscriptions.
    - Battle-tested automatic pull subscription reinitialization when the signal is broken.
    - Publishers Generation: Quickly set up publishers for message distribution.
