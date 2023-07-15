@@ -355,10 +355,7 @@ type SaveCustomer func(ctx context.Context, REPLACE_BY_YOUR_DOMAIN map[string]st
 ```go
 package firestore
 
-// ArchetypeRepository implements the out.ArchetypeOutBoundPort interface
-// which represents the outbound port for the archetype model repository.
-var ArchetypeRepository out.ArchetypeOutBoundPort = func(ctx context.Context, REPLACE_BY_YOUR_DOMAIN map[string]string) error {
-	// Access the Firestore collection specified by INSERT_YOUR_COLLECTION_CONSTANTS_HERE.
+var SaveCustomer out.SaveCustomer = func(ctx context.Context, REPLACE_BY_YOUR_DOMAIN map[string]string) error {
 	// einar.Client.Collection() returns an instance of Firestore's CollectionReference type.
 	// For more details, please consult the documentation here: https://firebase.google.com/docs/firestore/quickstart?hl=es-419#go
 	collectionReference := einar.Client.Collection("INSERT_YOUR_COLLECTION_CONSTANTS_HERE")
