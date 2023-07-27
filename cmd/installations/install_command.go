@@ -13,12 +13,26 @@ import (
 )
 
 func InstallCommand(project string, commandName string) error {
-	binaryPath, err := os.Executable()
+
+	// read einar.cli.json
+	cliPath := filepath.Join(".einar.cli.json")
+	cliBytes, err := ioutil.ReadFile(cliPath)
 	if err != nil {
-		return fmt.Errorf("failed to get binary path: %v", err)
+		return fmt.Errorf("failed to read .einar.cli.json: %v", err)
 	}
 
-	jsonFilePath := filepath.Join(filepath.Dir(binaryPath), "einar-cli-template", ".einar.template.json")
+	var cli domain.EinarCli
+	err = json.Unmarshal(cliBytes, &cli)
+	if err != nil {
+		return fmt.Errorf("failed to unmarshal .einar.cli.json: %v", err)
+	}
+
+	templateFolderPath, err := utils.GetTemplateFolderPath(cli.Template.URL)
+	if err !=nil{
+		return err
+	}
+
+	jsonFilePath := filepath.Join(templateFolderPath, ".einar.template.json")
 	jsonContentBytes, err := ioutil.ReadFile(jsonFilePath)
 	if err != nil {
 		return fmt.Errorf("error reading JSON file: %v for project %v", err, project)
@@ -43,7 +57,7 @@ func InstallCommand(project string, commandName string) error {
 		return fmt.Errorf("%s command not found in .einar.template.json", commandName)
 	}
 
-	sourceDir := filepath.Join(filepath.Dir(binaryPath), "einar-cli-template", installCommand.SourceDir)
+	sourceDir := filepath.Join(templateFolderPath, installCommand.SourceDir)
 	destDir := filepath.Join( /*project*/ "", installCommand.DestinationDir)
 
 	err = utils.CopyDirectory(sourceDir, destDir, []string{`"archetype`, "${project}"}, []string{`"` + project, project})

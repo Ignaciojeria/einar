@@ -5,18 +5,34 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"os"
+	"github.com/Ignaciojeria/einar/cmd/utils"
 	"path/filepath"
 )
 
 func addInstallationInsideCli(project, commandName string) error {
-	binaryPath, err := os.Executable()
+
+	// read einar.cli.json
+	cliPath := filepath.Join(".einar.cli.json")
+	cliBytes, err := ioutil.ReadFile(cliPath)
 	if err != nil {
-		return fmt.Errorf("failed to get binary path: %v", err)
+		return fmt.Errorf("failed to read .einar.cli.json: %v", err)
+	}
+
+	var cli domain.EinarCli
+	err = json.Unmarshal(cliBytes, &cli)
+	if err != nil {
+		return fmt.Errorf("failed to unmarshal .einar.cli.json: %v", err)
+	}
+
+	templateFolderPath, err := utils.GetTemplateFolderPath(cli.Template.URL)
+	if err !=nil{
+		return err
 	}
 
 	// read einar.template.json
-	templatePath := filepath.Join(filepath.Dir(binaryPath), "einar-cli-template", ".einar.template.json")
+	templatePath := filepath.Join(templateFolderPath, ".einar.template.json")
+
+	fmt.Println(templatePath)
 	templateBytes, err := ioutil.ReadFile(templatePath)
 	if err != nil {
 		return fmt.Errorf("failed to read .einar.template.json: %v", err)
@@ -41,18 +57,7 @@ func addInstallationInsideCli(project, commandName string) error {
 		return fmt.Errorf("command %s not found in .einar.template.json", commandName)
 	}
 
-	// read einar.cli.json
-	cliPath := filepath.Join(project, ".einar.cli.json")
-	cliBytes, err := ioutil.ReadFile(cliPath)
-	if err != nil {
-		return fmt.Errorf("failed to read .einar.cli.json: %v", err)
-	}
 
-	var cli domain.EinarCli
-	err = json.Unmarshal(cliBytes, &cli)
-	if err != nil {
-		return fmt.Errorf("failed to unmarshal .einar.cli.json: %v", err)
-	}
 
 	// add the command to the CLI
 	cli.Installations = append(cli.Installations, domain.Installation{

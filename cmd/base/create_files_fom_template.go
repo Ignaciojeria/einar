@@ -1,27 +1,23 @@
 package base
 
 import (
-	"github.com/Ignaciojeria/einar/cmd/domain"
-	"github.com/Ignaciojeria/einar/cmd/utils"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path/filepath"
+
+	"github.com/Ignaciojeria/einar/cmd/domain"
+	"github.com/Ignaciojeria/einar/cmd/utils"
 )
 
-func CreateFilesFromTemplate(project string) error {
-	// Obtain the binary's path
-	binaryPath, err := os.Executable()
-	if err != nil {
-		return fmt.Errorf("error obtaining binary path: %v for project %v", err, project)
-	}
+func CreateFilesFromTemplate(templateFilePath string, project string) error {
 
+	fmt.Println(templateFilePath)
 	// Construct the path to the JSON file relative to the binary
-	jsonFilePath := filepath.Join(filepath.Dir(binaryPath), "einar-cli-template", ".einar.template.json")
+	jsonFilePath := filepath.Join(templateFilePath, ".einar.template.json")
 
 	// Read the JSON file content
-	jsonContentBytes, err := ioutil.ReadFile(jsonFilePath)
+	jsonContentBytes, err := os.ReadFile(jsonFilePath)
 	if err != nil {
 		return fmt.Errorf("error reading JSON file: %v for project %v", err, project)
 	}
@@ -36,7 +32,7 @@ func CreateFilesFromTemplate(project string) error {
 	// Iterate over the Files slice
 	for _, file := range template.BaseTemplate.Files {
 		// Construct the source and destination paths
-		sourcePath := filepath.Join(filepath.Dir(binaryPath), "einar-cli-template", file.SourceFile)
+		sourcePath := filepath.Join(templateFilePath, file.SourceFile)
 		destinationPath := file.DestinationFile
 
 		// Copy the file

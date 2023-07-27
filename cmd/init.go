@@ -36,24 +36,31 @@ func runInitCmd(cmd *cobra.Command, args []string) {
 		return
 	}
 
-	utils.GitCloneTemplateInBinaryPath(args[1], args[2])
+	repositoryURL := args[1]
+	utils.GitCloneTemplateInBinaryPath(repositoryURL, args[2])
+
+	templatePath,err := utils.GetTemplateFolderPath(repositoryURL)
+	if err !=nil{
+		fmt.Println("error getting template path")
+		return
+	}
 
 	project := args[0]
 	if args[0] == "." {
 		project, _ = utils.GetCurrentFolderName()
 	}
 	project = utils.ConvertStringCase(project, "kebab")
-	if err := base.CreateFilesFromTemplate(project); err != nil {
+	if err := base.CreateFilesFromTemplate(templatePath,project); err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	if err := base.CreateDirectoriesFromTemplate(project); err != nil {
+	if err := base.CreateDirectoriesFromTemplate(templatePath,project); err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	template, err := utils.ReadEinarTemplateFromBinaryPath()
+	template, err := utils.ReadEinarTemplateFromBinaryPath(templatePath)
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -89,6 +96,7 @@ var installCmd = &cobra.Command{
 		}
 
 		if err := installations.InstallCommand(config.Project, args[0]); err != nil {
+			fmt.Println(err.Error())
 			return
 		}
 	},

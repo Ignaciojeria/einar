@@ -3,23 +3,16 @@ package utils
 import (
 	"fmt"
 	"os"
-	"path/filepath"
-
 	git "github.com/go-git/go-git/v5"
 	"github.com/go-git/go-git/v5/plumbing/transport/http"
 )
 
 func GitCloneTemplateInBinaryPath(repositoryUrl string, userCreds string) {
-	// Determine the path of the binary.
-	executable, err := os.Executable()
+	targetPath, err := GetTemplateFolderPath(repositoryUrl)
 	if err != nil {
-		fmt.Println("Failed to determine executable path:", err)
+		fmt.Println(err)
 		return
 	}
-	executablePath := filepath.Dir(executable)
-
-	// Define the target path for the git clone.
-	targetPath := filepath.Join(executablePath, "./einar-cli-template")
 
 	// Setup auth if userCreds is provided
 	var auth *http.BasicAuth
