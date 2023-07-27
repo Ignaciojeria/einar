@@ -7,19 +7,31 @@ import (
 	"errors"
 	"fmt"
 	"io/ioutil"
-	"os"
 	"path/filepath"
 	"strings"
 )
 
 func GenerateComponenteCommand(project string, componentKind string, componentName string) error {
 
-	binaryPath, err := os.Executable()
+	// read einar.cli.json
+	cliPath := filepath.Join(".einar.cli.json")
+	cliBytes, err := ioutil.ReadFile(cliPath)
 	if err != nil {
-		return fmt.Errorf("failed to get binary path: %v", err)
+		return fmt.Errorf("failed to read .einar.cli.json: %v", err)
 	}
 
-	jsonFilePath := filepath.Join(filepath.Dir(binaryPath), "einar-cli-template", ".einar.template.json")
+	var cli domain.EinarCli
+	err = json.Unmarshal(cliBytes, &cli)
+	if err != nil {
+		return fmt.Errorf("failed to unmarshal .einar.cli.json: %v", err)
+	}
+
+	templateFolderPath, err := utils.GetTemplateFolderPath(cli.Template.URL)
+	if err !=nil{
+		return err
+	}
+
+	jsonFilePath := filepath.Join(templateFolderPath, ".einar.template.json")
 	jsonContentBytes, err := ioutil.ReadFile(jsonFilePath)
 	if err != nil {
 		return fmt.Errorf("error reading JSON file: %v for project %v", err, project)
@@ -43,18 +55,6 @@ func GenerateComponenteCommand(project string, componentKind string, componentNa
 		return fmt.Errorf("%s command not found in .einar.template.json", componentKind)
 	}
 
-	// read einar.cli.json
-	cliPath := filepath.Join( /*project*/ "", ".einar.cli.json")
-	cliBytes, err := ioutil.ReadFile(cliPath)
-	if err != nil {
-		return fmt.Errorf("failed to read .einar.cli.json: %v", err)
-	}
-
-	var cli domain.EinarCli
-	err = json.Unmarshal(cliBytes, &cli)
-	if err != nil {
-		return fmt.Errorf("failed to unmarshal .einar.cli.json: %v", err)
-	}
 
 	for _, v := range cli.Components {
 		if v.Kind == componentKind && v.Name == componentName {
@@ -81,9 +81,9 @@ func GenerateComponenteCommand(project string, componentKind string, componentNa
 		return errors.New("dependencies are not present")
 	}
 
-	setupFilePath := filepath.Join( /*project*/ "", "app/shared/archetype/setup.go")
+	setupFilePath := filepath.Join("app/shared/archetype/setup.go")
 
-	if err := addComponentInsideCli( /*"project"*/ "", componentKind, componentName); err != nil {
+	if err := addComponentInsideCli( componentKind, componentName); err != nil {
 		return fmt.Errorf("failed to update .einar.template.json: %v", err)
 	}
 
@@ -112,7 +112,7 @@ func GenerateComponenteCommand(project string, componentKind string, componentNa
 		}
 
 		// Construct the source and destination paths
-		sourcePath := filepath.Join(filepath.Dir(binaryPath), "einar-cli-template", file.SourceFile)
+		sourcePath := filepath.Join(templateFolderPath, file.SourceFile)
 		destinationPath := baseFolder+"/"+nestedFolders+file.DestinationDir + "/" + utils.ConvertStringCase(componentName, "snake_case") + ".go"
 
 		
@@ -134,7 +134,7 @@ func GenerateComponenteCommand(project string, componentKind string, componentNa
 		// Copy the file
 
 		if file.Port.SourceFile != "" {
-			sourcePath := filepath.Join(filepath.Dir(binaryPath), "einar-cli-template", file.Port.SourceFile)
+			sourcePath := filepath.Join(templateFolderPath, file.Port.SourceFile)
 			destinationPath := baseFolder+"/"+nestedFolders+file.Port.DestinationDir + "/" + utils.ConvertStringCase(componentName, "snake_case") + ".go"
 			err = utils.CopyFile(sourcePath, destinationPath, placeHolders, placeHoldersReplace)
 		}
