@@ -4,7 +4,7 @@ EinarCLI is a blazingly fast :fire: and powerful command-line interface tool des
 
 With EinarCLI, get ready to turn up the heat :fire: on your programming skills and develop applications like never before!
 
-[img](https://reflectoring.io/images/posts/spring-hexagonal/hexagonal-architecture_hu6764515d7030d45af6f7f498c79e292b_50897_956x0_resize_box_3.png)
+![Img](https://reflectoring.io/images/posts/spring-hexagonal/hexagonal-architecture_hu6764515d7030d45af6f7f498c79e292b_50897_956x0_resize_box_3.png)
 
 ## Minimum Requirements
 
