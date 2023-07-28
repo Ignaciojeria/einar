@@ -65,6 +65,10 @@ func GenerateComponenteCommand(project string, componentKind string, componentNa
 
 	var dependencyIsPresent bool
 	for _, dependency := range installCommand.DependsOn {
+		if dependency == ""{
+			dependencyIsPresent = true
+			break
+		}
 		for _, installation := range cli.Installations {
 			if dependency == installation.Name {
 				dependencyIsPresent = true
