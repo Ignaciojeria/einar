@@ -1,13 +1,15 @@
 package cmd
 
 import (
+	"fmt"
+
 	"github.com/Ignaciojeria/einar/cmd/base"
 	"github.com/Ignaciojeria/einar/cmd/components"
 	"github.com/Ignaciojeria/einar/cmd/installations"
 	"github.com/Ignaciojeria/einar/cmd/utils"
-	"fmt"
 	"github.com/spf13/cobra"
 )
+
 // initCmd represents the init command
 var versionCmd = &cobra.Command{
 	Use:   "version",
@@ -16,7 +18,7 @@ var versionCmd = &cobra.Command{
 }
 
 func runVersionCmd(cmd *cobra.Command, args []string) {
-	fmt.Println("beta")
+	fmt.Println("1.23.0")
 }
 
 // initCmd represents the init command

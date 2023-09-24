@@ -107,8 +107,13 @@ func GenerateComponenteCommand(project string, componentKind string, componentNa
 		file.DestinationDir = strings.TrimPrefix(file.DestinationDir, baseFolder+"/")
 		file.Port.DestinationDir = strings.TrimPrefix(file.Port.DestinationDir, baseFolder+"/")
 
-		if file.IocDiscovery {
+		if file.IocDiscovery && !installCommand.HasComponentDir  {
 			err = utils.AddImportStatement(setupFilePath, fmt.Sprintf(cli.Project+"/"+baseFolder+"/"+nestedFolders+file.DestinationDir))
+		}
+
+		if file.IocDiscovery && installCommand.HasComponentDir  {
+			component := utils.ConvertStringCase(componentName, "snake_case")
+			err = utils.AddImportStatement(setupFilePath, fmt.Sprintf(cli.Project+"/"+baseFolder+"/"+nestedFolders+file.DestinationDir+"/"+component))
 		}
 
 		if file.IocDiscovery && err != nil {
