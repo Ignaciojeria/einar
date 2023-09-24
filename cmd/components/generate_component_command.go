@@ -1,14 +1,15 @@
 package components
 
 import (
-	"github.com/Ignaciojeria/einar/cmd/domain"
-	"github.com/Ignaciojeria/einar/cmd/utils"
 	"encoding/json"
 	"errors"
 	"fmt"
 	"io/ioutil"
 	"path/filepath"
 	"strings"
+
+	"github.com/Ignaciojeria/einar/cmd/domain"
+	"github.com/Ignaciojeria/einar/cmd/utils"
 )
 
 func GenerateComponenteCommand(project string, componentKind string, componentName string) error {
@@ -27,7 +28,7 @@ func GenerateComponenteCommand(project string, componentKind string, componentNa
 	}
 
 	templateFolderPath, err := utils.GetTemplateFolderPath(cli.Template.URL)
-	if err !=nil{
+	if err != nil {
 		return err
 	}
 
@@ -55,7 +56,6 @@ func GenerateComponenteCommand(project string, componentKind string, componentNa
 		return fmt.Errorf("%s command not found in .einar.template.json", componentKind)
 	}
 
-
 	for _, v := range cli.Components {
 		if v.Kind == componentKind && v.Name == componentName {
 			fmt.Printf("The component '%s' for '%s' already exists.\n", componentName, componentKind)
@@ -65,7 +65,7 @@ func GenerateComponenteCommand(project string, componentKind string, componentNa
 
 	var dependencyIsPresent bool
 	for _, dependency := range installCommand.DependsOn {
-		if dependency == ""{
+		if dependency == "" {
 			dependencyIsPresent = true
 			break
 		}
@@ -87,7 +87,7 @@ func GenerateComponenteCommand(project string, componentKind string, componentNa
 
 	setupFilePath := filepath.Join("app/shared/archetype/setup.go")
 
-	if err := addComponentInsideCli( componentKind, componentName); err != nil {
+	if err := addComponentInsideCli(componentKind, componentName); err != nil {
 		return fmt.Errorf("failed to update .einar.template.json: %v", err)
 	}
 
@@ -104,7 +104,7 @@ func GenerateComponenteCommand(project string, componentKind string, componentNa
 		destinationDirParts := strings.Split(file.DestinationDir, "/")
 		baseFolder := destinationDirParts[0]
 		// Remove the first folder from Dir
-		file.DestinationDir =  strings.TrimPrefix(file.DestinationDir, baseFolder+"/")
+		file.DestinationDir = strings.TrimPrefix(file.DestinationDir, baseFolder+"/")
 		file.Port.DestinationDir = strings.TrimPrefix(file.Port.DestinationDir, baseFolder+"/")
 
 		if file.IocDiscovery {
@@ -117,15 +117,23 @@ func GenerateComponenteCommand(project string, componentKind string, componentNa
 
 		// Construct the source and destination paths
 		sourcePath := filepath.Join(templateFolderPath, file.SourceFile)
-		destinationPath := baseFolder+"/"+nestedFolders+file.DestinationDir + "/" + utils.ConvertStringCase(componentName, "snake_case") + ".go"
+		var destinationPath string
 
-		
+		if installCommand.HasComponentDir {
+			component := utils.ConvertStringCase(componentName, "snake_case")
+			destinationPath = baseFolder + "/" + nestedFolders + file.DestinationDir + "/" + component + "/" + component + ".go"
+		}
+
+		if !installCommand.HasComponentDir {
+			destinationPath = baseFolder + "/" + nestedFolders + file.DestinationDir + "/" + utils.ConvertStringCase(componentName, "snake_case") + ".go"
+		}
+
 		placeHolders := []string{`"archetype`}
 		placeHoldersReplace := []string{`"` + project}
 
-		if file.Port.DestinationDir != ""{
-			placeHolders = []string{`"archetype`,project+"/"+baseFolder+"/"+file.Port.DestinationDir}
-			placeHoldersReplace = []string{`"` + project,project+"/"+baseFolder+"/"+nestedFolders+file.Port.DestinationDir}
+		if file.Port.DestinationDir != "" {
+			placeHolders = []string{`"archetype`, project + "/" + baseFolder + "/" + file.Port.DestinationDir}
+			placeHoldersReplace = []string{`"` + project, project + "/" + baseFolder + "/" + nestedFolders + file.Port.DestinationDir}
 		}
 
 		for _, v := range file.ReplaceHolders {
@@ -139,7 +147,7 @@ func GenerateComponenteCommand(project string, componentKind string, componentNa
 
 		if file.Port.SourceFile != "" {
 			sourcePath := filepath.Join(templateFolderPath, file.Port.SourceFile)
-			destinationPath := baseFolder+"/"+nestedFolders+file.Port.DestinationDir + "/" + utils.ConvertStringCase(componentName, "snake_case") + ".go"
+			destinationPath := baseFolder + "/" + nestedFolders + file.Port.DestinationDir + "/" + utils.ConvertStringCase(componentName, "snake_case") + ".go"
 			err = utils.CopyFile(sourcePath, destinationPath, placeHolders, placeHoldersReplace)
 		}
 

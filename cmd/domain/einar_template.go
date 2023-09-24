@@ -37,10 +37,11 @@ type InstallationsBase struct {
 }
 
 type ComponentCommands struct {
-	Kind           string          `json:"kind"`
-	Name           string          `json:"name"`
-	ComponentFiles []ComponentFile `json:"files"`
-	DependsOn      []string        `json:"depends_on"`
+	Kind            string          `json:"kind"`
+	Name            string          `json:"name"`
+	HasComponentDir bool            `json:"has_component_dir"`
+	ComponentFiles  []ComponentFile `json:"files"`
+	DependsOn       []string        `json:"depends_on"`
 }
 
 type ComponentFile struct {
