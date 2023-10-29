@@ -18,7 +18,7 @@ var versionCmd = &cobra.Command{
 }
 
 func runVersionCmd(cmd *cobra.Command, args []string) {
-	fmt.Println("1.23.0")
+	fmt.Println("1.24.0")
 }
 
 // initCmd represents the init command
@@ -41,8 +41,8 @@ func runInitCmd(cmd *cobra.Command, args []string) {
 	repositoryURL := args[1]
 	utils.GitCloneTemplateInBinaryPath(repositoryURL, args[2])
 
-	templatePath,err := utils.GetTemplateFolderPath(repositoryURL)
-	if err !=nil{
+	templatePath, err := utils.GetTemplateFolderPath(repositoryURL)
+	if err != nil {
 		fmt.Println("error getting template path")
 		return
 	}
@@ -52,12 +52,12 @@ func runInitCmd(cmd *cobra.Command, args []string) {
 		project, _ = utils.GetCurrentFolderName()
 	}
 	project = utils.ConvertStringCase(project, "kebab")
-	if err := base.CreateFilesFromTemplate(templatePath,project); err != nil {
+	if err := base.CreateFilesFromTemplate(templatePath, project); err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	if err := base.CreateDirectoriesFromTemplate(templatePath,project); err != nil {
+	if err := base.CreateDirectoriesFromTemplate(templatePath, project); err != nil {
 		fmt.Println(err)
 		return
 	}

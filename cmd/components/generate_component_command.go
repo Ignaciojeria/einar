@@ -107,11 +107,11 @@ func GenerateComponenteCommand(project string, componentKind string, componentNa
 		file.DestinationDir = strings.TrimPrefix(file.DestinationDir, baseFolder+"/")
 		file.Port.DestinationDir = strings.TrimPrefix(file.Port.DestinationDir, baseFolder+"/")
 
-		if file.IocDiscovery && !installCommand.HasComponentDir  {
+		if file.IocDiscovery && !installCommand.HasComponentDir {
 			err = utils.AddImportStatement(setupFilePath, fmt.Sprintf(cli.Project+"/"+baseFolder+"/"+nestedFolders+file.DestinationDir))
 		}
 
-		if file.IocDiscovery && installCommand.HasComponentDir  {
+		if file.IocDiscovery && installCommand.HasComponentDir {
 			component := utils.ConvertStringCase(componentName, "snake_case")
 			err = utils.AddImportStatement(setupFilePath, fmt.Sprintf(cli.Project+"/"+baseFolder+"/"+nestedFolders+file.DestinationDir+"/"+component))
 		}
@@ -126,11 +126,11 @@ func GenerateComponenteCommand(project string, componentKind string, componentNa
 
 		if installCommand.HasComponentDir {
 			component := utils.ConvertStringCase(componentName, "snake_case")
-			destinationPath = baseFolder + "/" + nestedFolders + file.DestinationDir + "/" + component + "/" + component + ".go"
+			destinationPath = baseFolder + "/" + nestedFolders + file.DestinationDir + "/" + component + "/" + component + filepath.Ext(file.SourceFile)
 		}
 
 		if !installCommand.HasComponentDir {
-			destinationPath = baseFolder + "/" + nestedFolders + file.DestinationDir + "/" + utils.ConvertStringCase(componentName, "snake_case") + ".go"
+			destinationPath = baseFolder + "/" + nestedFolders + file.DestinationDir + "/" + utils.ConvertStringCase(componentName, "snake_case") + filepath.Ext(file.SourceFile)
 		}
 
 		placeHolders := []string{`"archetype`}
@@ -152,7 +152,7 @@ func GenerateComponenteCommand(project string, componentKind string, componentNa
 
 		if file.Port.SourceFile != "" {
 			sourcePath := filepath.Join(templateFolderPath, file.Port.SourceFile)
-			destinationPath := baseFolder + "/" + nestedFolders + file.Port.DestinationDir + "/" + utils.ConvertStringCase(componentName, "snake_case") + ".go"
+			destinationPath := baseFolder + "/" + nestedFolders + file.Port.DestinationDir + "/" + utils.ConvertStringCase(componentName, "snake_case") + filepath.Ext(file.Port.SourceFile)
 			err = utils.CopyFile(sourcePath, destinationPath, placeHolders, placeHoldersReplace)
 		}
 
