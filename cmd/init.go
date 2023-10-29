@@ -18,7 +18,7 @@ var versionCmd = &cobra.Command{
 }
 
 func runVersionCmd(cmd *cobra.Command, args []string) {
-	fmt.Println("1.26.0")
+	fmt.Println("1.24.0")
 }
 
 // initCmd represents the init command
