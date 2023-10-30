@@ -26,8 +26,8 @@ func init() {
 		Pattern: "content-children-b.css",
 	})
 	container.InjectInboundAdapter(func() error {
-		einar.Echo.GET("/content-children-b", render)
-		einar.Echo.GET("/content-children-b.css", echo.WrapHandler(http.FileServer(http.FS(css))))
+		einar.Echo.GET("/content/content-children-b", render)
+		einar.Echo.GET("/content/content-children-b.css", echo.WrapHandler(http.FileServer(http.FS(css))))
 		return nil
 	}, container.InjectionProps{
 		DependencyID: uuid.NewString(),
