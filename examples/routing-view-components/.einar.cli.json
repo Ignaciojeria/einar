@@ -1,0 +1,35 @@
+{
+    "version": "${version}",
+    "project": "my-project-name",
+    "template": {
+        "id": "d11193b5-a7b7-435f-823b-4d36edb4f5d2",
+        "url": "https://github.com/Ignaciojeria/einar-cli-template"
+    },
+    "installations": [
+        {
+            "name": "echo-server",
+            "libraries": [
+                "github.com/labstack/echo/v4",
+                "github.com/labstack/echo/v4/middleware"
+            ]
+        }
+    ],
+    "components": [
+        {
+            "kind": "view",
+            "name": "index"
+        },
+        {
+            "kind": "view",
+            "name": "home"
+        },
+        {
+            "kind": "view",
+            "name": "layout"
+        },
+        {
+            "kind": "view",
+            "name": "content"
+        }
+    ]
+}
