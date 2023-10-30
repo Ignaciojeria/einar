@@ -11,6 +11,9 @@ import (
 	_ "my-project-name/app/adapter/in/view/content"
 	_ "my-project-name/app/adapter/in/view/layout"
 
+	_ "my-project-name/app/adapter/in/view/content/content-children-a"
+	_ "my-project-name/app/adapter/in/view/content/content-children-b"
+
 	"github.com/rs/zerolog"
 )
 

@@ -30,6 +30,10 @@
         {
             "kind": "view",
             "name": "content"
+        },
+        {
+            "kind": "view",
+            "name": "content-children"
         }
     ]
 }
