@@ -1,16 +1,12 @@
 <link rel="stylesheet" href="/index.css"/>
-<script src="//unpkg.com/alpinejs" defer></script>
 <script src="https://unpkg.com/htmx.org@1.9.6"></script>
 
-<p>Layout component</p>
-
 <div id="navbar">
-    <a hx-get="/content" hx-headers='{"standalone": "true"}' hx-target="#layout-content" hx-push-url="true">Componente 1</a>
-    <a hx-get="/home"  hx-headers='{"standalone": "true"}'  hx-target="#layout-content" hx-push-url="true">Componente 2</a>
+    <a hx-get="/content" hx-headers='{"standalone": "true"}' hx-target="#layout-component-default" hx-push-url="true">Componente 1</a>
+    <a hx-get="/home"  hx-headers='{"standalone": "true"}'  hx-target="#layout-component-default" hx-push-url="true">Componente 2</a>
 </div>
 
-<div hx-get="/{{.componentName}}" hx-headers='{"standalone": "true"}' hx-trigger="load" hx-target="#layout-content" hx-push-url="true"></div>
+<div hx-get="/{{.layoutComponentDefault}}" hx-headers='{"standalone": "true"}' hx-trigger="load" hx-target="#layout-component-default" hx-push-url="true"></div>
 
-<div id="layout-content">
-    <!-- The content of the components will load here. -->
+<div id="layout-component-default">
 </div>

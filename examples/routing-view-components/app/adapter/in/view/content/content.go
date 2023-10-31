@@ -35,12 +35,13 @@ func init() {
 }
 
 func render(c echo.Context) error {
-	standalone := c.Request().Header.Get("standalone")
 	data := map[string]interface{}{
-		"componentName": "content",
+		"layoutComponentDefault":  "content",
+		"contentComponentDefault": "content/content-children-b", //Investigar la manera de pasar el contentComponentDefault por contexto
 	}
+	standalone := c.Request().Header.Get("standalone")
 	if standalone == "true" {
 		return c.Render(http.StatusOK, "content.html", data)
 	}
-	return c.Redirect(http.StatusSeeOther, "/?component-name=content")
+	return c.Render(http.StatusOK, "layout.html", data)
 }

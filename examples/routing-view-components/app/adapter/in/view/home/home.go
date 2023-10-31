@@ -4,11 +4,14 @@ import (
 	"embed"
 	"my-project-name/app/shared/archetype/container"
 	einar "my-project-name/app/shared/archetype/echo_server"
+	"my-project-name/app/shared/constants"
 	"net/http"
 
 	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
 )
+
+const component = "home"
 
 //go:embed *.html
 var html embed.FS
@@ -19,15 +22,15 @@ var css embed.FS
 func init() {
 	einar.EmbeddedPatterns = append(einar.EmbeddedPatterns, einar.EmbeddedPattern{
 		Content: html,
-		Pattern: "home.html",
+		Pattern: component + constants.DOT_HTML,
 	})
 	einar.EmbeddedPatterns = append(einar.EmbeddedPatterns, einar.EmbeddedPattern{
 		Content: css,
-		Pattern: "home.css",
+		Pattern: component + constants.DOT_CSS,
 	})
 	container.InjectInboundAdapter(func() error {
-		einar.Echo.GET("/home", render)
-		einar.Echo.GET("/home.css", echo.WrapHandler(http.FileServer(http.FS(css))))
+		einar.Echo.GET("/"+component, render)
+		einar.Echo.GET("/"+component+constants.DOT_CSS, echo.WrapHandler(http.FileServer(http.FS(css))))
 		return nil
 	}, container.InjectionProps{
 		DependencyID: uuid.NewString(),
@@ -36,13 +39,12 @@ func init() {
 
 // Ver la posibilidad de trasladar esto a un middleware
 func render(c echo.Context) error {
-	standalone := c.Request().Header.Get("standalone")
 	data := map[string]interface{}{
-		"componentName": "home",
+		"layoutComponentDefault": "home",
 	}
+	standalone := c.Request().Header.Get("standalone")
 	if standalone == "true" {
 		return c.Render(http.StatusOK, "home.html", data)
 	}
-	c.Request().Header.Set("component-name", "home")
-	return c.Redirect(http.StatusSeeOther, "/?component-name=home")
+	return c.Render(http.StatusOK, "layout.html", data)
 }

@@ -36,7 +36,12 @@ func init() {
 
 func render(c echo.Context) error {
 	data := map[string]interface{}{
-		"componentName": "content-children-a",
+		"layoutComponentDefault":  "content",
+		"contentComponentDefault": "content/content-children-a",
 	}
-	return c.Render(http.StatusOK, "content-children-a.html", data)
+	standalone := c.Request().Header.Get("standalone")
+	if standalone == "true" {
+		return c.Render(http.StatusOK, "content-children-a.html", data)
+	}
+	return c.Render(http.StatusOK, "layout.html", data)
 }

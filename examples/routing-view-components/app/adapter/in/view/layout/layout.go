@@ -35,14 +35,8 @@ func init() {
 }
 
 func render(c echo.Context) error {
-	componentName := c.QueryParam("component-name")
-
-	if componentName == "" {
-		componentName = "content"
-	}
-
 	data := map[string]interface{}{
-		"componentName": componentName,
+		"layoutComponentDefault": `content`,
 	}
 	return c.Render(http.StatusOK, "layout.html", data)
 }
