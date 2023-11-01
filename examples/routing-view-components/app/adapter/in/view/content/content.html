@@ -1,14 +1,7 @@
 <div>
-  <p> WELCOME TO CONTENT </p>
+    <p> WELCOME TO CONTENT </p>
 </div>
 
-<div id="navbar">
-  <a hx-get="/content/content-children-a" hx-headers='{"standalone": "true"}' hx-target="#content-component-default" hx-push-url="true">Componente 1</a>
-  <a hx-get="/content/content-children-b"  hx-headers='{"standalone": "true"}'  hx-target="#content-component-default" hx-push-url="true">Componente 2</a>
-</div>
-
-<div hx-get="/{{.contentComponentDefault}}" hx-headers='{"standalone": "true"}' hx-trigger="load" hx-target="#content-component-default" hx-push-url="true"></div>
-
+<div hx-get="/{{.Context.contentComponentDefault}}" hx-headers='{{.FlatContext}}' hx-trigger="load" hx-target="#content-component-default" hx-push-url="true"></div>
 <div id="content-component-default">
 </div>
-

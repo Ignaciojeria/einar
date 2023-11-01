@@ -1,12 +1,13 @@
 <link rel="stylesheet" href="/index.css"/>
 <script src="https://unpkg.com/htmx.org@1.9.6"></script>
+<script src="//unpkg.com/alpinejs" defer></script>
 
 <div id="navbar">
-    <a hx-get="/content" hx-headers='{"standalone": "true"}' hx-target="#layout-component-default" hx-push-url="true">Componente 1</a>
-    <a hx-get="/home"  hx-headers='{"standalone": "true"}'  hx-target="#layout-component-default" hx-push-url="true">Componente 2</a>
+    <a hx-get="/content" hx-headers='{{.FlatContext}}' hx-target="#layout-component-default" hx-push-url="true">Componente 1</a>
+    <a hx-get="/home"  hx-headers='{{.FlatContext}}'  hx-target="#layout-component-default" hx-push-url="true">Componente 2</a>
 </div>
 
-<div hx-get="/{{.layoutComponentDefault}}" hx-headers='{"standalone": "true"}' hx-trigger="load" hx-target="#layout-component-default" hx-push-url="true"></div>
+<div hx-get="/{{.Context.layoutComponentDefault}}" hx-headers='{{.FlatContext}}' hx-trigger="load" hx-target="#layout-component-default" hx-push-url="true"></div>
 
 <div id="layout-component-default">
 </div>

@@ -35,13 +35,12 @@ func init() {
 }
 
 func render(c echo.Context) error {
-	data := map[string]interface{}{
+	routerState := einar.NewRoutingState(c, map[string]string{
 		"layoutComponentDefault":  "content",
-		"contentComponentDefault": "content/content-children-b", //Investigar la manera de pasar el contentComponentDefault por contexto
+		"contentComponentDefault": "empty",
+	})
+	if c.Request().Header.Get("FlatContext") != "" {
+		return c.Render(http.StatusOK, "content.html", routerState)
 	}
-	standalone := c.Request().Header.Get("standalone")
-	if standalone == "true" {
-		return c.Render(http.StatusOK, "content.html", data)
-	}
-	return c.Render(http.StatusOK, "layout.html", data)
+	return c.Render(http.StatusOK, "layout.html", routerState)
 }

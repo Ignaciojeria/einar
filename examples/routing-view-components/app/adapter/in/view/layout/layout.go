@@ -35,8 +35,8 @@ func init() {
 }
 
 func render(c echo.Context) error {
-	data := map[string]interface{}{
-		"layoutComponentDefault": `content`,
-	}
-	return c.Render(http.StatusOK, "layout.html", data)
+	routerState := einar.NewRoutingState(c, map[string]string{
+		"layoutComponentDefault": "content",
+	})
+	return c.Render(http.StatusOK, "layout.html", routerState)
 }
