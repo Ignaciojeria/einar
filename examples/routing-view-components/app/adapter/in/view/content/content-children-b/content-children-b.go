@@ -39,23 +39,6 @@ func init() {
 
 // Ver la posibilidad de trasladar esto a un middleware
 func render(c echo.Context) error {
-	/*
-
-		return c.Render(http.StatusOK, "layout.html", routerState)
-	*/
-
-	/*
-		routerState := einar.NewRoutingState(c, map[string]string{
-			"layoutComponentDefault":  "content",
-			"contentComponentDefault": "content/content-children-b",
-		})
-
-		if c.Request().Header.Get("FlatContext") != "" {
-			return c.Render(http.StatusOK, "content-children-b.html", routerState)
-		}
-
-		return c.Render(http.StatusOK, "layout.html", routerState)*/
-
 	routerState := einar.NewRoutingState(c, map[string]string{
 		"layoutComponentDefault":  "content",
 		"contentComponentDefault": "content/content-children-b",

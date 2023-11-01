@@ -40,8 +40,7 @@ func init() {
 // Ver la posibilidad de trasladar esto a un middleware
 func render(c echo.Context) error {
 	routerState := einar.NewRoutingState(c, map[string]string{
-		"layoutComponentDefault":  "home",
-		"contentComponentDefault": "empty",
+		"layoutComponentDefault": "home",
 	})
 	if c.Request().Header.Get("FlatContext") != "" {
 		return c.Render(http.StatusOK, "home.html", routerState)

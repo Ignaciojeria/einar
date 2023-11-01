@@ -37,7 +37,7 @@ func init() {
 func render(c echo.Context) error {
 	routerState := einar.NewRoutingState(c, map[string]string{
 		"layoutComponentDefault":  "content",
-		"contentComponentDefault": "empty",
+		"contentComponentDefault": "content/content-children-b",
 	})
 	if c.Request().Header.Get("FlatContext") != "" {
 		return c.Render(http.StatusOK, "content.html", routerState)
