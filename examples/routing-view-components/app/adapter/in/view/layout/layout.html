@@ -1,13 +1,29 @@
 <link rel="stylesheet" href="/layout.css"/>
 <script src="https://unpkg.com/htmx.org@1.9.6"></script>
-<script src="//unpkg.com/alpinejs" defer></script>
+<link href="https://cdn.jsdelivr.net/npm/daisyui@3.9.4/dist/full.css" rel="stylesheet" type="text/css" />
+<script src="https://cdn.tailwindcss.com"></script>
 
-<div id="navbar">
-    <a hx-get="/content" hx-headers='{{.FlatContext}}' hx-target="#layout-component-default" hx-push-url="true">Componente 1</a>
-    <a hx-get="/home"  hx-headers='{{.FlatContext}}'  hx-target="#layout-component-default" hx-push-url="true">Componente 2</a>
-</div>
-
+<html  data-theme="business">
+<div class="navbar bg-primary text-primary-content">
+    <div class="navbar-start">
+      <div class="dropdown">
+        <label tabindex="0" class="btn btn-ghost lg:hidden">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
+        </label>
+      </div>
+      <a class="btn btn-ghost normal-case text-xl">daisyUI</a>
+    </div>
+    <div class="navbar-center hidden lg:flex">
+      <ul class="menu menu-horizontal px-1">
+        <li><a hx-get="/content" hx-headers='{{.FlatContext}}' hx-target="#layout-component-default" hx-push-url="true">Componente A</a></li>
+        <li><a hx-get="/home"  hx-headers='{{.FlatContext}}'  hx-target="#layout-component-default" hx-push-url="true" >Componente B</a></li>
+      </ul>
+    </div>
+    <div class="navbar-end">
+      <a class="btn">Button</a>
+    </div>
+  </div>
 <div hx-get="/{{.Context.layoutComponentDefault}}" hx-headers='{{.FlatContext}}' hx-trigger="load" hx-target="#layout-component-default" hx-push-url="true"></div>
-
 <div id="layout-component-default">
 </div>
+</html>
