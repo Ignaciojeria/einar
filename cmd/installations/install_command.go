@@ -1,15 +1,15 @@
 package installations
 
 import (
-	"github.com/Ignaciojeria/einar/cmd/domain"
-	"github.com/Ignaciojeria/einar/cmd/utils"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"os"
 	"os/exec"
 	"path/filepath"
-	"strings"
+
+	"github.com/Ignaciojeria/einar/cmd/domain"
+	"github.com/Ignaciojeria/einar/cmd/utils"
 )
 
 func InstallCommand(project string, commandName string) error {
@@ -28,7 +28,7 @@ func InstallCommand(project string, commandName string) error {
 	}
 
 	templateFolderPath, err := utils.GetTemplateFolderPath(cli.Template.URL)
-	if err !=nil{
+	if err != nil {
 		return err
 	}
 
@@ -47,7 +47,6 @@ func InstallCommand(project string, commandName string) error {
 	var installCommand domain.InstallationCommand
 	for _, command := range template.InstallationCommands {
 		if command.Name == commandName {
-			command.DestinationDir = command.DestinationDir
 			installCommand = command
 			break
 		}
@@ -58,7 +57,7 @@ func InstallCommand(project string, commandName string) error {
 	}
 
 	sourceDir := filepath.Join(templateFolderPath, installCommand.SourceDir)
-	destDir := filepath.Join( /*project*/ "", installCommand.DestinationDir)
+	destDir := filepath.Join( /*project*/ "", installCommand.SourceDir)
 
 	err = utils.CopyDirectory(sourceDir, destDir, []string{`"archetype`, "${project}"}, []string{`"` + project, project})
 	if err != nil {
@@ -82,10 +81,19 @@ func InstallCommand(project string, commandName string) error {
 		return fmt.Errorf("failed to update .einar.template.json: %v", err)
 	}
 
-	setupFilePath := filepath.Join( /*project*/ "", "app/shared/archetype/setup.go")
-	err = utils.AddImportStatement(setupFilePath, fmt.Sprintf(project+"/app/shared/archetype/%s", strings.ReplaceAll(commandName, "-", "_")))
+	// After copying, get all relative paths in the new destination directory
+	relativePaths, err := utils.ListRelativePaths(sourceDir)
 	if err != nil {
-		return fmt.Errorf("failed to add import statement to setup.go: %v", err)
+		return fmt.Errorf("failed to list relative paths in %s: %v", sourceDir, err)
+	}
+
+	relativePaths = append(relativePaths, sourceDir)
+	setupFilePath := filepath.Join( /*project*/ "", "app/shared/archetype/setup.go")
+	for _, v := range relativePaths {
+		err = utils.AddImportStatement(setupFilePath, fmt.Sprintf(project+"/"+v))
+		if err != nil {
+			return fmt.Errorf("failed to add import statement to setup.go: %v", err)
+		}
 	}
 
 	return nil
