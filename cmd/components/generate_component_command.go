@@ -106,7 +106,7 @@ func GenerateComponenteCommand(project string, componentKind string, componentNa
 		// Remove the first folder from Dir
 		file.DestinationDir = strings.TrimPrefix(file.DestinationDir, baseFolder+"/")
 		file.Port.DestinationDir = strings.TrimPrefix(file.Port.DestinationDir, baseFolder+"/")
-
+/*
 		if file.IocDiscovery && !installCommand.HasComponentDir {
 			err = utils.AddImportStatement(setupFilePath, fmt.Sprintf(cli.Project+"/"+baseFolder+"/"+nestedFolders+file.DestinationDir))
 		}
@@ -120,10 +120,31 @@ func GenerateComponenteCommand(project string, componentKind string, componentNa
 			return fmt.Errorf("failed to add import statement to setup.go: %v", err)
 		}
 
+*/
+		if file.IocDiscovery {
+			importPath := cli.Project + "/" + baseFolder + "/" + nestedFolders + file.DestinationDir
+			if file.HasComponentDir {
+				componentDir := utils.ConvertStringCase(componentName, "snake_case")
+				importPath = filepath.Join(importPath, componentDir)
+			}
+			err := utils.AddImportStatement(setupFilePath, importPath)
+			if err != nil {
+				return fmt.Errorf("failed to add import statement to setup.go: %v", err)
+			}
+		}
+
 		// Construct the source and destination paths
 		sourcePath := filepath.Join(templateFolderPath, file.SourceFile)
 		var destinationPath string
 
+		if file.HasComponentDir {
+			component := utils.ConvertStringCase(componentName, "snake_case")
+			destinationPath = filepath.Join(baseFolder, nestedFolders, file.DestinationDir, component, component+filepath.Ext(file.SourceFile))
+		} else {
+			destinationPath = filepath.Join(baseFolder, nestedFolders, file.DestinationDir, utils.ConvertStringCase(componentName, "snake_case")+filepath.Ext(file.SourceFile))
+		}
+
+		/*
 		if installCommand.HasComponentDir {
 			component := utils.ConvertStringCase(componentName, "snake_case")
 			destinationPath = baseFolder + "/" + nestedFolders + file.DestinationDir + "/" + component + "/" + component + filepath.Ext(file.SourceFile)
@@ -131,7 +152,7 @@ func GenerateComponenteCommand(project string, componentKind string, componentNa
 
 		if !installCommand.HasComponentDir {
 			destinationPath = baseFolder + "/" + nestedFolders + file.DestinationDir + "/" + utils.ConvertStringCase(componentName, "snake_case") + filepath.Ext(file.SourceFile)
-		}
+		}*/
 
 		placeHolders := []string{`"archetype`}
 		placeHoldersReplace := []string{`"` + project}

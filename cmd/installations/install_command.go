@@ -81,20 +81,25 @@ func InstallCommand(project string, commandName string) error {
 		return fmt.Errorf("failed to update .einar.template.json: %v", err)
 	}
 
-	// After copying, get all relative paths in the new destination directory
-	relativePaths, err := utils.ListRelativePaths(sourceDir)
+	setupFilePath := filepath.Join( /*project*/ "", "app/shared/archetype/setup.go")
+
+	err = utils.AddImportStatement(setupFilePath, fmt.Sprintf(project+"/"+installCommand.SourceDir))
 	if err != nil {
-		return fmt.Errorf("failed to list relative paths in %s: %v", sourceDir, err)
+		return fmt.Errorf("failed to add import statement to setup.go: %v", err)
 	}
 
-	relativePaths = append(relativePaths, sourceDir)
-	setupFilePath := filepath.Join( /*project*/ "", "app/shared/archetype/setup.go")
-	for _, v := range relativePaths {
-		err = utils.AddImportStatement(setupFilePath, fmt.Sprintf(project+"/"+v))
+	firstLevelDirs, err := utils.ListFirstLevelDirs(sourceDir)
+	if err != nil {
+		return fmt.Errorf("failed to list first level directories: %v", err)
+	}
+
+	for _, v := range firstLevelDirs {
+		err = utils.AddImportStatement(setupFilePath, fmt.Sprintf(project+"/"+installCommand.SourceDir+"/"+v))
 		if err != nil {
 			return fmt.Errorf("failed to add import statement to setup.go: %v", err)
 		}
 	}
+
 
 	return nil
 }

@@ -39,7 +39,6 @@ type InstallationsBase struct {
 type ComponentCommands struct {
 	Kind            string          `json:"kind"`
 	Name            string          `json:"name"`
-	HasComponentDir bool            `json:"has_component_dir"`
 	ComponentFiles  []ComponentFile `json:"files"`
 	DependsOn       []string        `json:"depends_on"`
 }
@@ -48,6 +47,7 @@ type ComponentFile struct {
 	SourceFile     string          `json:"source_file"`
 	DestinationDir string          `json:"destination_dir"`
 	IocDiscovery   bool            `json:"ioc_discovery"`
+	HasComponentDir bool            `json:"has_component_dir"`
 	Port           Port            `json:"port"`
 	ReplaceHolders []ReplaceHolder `json:"replace_holders"`
 }
