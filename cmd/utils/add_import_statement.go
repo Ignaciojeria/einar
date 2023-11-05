@@ -8,6 +8,7 @@ import (
 )
 
 func AddImportStatement(filePath, importPath string) error {
+	importPath = strings.ReplaceAll(importPath, "\\", "/")
 	file, err := os.Open(filePath)
 	if err != nil {
 		return err
