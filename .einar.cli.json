@@ -41,6 +41,10 @@
         {
             "kind": "usecase",
             "name": "einar-generate"
+        },
+        {
+            "kind": "cmd",
+            "name": "generate"
         }
     ]
 }
