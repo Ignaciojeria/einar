@@ -1,10 +1,7 @@
-/*
-Copyright © 2023 NAME HERE <EMAIL ADDRESS>
-*/
 package main
 
-import "github.com/Ignaciojeria/einar/cmd"
+import "github.com/Ignaciojeria/einar/app/shared/archetype"
 
 func main() {
-	cmd.Execute()
+	archetype.Setup()
 }

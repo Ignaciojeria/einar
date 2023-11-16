@@ -1,10 +1,11 @@
 package utils
 
 import (
-	"github.com/Ignaciojeria/einar/cmd/domain"
 	"encoding/json"
 	"io/ioutil"
 	"os"
+
+	"github.com/Ignaciojeria/einar/app/domain"
 )
 
 func ReadEinarCli() (domain.EinarCli, error) {

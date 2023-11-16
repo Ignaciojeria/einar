@@ -6,7 +6,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/Ignaciojeria/einar/cmd/domain"
+	"github.com/Ignaciojeria/einar/app/domain"
 )
 
 func ReadEinarTemplateFromBinaryPath(templateFolder string) (domain.EinarTemplate, error) {

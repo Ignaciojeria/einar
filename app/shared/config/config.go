@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/Ignaciojeria/einar/app/shared/archetype/slog"
+
 	"github.com/joho/godotenv"
 )
 
@@ -40,6 +41,7 @@ const DATABASE_POSTGRES_PORT Config = "DATABASE_POSTGRES_PORT"
 const DATABASE_POSTGRES_NAME Config = "DATABASE_POSTGRES_NAME"
 const DATABASE_POSTGRES_USERNAME Config = "DATABASE_POSTGRES_USERNAME"
 const DATABASE_POSTGRES_PASSWORD Config = "DATABASE_POSTGRES_PASSWORD"
+const DATABASE_POSTGRES_SSL_MODE Config = "DATABASE_POSTGRES_SSL_MODE"
 
 // Redis configuration
 const REDIS_ADDRESS Config = "REDIS_ADDRESS"
@@ -69,10 +71,7 @@ func Setup() error {
 
 	// Check that all required environment variables are set
 	requiredEnvVars := []Config{
-		//ARCHETYPE CONFIGURATION
-		PORT,
-		COUNTRY,
-		SERVICE,
+		//PUT YOUR REQUIRED CUSTOM ENVIRONMENT VARIABLES HERE
 	}
 
 	if Installations.EnablePubSub || Installations.EnableFirestore {
@@ -85,6 +84,7 @@ func Setup() error {
 		requiredEnvVars = append(requiredEnvVars, DATABASE_POSTGRES_NAME)
 		requiredEnvVars = append(requiredEnvVars, DATABASE_POSTGRES_USERNAME)
 		requiredEnvVars = append(requiredEnvVars, DATABASE_POSTGRES_PASSWORD)
+		requiredEnvVars = append(requiredEnvVars, DATABASE_POSTGRES_SSL_MODE)
 	}
 
 	if Installations.EnableRedis {
@@ -101,6 +101,7 @@ func Setup() error {
 
 	if len(errs) > 0 {
 		slog.Logger.Error("error loading environment variables", "notFoundEnvironments", errs)
+		//log.Error().Strs("notFoundEnvironments", errs).Msg("error loading environment variables")
 		return fmt.Errorf("error loading environment variables: %v", errs)
 	}
 
