@@ -95,8 +95,6 @@ func init() {
 	container.InjectInboundAdapter(func() error {
 		einar.Echo.GET("/INSERT_YOUR_PATTERN_HERE", getCustomer)
 		return nil
-	}, container.InjectionProps{
-		DependencyID: uuid.NewString(),
 	})
 }
 
@@ -190,8 +188,6 @@ func init() {
 		subscription_setup.ReceiveSettings.MaxOutstandingMessages = 5
 		go PullCustomerCreated(subscription_setup.Receive, subscription_name)
 		return nil
-	}, container.InjectionProps{
-		DependencyID: uuid.NewString(),
 	})
 }
 
