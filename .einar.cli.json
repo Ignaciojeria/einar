@@ -45,6 +45,14 @@
         {
             "kind": "cmd",
             "name": "generate"
+        },
+        {
+            "kind": "cmd",
+            "name": "connect"
+        },
+        {
+            "kind": "cmd",
+            "name": "shutdown"
         }
     ]
 }
