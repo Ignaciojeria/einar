@@ -66,7 +66,6 @@ func Setup() error {
 	errs := []string{}
 
 	if err := godotenv.Load(); err != nil {
-		slog.Logger.Warn(".env file not found getting environments from system")
 	}
 
 	// Check that all required environment variables are set
