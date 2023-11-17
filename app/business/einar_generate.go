@@ -1,6 +1,7 @@
-package components
+package business
 
 import (
+	"context"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -8,11 +9,12 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/Ignaciojeria/einar/cmd/domain"
-	"github.com/Ignaciojeria/einar/cmd/utils"
+	"github.com/Ignaciojeria/einar/app/domain"
+	"github.com/Ignaciojeria/einar/app/domain/ports/in"
+	"github.com/Ignaciojeria/einar/app/shared/utils"
 )
 
-func GenerateComponenteCommand(project string, componentKind string, componentName string) error {
+var EinarGenerate in.EinarGenerate = func(ctx context.Context, project string, componentKind string, componentName string) error {
 
 	// read einar.cli.json
 	cliPath := filepath.Join(".einar.cli.json")
@@ -106,21 +108,21 @@ func GenerateComponenteCommand(project string, componentKind string, componentNa
 		// Remove the first folder from Dir
 		file.DestinationDir = strings.TrimPrefix(file.DestinationDir, baseFolder+"/")
 		file.Port.DestinationDir = strings.TrimPrefix(file.Port.DestinationDir, baseFolder+"/")
-/*
-		if file.IocDiscovery && !installCommand.HasComponentDir {
-			err = utils.AddImportStatement(setupFilePath, fmt.Sprintf(cli.Project+"/"+baseFolder+"/"+nestedFolders+file.DestinationDir))
-		}
+		/*
+			if file.IocDiscovery && !installCommand.HasComponentDir {
+				err = utils.AddImportStatement(setupFilePath, fmt.Sprintf(cli.Project+"/"+baseFolder+"/"+nestedFolders+file.DestinationDir))
+			}
 
-		if file.IocDiscovery && installCommand.HasComponentDir {
-			component := utils.ConvertStringCase(componentName, "snake_case")
-			err = utils.AddImportStatement(setupFilePath, fmt.Sprintf(cli.Project+"/"+baseFolder+"/"+nestedFolders+file.DestinationDir+"/"+component))
-		}
+			if file.IocDiscovery && installCommand.HasComponentDir {
+				component := utils.ConvertStringCase(componentName, "snake_case")
+				err = utils.AddImportStatement(setupFilePath, fmt.Sprintf(cli.Project+"/"+baseFolder+"/"+nestedFolders+file.DestinationDir+"/"+component))
+			}
 
-		if file.IocDiscovery && err != nil {
-			return fmt.Errorf("failed to add import statement to setup.go: %v", err)
-		}
+			if file.IocDiscovery && err != nil {
+				return fmt.Errorf("failed to add import statement to setup.go: %v", err)
+			}
 
-*/
+		*/
 		if file.IocDiscovery {
 			importPath := cli.Project + "/" + baseFolder + "/" + nestedFolders + file.DestinationDir
 			if file.HasComponentDir {
@@ -145,14 +147,14 @@ func GenerateComponenteCommand(project string, componentKind string, componentNa
 		}
 
 		/*
-		if installCommand.HasComponentDir {
-			component := utils.ConvertStringCase(componentName, "snake_case")
-			destinationPath = baseFolder + "/" + nestedFolders + file.DestinationDir + "/" + component + "/" + component + filepath.Ext(file.SourceFile)
-		}
+			if installCommand.HasComponentDir {
+				component := utils.ConvertStringCase(componentName, "snake_case")
+				destinationPath = baseFolder + "/" + nestedFolders + file.DestinationDir + "/" + component + "/" + component + filepath.Ext(file.SourceFile)
+			}
 
-		if !installCommand.HasComponentDir {
-			destinationPath = baseFolder + "/" + nestedFolders + file.DestinationDir + "/" + utils.ConvertStringCase(componentName, "snake_case") + filepath.Ext(file.SourceFile)
-		}*/
+			if !installCommand.HasComponentDir {
+				destinationPath = baseFolder + "/" + nestedFolders + file.DestinationDir + "/" + utils.ConvertStringCase(componentName, "snake_case") + filepath.Ext(file.SourceFile)
+			}*/
 
 		placeHolders := []string{`"archetype`}
 		placeHoldersReplace := []string{`"` + project}
@@ -187,5 +189,70 @@ func GenerateComponenteCommand(project string, componentKind string, componentNa
 		}
 		fmt.Printf("File copied successfully from %s to %s.\n", sourcePath, destinationPath)
 	}
+	return nil
+}
+
+func addComponentInsideCli(componentKind string, componentName string) error {
+	// read einar.cli.json
+	cliPath := filepath.Join(".einar.cli.json")
+	cliBytes, err := ioutil.ReadFile(cliPath)
+	if err != nil {
+		return fmt.Errorf("failed to read .einar.cli.json: %v", err)
+	}
+
+	var cli domain.EinarCli
+	err = json.Unmarshal(cliBytes, &cli)
+	if err != nil {
+		return fmt.Errorf("failed to unmarshal .einar.cli.json: %v", err)
+	}
+
+	templateFolderPath, err := utils.GetTemplateFolderPath(cli.Template.URL)
+	if err != nil {
+		return err
+	}
+
+	// read einar.template.json
+	templatePath := filepath.Join(templateFolderPath, ".einar.template.json")
+	templateBytes, err := ioutil.ReadFile(templatePath)
+	if err != nil {
+		return fmt.Errorf("failed to read .einar.template.json: %v", err)
+	}
+
+	var template domain.EinarTemplate
+	err = json.Unmarshal(templateBytes, &template)
+	if err != nil {
+		return fmt.Errorf("failed to unmarshal .einar.template.json: %v", err)
+	}
+
+	// find the command
+	var command domain.ComponentCommands
+	for _, cmd := range template.ComponentCommands {
+		if cmd.Kind == componentKind {
+			command = cmd
+			break
+		}
+	}
+
+	if command.Kind == "" {
+		return fmt.Errorf("command %s not found in .einar.template.json", componentKind)
+	}
+
+	// add the command to the CLI
+	cli.Components = append(cli.Components, domain.Component{
+		Kind: componentKind,
+		Name: componentName,
+	})
+
+	// write back the updated einar.cli.json
+	cliBytes, err = json.MarshalIndent(cli, "", "    ")
+	if err != nil {
+		return fmt.Errorf("failed to marshal .einar.cli.json: %v", err)
+	}
+
+	err = ioutil.WriteFile(cliPath, cliBytes, 0644)
+	if err != nil {
+		return fmt.Errorf("failed to write .einar.cli.json: %v", err)
+	}
+
 	return nil
 }

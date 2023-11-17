@@ -1,0 +1,58 @@
+{
+    "version": "${version}",
+    "project": "github.com/Ignaciojeria/einar",
+    "template": {
+        "id": "d11193b5-a7b7-435f-823b-4d36edb4f5d2",
+        "url": "https://github.com/Ignaciojeria/einar-cli-template"
+    },
+    "installations": [
+        {
+            "name": "cobra-cli",
+            "libraries": [
+                "github.com/spf13/cobra"
+            ]
+        }
+    ],
+    "components": [
+        {
+            "kind": "cmd",
+            "name": "version"
+        },
+        {
+            "kind": "cmd",
+            "name": "init"
+        },
+        {
+            "kind": "usecase",
+            "name": "einar-init"
+        },
+        {
+            "kind": "cmd",
+            "name": "einar-install"
+        },
+        {
+            "kind": "cmd",
+            "name": "install"
+        },
+        {
+            "kind": "usecase",
+            "name": "einar-install"
+        },
+        {
+            "kind": "usecase",
+            "name": "einar-generate"
+        },
+        {
+            "kind": "cmd",
+            "name": "generate"
+        },
+        {
+            "kind": "cmd",
+            "name": "connect"
+        },
+        {
+            "kind": "cmd",
+            "name": "shutdown"
+        }
+    ]
+}
