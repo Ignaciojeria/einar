@@ -65,8 +65,7 @@ func Setup() error {
 
 	errs := []string{}
 
-	if err := godotenv.Load(); err != nil {
-	}
+	godotenv.Load();
 
 	// Check that all required environment variables are set
 	requiredEnvVars := []Config{
