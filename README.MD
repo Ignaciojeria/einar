@@ -128,7 +128,8 @@ Make sure to allocate the following configuration in the .env file located at th
 ``` .env
 #ENABLE FOR PUBSUB OR FIRESTORE ARCHETYPE INSTALLATION
 GOOGLE_PROJECT_ID = "secret"
-GOOGLE_APPLICATION_CRETENTIALS_B64 = "base64_secret"
+#optional and only if you are working with a service account
+GOOGLE_APPLICATION_CRETENTIALS = "path/of/your/optional/serviceAccount.json"
 ```
 
 ## :hammer: Google PubSub - Inbound Adapter
