@@ -58,45 +58,101 @@ var EinarInstall in.EinarInstall = func(ctx context.Context, project, commandNam
 		return fmt.Errorf("%s command not found in .einar.template.json", commandName)
 	}
 
-	sourceDir := filepath.Join(templateFolderPath, installCommand.SourceDir)
-	destDir := filepath.Join( /*project*/ "", installCommand.SourceDir)
-
-	err = utils.CopyDirectory(sourceDir, destDir, []string{`"archetype`, "${project}"}, []string{`"` + project, project})
-	if err != nil {
-		return fmt.Errorf("error cloning %s directory: %v", commandName, err)
+	if installCommand.SourceDir != "" && installCommand.DestinationDir != "" {
+		installCommand.Folders = append(installCommand.Folders,
+			domain.InstallationFolder{
+				SourceDir:      installCommand.SourceDir,
+				DestinationDir: installCommand.DestinationDir,
+				IocDiscovery:   true,
+			})
 	}
 
-	fmt.Printf("%s directory cloned successfully to %s.\n", commandName, destDir)
+	placeHolders := []string{`"archetype`, "${project}"}
+	placeHoldersReplace := []string{`"` + project, project}
+	for _, folder := range installCommand.Folders {
+		sourceDir := filepath.Join(templateFolderPath, folder.SourceDir)
+		destDir := filepath.Join( /*project*/ "", folder.DestinationDir)
 
-	for _, lib := range installCommand.Libraries {
-		cmd := exec.Command("go", "get", lib)
-		cmd.Dir = "" /*project*/
-		cmd.Stdout = os.Stdout
-		cmd.Stderr = os.Stderr
-		err := cmd.Run()
+		err = utils.CopyDirectory(sourceDir, destDir, placeHolders, placeHoldersReplace)
 		if err != nil {
-			return fmt.Errorf("error installing %s library %s: %v", commandName, lib, err)
+			return fmt.Errorf("error cloning %s directory: %v", commandName, err)
+		}
+
+		fmt.Printf("%s directory cloned successfully to %s.\n", commandName, destDir)
+
+		for _, lib := range installCommand.Libraries {
+			cmd := exec.Command("go", "get", lib)
+			cmd.Dir = "" /*project*/
+			cmd.Stdout = os.Stdout
+			cmd.Stderr = os.Stderr
+			err := cmd.Run()
+			if err != nil {
+				return fmt.Errorf("error installing %s library %s: %v", commandName, lib, err)
+			}
+		}
+
+		if err := addInstallationInsideCli( /*"project"*/ "", commandName); err != nil {
+			return fmt.Errorf("failed to update .einar.template.json: %v", err)
+		}
+
+		if !folder.IocDiscovery {
+			continue
+		}
+
+		setupFilePath := filepath.Join( /*project*/ "", "app/shared/archetype/setup.go")
+
+		err = utils.AddImportStatement(setupFilePath, fmt.Sprintf(project+"/"+folder.SourceDir))
+		if err != nil {
+			return fmt.Errorf("failed to add import statement to setup.go: %v", err)
+		}
+
+		firstLevelDirs, err := utils.ListFirstLevelDirs(sourceDir)
+		if err != nil {
+			return fmt.Errorf("failed to list first level directories: %v", err)
+		}
+
+		for _, v := range firstLevelDirs {
+			err = utils.AddImportStatement(setupFilePath, fmt.Sprintf(project+"/"+folder.SourceDir+"/"+v))
+			if err != nil {
+				return fmt.Errorf("failed to add import statement to setup.go: %v", err)
+			}
 		}
 	}
 
-	if err := addInstallationInsideCli( /*"project"*/ "", commandName); err != nil {
-		return fmt.Errorf("failed to update .einar.template.json: %v", err)
-	}
+	for _, file := range installCommand.Files {
 
-	setupFilePath := filepath.Join( /*project*/ "", "app/shared/archetype/setup.go")
+		sourceDir := filepath.Join(templateFolderPath, file.SourceFile)
+		destDir := filepath.Join( /*project*/ "", file.DestinationDir+"/"+filepath.Base(file.SourceFile))
 
-	err = utils.AddImportStatement(setupFilePath, fmt.Sprintf(project+"/"+installCommand.SourceDir))
-	if err != nil {
-		return fmt.Errorf("failed to add import statement to setup.go: %v", err)
-	}
+		err = utils.CopyFile(sourceDir, destDir, placeHolders, placeHoldersReplace)
+		if err != nil {
+			return fmt.Errorf("error cloning %s directory: %v", commandName, err)
+		}
 
-	firstLevelDirs, err := utils.ListFirstLevelDirs(sourceDir)
-	if err != nil {
-		return fmt.Errorf("failed to list first level directories: %v", err)
-	}
+		fmt.Printf("%s directory cloned successfully to %s.\n", commandName, destDir)
 
-	for _, v := range firstLevelDirs {
-		err = utils.AddImportStatement(setupFilePath, fmt.Sprintf(project+"/"+installCommand.SourceDir+"/"+v))
+		for _, lib := range installCommand.Libraries {
+			cmd := exec.Command("go", "get", lib)
+			cmd.Dir = "" /*project*/
+			cmd.Stdout = os.Stdout
+			cmd.Stderr = os.Stderr
+			err := cmd.Run()
+			if err != nil {
+				return fmt.Errorf("error installing %s library %s: %v", commandName, lib, err)
+			}
+		}
+
+		if err := addInstallationInsideCli( /*"project"*/ "", commandName); err != nil {
+			return fmt.Errorf("failed to update .einar.template.json: %v", err)
+		}
+
+		if !file.IocDiscovery {
+			continue
+		}
+
+		setupFilePath := filepath.Join( /*project*/ "", "app/shared/archetype/setup.go")
+
+		err = utils.AddImportStatement(setupFilePath, fmt.Sprintf(project+"/"+file.DestinationDir))
 		if err != nil {
 			return fmt.Errorf("failed to add import statement to setup.go: %v", err)
 		}

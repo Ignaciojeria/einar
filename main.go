@@ -1,7 +1,10 @@
 package main
 
-import "github.com/Ignaciojeria/einar/app/shared/archetype"
+import (
+	_ "github.com/Ignaciojeria/einar/app/adapter/in/cli"
+	"github.com/Ignaciojeria/einar/app/shared/archetype/cmd"
+)
 
 func main() {
-	archetype.Setup()
+	cmd.RootCmd.Execute()
 }

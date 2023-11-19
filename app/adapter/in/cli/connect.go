@@ -1,8 +1,10 @@
 package cli
 
 import (
-	"github.com/Ignaciojeria/einar/app/shared/archetype/cmd"
 	"fmt"
+
+	"github.com/Ignaciojeria/einar/app/shared/archetype"
+	"github.com/Ignaciojeria/einar/app/shared/archetype/cmd"
 
 	"github.com/spf13/cobra"
 )
@@ -18,5 +20,9 @@ var connectCmd = &cobra.Command{
 }
 
 func runconnect(cmd *cobra.Command, args []string) {
+	if err := archetype.Setup(); err != nil {
+		fmt.Println(err)
+		return
+	}
 	fmt.Println("connect command not implemented yet")
 }

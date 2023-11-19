@@ -65,8 +65,8 @@ func Setup() error {
 
 	errs := []string{}
 
-	godotenv.Load();
-
+	godotenv.Load()
+	os.Setenv(string(PORT), "5555")
 	// Check that all required environment variables are set
 	requiredEnvVars := []Config{
 		//PUT YOUR REQUIRED CUSTOM ENVIRONMENT VARIABLES HERE
