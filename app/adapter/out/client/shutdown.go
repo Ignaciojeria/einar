@@ -10,8 +10,8 @@ import (
 )
 
 var Shutdown out.Shutdown = func(ctx context.Context) (err error) {
+	einar.LoadDependency()()
 	client := einar.Client
-
 	// Realiza una solicitud POST al endpoint de apagado
 	resp, err := client.R().
 		SetContext(ctx).
