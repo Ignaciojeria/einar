@@ -15,6 +15,7 @@ func init() {
 
 func LoadDependency() container.LoadDependency {
 	var dependency container.LoadDependency = func() error {
+		//Customize your resty client here :
 		Client = resty.New()
 		return nil
 	}
