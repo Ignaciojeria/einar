@@ -1,8 +1,8 @@
 package cli
 
 import (
+	"github.com/Ignaciojeria/einar/app/adapter/out/client"
 	"github.com/Ignaciojeria/einar/app/shared/archetype/cmd"
-	"fmt"
 
 	"github.com/spf13/cobra"
 )
@@ -18,5 +18,5 @@ var shutdownCmd = &cobra.Command{
 }
 
 func runshutdown(cmd *cobra.Command, args []string) {
-	fmt.Println("shutdown command not implemented yet")
+	client.Shutdown(cmd.Context())
 }

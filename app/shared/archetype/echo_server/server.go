@@ -1,11 +1,12 @@
 package echo_server
 
 import (
+	"fmt"
+
 	"github.com/Ignaciojeria/einar/app/shared/archetype/container"
 	"github.com/Ignaciojeria/einar/app/shared/archetype/slog"
 	"github.com/Ignaciojeria/einar/app/shared/config"
 	"github.com/Ignaciojeria/einar/app/shared/constants"
-	"fmt"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"

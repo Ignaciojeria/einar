@@ -6,6 +6,8 @@ import (
 	"github.com/Ignaciojeria/einar/app/shared/archetype/container"
 	_ "github.com/Ignaciojeria/einar/app/shared/archetype/echo_server"
 	"github.com/Ignaciojeria/einar/app/shared/config"
+	_ "github.com/Ignaciojeria/einar/app/shared/archetype/resty"
+	_ "github.com/Ignaciojeria/einar/app/adapter/out/client"
 )
 
 // ARCHETYPE CONFIGURATION

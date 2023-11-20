@@ -70,6 +70,10 @@
         {
             "kind": "post-controller",
             "name": "shutdown"
+        },
+        {
+            "kind": "http-client",
+            "name": "shutdown"
         }
     ]
 }
