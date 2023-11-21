@@ -45,6 +45,7 @@ type InstallationCommand struct {
 	Files          []InstallationFile   `json:"files"`
 	Command        string               `json:"command"`
 	Libraries      []string             `json:"libraries"`
+	DependsOn      []string             `json:"depends_on"`
 }
 
 type InstallationsBase struct {

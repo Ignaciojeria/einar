@@ -3,6 +3,7 @@ package business
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"os"
@@ -67,6 +68,25 @@ var EinarInstall in.EinarInstall = func(ctx context.Context, project, commandNam
 			})
 	}
 
+	installationsMap := make(map[string]bool)
+	for _, installation := range cli.Installations {
+		installationsMap[installation.Name] = true
+	}
+
+	// Verificar si las dependencias están presentes
+	var dependsOn []string
+	for _, dependency := range installCommand.DependsOn {
+		if !installationsMap[dependency] {
+			dependsOn = append(dependsOn, dependency)
+			fmt.Println("einar install " + dependency)
+		}
+	}
+
+	// Devolver error si hay dependencias faltantes
+	if len(dependsOn) > 0 {
+		return errors.New("dependencies are not present")
+	}
+
 	placeHolders := []string{`"archetype`, "${project}"}
 	placeHoldersReplace := []string{`"` + project, project}
 	for _, folder := range installCommand.Folders {
@@ -89,10 +109,6 @@ var EinarInstall in.EinarInstall = func(ctx context.Context, project, commandNam
 			if err != nil {
 				return fmt.Errorf("error installing %s library %s: %v", commandName, lib, err)
 			}
-		}
-
-		if err := addInstallationInsideCli( /*"project"*/ "", commandName); err != nil {
-			return fmt.Errorf("failed to update .einar.template.json: %v", err)
 		}
 
 		if !folder.IocDiscovery {
@@ -142,10 +158,6 @@ var EinarInstall in.EinarInstall = func(ctx context.Context, project, commandNam
 			}
 		}
 
-		if err := addInstallationInsideCli( /*"project"*/ "", commandName); err != nil {
-			return fmt.Errorf("failed to update .einar.template.json: %v", err)
-		}
-
 		if !file.IocDiscovery {
 			continue
 		}
@@ -156,6 +168,10 @@ var EinarInstall in.EinarInstall = func(ctx context.Context, project, commandNam
 		if err != nil {
 			return fmt.Errorf("failed to add import statement to setup.go: %v", err)
 		}
+	}
+
+	if err := addInstallationInsideCli( /*"project"*/ "", commandName); err != nil {
+		return fmt.Errorf("failed to update .einar.template.json: %v", err)
 	}
 
 	return nil
