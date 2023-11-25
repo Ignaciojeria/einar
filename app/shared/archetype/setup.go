@@ -2,12 +2,13 @@ package archetype
 
 import (
 	_ "github.com/Ignaciojeria/einar/app/adapter/in/controller"
+	_ "github.com/Ignaciojeria/einar/app/adapter/out/client"
 	_ "github.com/Ignaciojeria/einar/app/business"
 	"github.com/Ignaciojeria/einar/app/shared/archetype/container"
 	_ "github.com/Ignaciojeria/einar/app/shared/archetype/echo_server"
-	"github.com/Ignaciojeria/einar/app/shared/config"
+	_ "github.com/Ignaciojeria/einar/app/shared/archetype/nats"
 	_ "github.com/Ignaciojeria/einar/app/shared/archetype/resty"
-	_ "github.com/Ignaciojeria/einar/app/adapter/out/client"
+	"github.com/Ignaciojeria/einar/app/shared/config"
 )
 
 // ARCHETYPE CONFIGURATION

@@ -74,6 +74,10 @@
         {
             "kind": "http-client",
             "name": "shutdown"
+        },
+        {
+            "kind": "post-controller",
+            "name": "chat-completions"
         }
     ]
 }
