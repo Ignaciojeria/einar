@@ -402,3 +402,10 @@ var SaveCustomer out.SaveCustomer = func(ctx context.Context, REPLACE_BY_YOUR_DO
 ## :handshake: Contributing
 
 (Contribution guidelines here)
+
+## ROADMAP
+- embedded nats-server
+- cloud run cicd deployment installation
+- secret-manager installation
+- secret management repository template
+- gitpod button to init faster
