@@ -7,6 +7,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"strings"
 
 	"github.com/Ignaciojeria/einar/app/domain"
 	"github.com/Ignaciojeria/einar/app/domain/ports/in"
@@ -60,6 +61,13 @@ func createInitialFilesFromTemplate(templateFilePath string, project string) err
 		return fmt.Errorf("error unmarshalling JSON file: %v for project %v", err, project)
 	}
 
+	// Extraer el tag del templateFilePath
+	pathParts := strings.Split(templateFilePath, "/")
+	if len(pathParts) < 1 {
+		return fmt.Errorf("invalid template file path: %s", templateFilePath)
+	}
+	latestGitTag := pathParts[len(pathParts)-1]
+
 	// Iterate over the Files slice
 	for _, file := range template.BaseTemplate.Files {
 		// Construct the source and destination paths
@@ -67,7 +75,7 @@ func createInitialFilesFromTemplate(templateFilePath string, project string) err
 		destinationPath := file.DestinationFile
 
 		// Copy the file
-		err = utils.CopyFile(sourcePath, destinationPath, []string{`"archetype`, "${project}"}, []string{`"` + project, project})
+		err = utils.CopyFile(sourcePath, destinationPath, []string{`"archetype`, "${project}", "${latest-git-tag}"}, []string{`"` + project, project, latestGitTag})
 		if err != nil {
 			return fmt.Errorf("error copying file from %s to %s: %v for project %v", sourcePath, destinationPath, err, project)
 		}

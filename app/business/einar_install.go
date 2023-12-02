@@ -30,7 +30,12 @@ var EinarInstall in.EinarInstall = func(ctx context.Context, project, commandNam
 		return fmt.Errorf("failed to unmarshal .einar.cli.json: %v", err)
 	}
 
-	templateFolderPath, err := utils.GetTemplateFolderPath(cli.Template.URL)
+	tagFolder := ""
+	if cli.Template.Tag != "" {
+		tagFolder = "/" + cli.Template.Tag
+	}
+
+	templateFolderPath, err := utils.GetTemplateFolderPath(cli.Template.URL + tagFolder)
 	if err != nil {
 		return err
 	}
@@ -192,7 +197,12 @@ func addInstallationInsideCli(project, commandName string) error {
 		return fmt.Errorf("failed to unmarshal .einar.cli.json: %v", err)
 	}
 
-	templateFolderPath, err := utils.GetTemplateFolderPath(cli.Template.URL)
+	tagFolder := ""
+	if cli.Template.Tag != "" {
+		tagFolder = "/" + cli.Template.Tag
+	}
+
+	templateFolderPath, err := utils.GetTemplateFolderPath(cli.Template.URL + tagFolder)
 	if err != nil {
 		return err
 	}

@@ -1,15 +1,14 @@
 package domain
 
 type EinarCli struct {
-	Version       string         `json:"version"`
 	Project       string         `json:"project"`
-	Template 	  Template 		 `json:"template"`
+	Template      Template       `json:"template"`
 	Installations []Installation `json:"installations"`
 	Components    []Component    `json:"components"`
 }
 
 type Template struct {
-	ID  string `json:"id"`
+	Tag string `json:"tag"`
 	URL string `json:"url"`
 }
 

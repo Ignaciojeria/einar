@@ -29,7 +29,12 @@ var EinarGenerate in.EinarGenerate = func(ctx context.Context, project string, c
 		return fmt.Errorf("failed to unmarshal .einar.cli.json: %v", err)
 	}
 
-	templateFolderPath, err := utils.GetTemplateFolderPath(cli.Template.URL)
+	tagFolder := ""
+	if cli.Template.Tag != "" {
+		tagFolder = "/" + cli.Template.Tag
+	}
+
+	templateFolderPath, err := utils.GetTemplateFolderPath(cli.Template.URL + tagFolder)
 	if err != nil {
 		return err
 	}
@@ -181,7 +186,11 @@ func addComponentInsideCli(componentKind string, componentName string) error {
 		return fmt.Errorf("failed to unmarshal .einar.cli.json: %v", err)
 	}
 
-	templateFolderPath, err := utils.GetTemplateFolderPath(cli.Template.URL)
+	tagFolder := ""
+	if cli.Template.Tag != "" {
+		tagFolder = "/" + cli.Template.Tag
+	}
+	templateFolderPath, err := utils.GetTemplateFolderPath(cli.Template.URL + tagFolder)
 	if err != nil {
 		return err
 	}
