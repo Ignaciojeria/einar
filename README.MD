@@ -405,8 +405,9 @@ var SaveCustomer out.SaveCustomer = func(ctx context.Context, REPLACE_BY_YOUR_DO
 
 ## ROADMAP
 - Implement template repository tags for backward compatibility and stability 
-- embedded nats-server
-- cloud run cicd deployment installation
+- OpenTelemetry support for all components
 - secret-manager installation
 - secret management repository template
+- embedded nats-server
+- cloud run cicd deployment installation
 - gitpod button to init faster
