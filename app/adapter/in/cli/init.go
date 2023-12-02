@@ -29,8 +29,7 @@ func runInitCmd(cmd *cobra.Command, args []string) {
 		return
 	}
 	repositoryURL := args[1]
-	utils.GitCloneTemplateInBinaryPath(repositoryURL, args[2])
-	templatePath, err := utils.GetTemplateFolderPath(repositoryURL)
+	templatePath, err := utils.GitCloneTemplateInBinaryPath(repositoryURL, args[2])
 	if err != nil {
 		fmt.Println("error getting template path")
 		return
