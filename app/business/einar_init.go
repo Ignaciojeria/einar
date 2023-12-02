@@ -62,7 +62,8 @@ func createInitialFilesFromTemplate(templateFilePath string, project string) err
 	}
 
 	// Extraer el tag del templateFilePath
-	pathParts := strings.Split(templateFilePath, "/")
+	normalizedPath := strings.ReplaceAll(templateFilePath, "\\", "/")
+	pathParts := strings.Split(normalizedPath, "/")
 	if len(pathParts) < 1 {
 		return fmt.Errorf("invalid template file path: %s", templateFilePath)
 	}
