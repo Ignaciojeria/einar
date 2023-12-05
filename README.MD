@@ -405,7 +405,7 @@ var SaveCustomer out.SaveCustomer = func(ctx context.Context, REPLACE_BY_YOUR_DO
 
 ## ROADMAP
 - Implement template repository tags for backward compatibility and stability (DONE)
-- Automatic template pulling for existing einar projects (In progress)
+- Automatic template pulling for existing einar projects (DONE)
 - OpenTelemetry support for all components
 - secret-manager installation
 - secret management repository template
