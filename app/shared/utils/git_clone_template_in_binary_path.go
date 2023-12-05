@@ -12,7 +12,7 @@ import (
 	"github.com/go-git/go-git/v5/plumbing/transport/http"
 )
 
-func GitCloneTemplateInBinaryPath(repositoryUrl, userCreds string) (string, error) {
+func GitCloneTemplateInBinaryPath(repositoryUrl, userCreds, tag string) (string, error) {
 	targetPath, err := GetTemplateFolderPath(repositoryUrl)
 	if err != nil {
 		fmt.Println(err)
@@ -46,27 +46,30 @@ func GitCloneTemplateInBinaryPath(repositoryUrl, userCreds string) (string, erro
 		return "", err
 	}
 
-	// Obtén el tag más reciente
+	// Abrir el repositorio clonado
 	repo, err := git.PlainOpen(tmpDir)
 	if err != nil {
 		fmt.Println("Failed to open repository:", err)
 		return "", err
 	}
 
-	tagRefs, err := repo.Tags()
-	if err != nil {
-		fmt.Println("Failed to list tags:", err)
-		return "", err
-	}
+	effectiveTag := tag
+	if tag == "" {
+		// Obtén el tag más reciente si no se proporciona uno
+		tagRefs, err := repo.Tags()
+		if err != nil {
+			fmt.Println("Failed to list tags:", err)
+			return "", err
+		}
 
-	var latestTag string
-	err = tagRefs.ForEach(func(ref *plumbing.Reference) error {
-		latestTag = ref.Name().Short()
-		return nil
-	})
-	if err != nil {
-		fmt.Println("Failed to iterate over tags:", err)
-		return "", err
+		err = tagRefs.ForEach(func(ref *plumbing.Reference) error {
+			effectiveTag = ref.Name().Short()
+			return nil
+		})
+		if err != nil {
+			fmt.Println("Failed to iterate over tags:", err)
+			return "", err
+		}
 	}
 
 	w, err := repo.Worktree()
@@ -76,7 +79,7 @@ func GitCloneTemplateInBinaryPath(repositoryUrl, userCreds string) (string, erro
 	}
 
 	err = w.Checkout(&git.CheckoutOptions{
-		Branch: plumbing.ReferenceName(fmt.Sprintf("refs/tags/%s", latestTag)),
+		Branch: plumbing.ReferenceName(fmt.Sprintf("refs/tags/%s", effectiveTag)),
 	})
 	if err != nil {
 		fmt.Println("Failed to checkout tag:", err)
@@ -84,7 +87,7 @@ func GitCloneTemplateInBinaryPath(repositoryUrl, userCreds string) (string, erro
 	}
 
 	// Mover contenido del directorio temporal al directorio final
-	tagFolderPath := filepath.Join(targetPath, latestTag)
+	tagFolderPath := filepath.Join(targetPath, effectiveTag)
 	if err := os.MkdirAll(tagFolderPath, os.ModePerm); err != nil {
 		fmt.Println("Failed to create tag folder:", err)
 		return "", err
