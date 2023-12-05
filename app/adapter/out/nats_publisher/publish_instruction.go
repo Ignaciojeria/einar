@@ -10,5 +10,5 @@ import (
 
 var PublishInstruction = func(ctx context.Context, e domain.Instruction) error {
 	b, _ := json.Marshal(e)
-	return einar.Conn.Publish(einar.EinarTopic, b)
+	return einar.Conn.Publish(e.BrokerTopic, b)
 }

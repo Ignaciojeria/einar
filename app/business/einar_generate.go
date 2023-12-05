@@ -42,6 +42,12 @@ var EinarGenerate in.EinarGenerate = func(ctx context.Context, project string, c
 	jsonFilePath := filepath.Join(templateFolderPath, ".einar.template.json")
 	jsonContentBytes, err := ioutil.ReadFile(jsonFilePath)
 	if err != nil {
+		utils.GitCloneTemplateInBinaryPath(cli.Template.URL, "no-auth", cli.Template.Tag)
+		jsonFilePath := filepath.Join(templateFolderPath, ".einar.template.json")
+		jsonContentBytes, err = ioutil.ReadFile(jsonFilePath)
+	}
+
+	if err != nil {
 		return fmt.Errorf("error reading JSON file: %v for project %v", err, project)
 	}
 
