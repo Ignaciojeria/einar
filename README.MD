@@ -11,7 +11,7 @@ With EinarCLI, get ready to turn up the heat 🔥 on your programming skills and
 ## 🔧 Installation
 To install EinarCLI, use the following command:
 
-    go install github.com/Ignaciojeria/einar@v1.24.0
+    go install github.com/Ignaciojeria/einar@v1.34.0
 
 To verify your EinarCLI installation, run:
 
@@ -405,7 +405,8 @@ var SaveCustomer out.SaveCustomer = func(ctx context.Context, REPLACE_BY_YOUR_DO
 
 ## ROADMAP
 - Implement template repository tags for backward compatibility and stability (DONE)
-- Automatic template pulling for existing einar projects (DONE)
+- Automatic template pulling for existing public einar projects (DONE)
+- Automatic template pulling for existing private einar projects
 - OpenTelemetry support for all components
 - secret-manager installation
 - secret management repository template
