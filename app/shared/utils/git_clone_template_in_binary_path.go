@@ -6,7 +6,6 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
-	"sort"
 
 	git "github.com/go-git/go-git/v5"
 	"github.com/go-git/go-git/v5/plumbing"
@@ -30,17 +29,25 @@ func GitCloneTemplateInBinaryPath(repositoryUrl, userCreds string) (string, erro
 		auth = &http.BasicAuth{Username: user, Password: token}
 	}
 
-	_, err = git.PlainClone(targetPath, false, &git.CloneOptions{
+	// Clonar en un directorio temporal
+	tmpDir, err := ioutil.TempDir("", "git-")
+	if err != nil {
+		return "", fmt.Errorf("error creating temp dir: %v", err)
+	}
+	defer os.RemoveAll(tmpDir) // Limpia el directorio temporal después
+
+	_, err = git.PlainClone(tmpDir, false, &git.CloneOptions{
 		URL:      repositoryUrl,
 		Progress: os.Stdout,
 		Auth:     auth,
 	})
 	if err != nil {
-		fmt.Println("Failed to clone repository:", err)
+		fmt.Println("Failed to clone repository into temp folder:", err)
 		return "", err
 	}
 
-	repo, err := git.PlainOpen(targetPath)
+	// Obtén el tag más reciente
+	repo, err := git.PlainOpen(tmpDir)
 	if err != nil {
 		fmt.Println("Failed to open repository:", err)
 		return "", err
@@ -52,23 +59,16 @@ func GitCloneTemplateInBinaryPath(repositoryUrl, userCreds string) (string, erro
 		return "", err
 	}
 
-	var tags []string
+	var latestTag string
 	err = tagRefs.ForEach(func(ref *plumbing.Reference) error {
-		tags = append(tags, ref.Name().Short())
+		latestTag = ref.Name().Short()
 		return nil
 	})
 	if err != nil {
 		fmt.Println("Failed to iterate over tags:", err)
 		return "", err
 	}
-	sort.Strings(tags)
-	if len(tags) == 0 {
-		fmt.Println("No tags found in the repository")
-		return "", err
-	}
-	latestTag := tags[len(tags)-1]
 
-	// Hacer checkout al tag más reciente
 	w, err := repo.Worktree()
 	if err != nil {
 		fmt.Println("Failed to get worktree:", err)
@@ -83,13 +83,13 @@ func GitCloneTemplateInBinaryPath(repositoryUrl, userCreds string) (string, erro
 		return "", err
 	}
 
+	// Mover contenido del directorio temporal al directorio final
 	tagFolderPath := filepath.Join(targetPath, latestTag)
 	if err := os.MkdirAll(tagFolderPath, os.ModePerm); err != nil {
 		fmt.Println("Failed to create tag folder:", err)
 		return "", err
 	}
-
-	if err := moveDirectoryContents(targetPath, tagFolderPath, latestTag); err != nil {
+	if err := moveDirectoryContents(tmpDir, tagFolderPath); err != nil {
 		fmt.Println("Failed to move repository content:", err)
 		return "", err
 	}
@@ -98,16 +98,13 @@ func GitCloneTemplateInBinaryPath(repositoryUrl, userCreds string) (string, erro
 	return tagFolderPath, nil
 }
 
-func moveDirectoryContents(srcDir, destDir, excludeDirName string) error {
+func moveDirectoryContents(srcDir, destDir string) error {
 	entries, err := ioutil.ReadDir(srcDir)
 	if err != nil {
 		return err
 	}
 
 	for _, entry := range entries {
-		if entry.Name() == excludeDirName {
-			continue
-		}
 
 		srcPath := filepath.Join(srcDir, entry.Name())
 		destPath := filepath.Join(destDir, entry.Name())
