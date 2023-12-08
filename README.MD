@@ -153,67 +153,41 @@ For example, when you generate a subscription using the `einar generate subscrip
 ```go
 package subscription
 
-var pull_customer_created_stop bool = false
-
-type pullCustomerCreated struct {
-	subscriptionName string
-}
-// DEFAULT CONSTRUCTOR
-func PullCustomerCreated(
-	r subscription.Receive,
-	subscriptionName string) (pullCustomerCreated, error) {
-	if pull_customer_created_stop {
-		return pullCustomerCreated{}, nil
-	}
-	s := pullCustomerCreated{
-		subscriptionName: subscriptionName,
-	}
-	ctx := context.Background()
-	if err := r(ctx, subscription.Middleware(subscriptionName, s.receive)); err != nil {
-		log.
-			Error().
-			Err(err).
-			Str(constants.SUBSCRIPTION_NAME, subscriptionName).
-			Msg(constants.SUSBCRIPTION_SIGNAL_BROKEN)
-		time.Sleep(10 * time.Second)
-		go PullCustomerCreated(r, subscriptionName)
-		return s, err
-	}
-	return s, nil
-}
- // DEFAULT SUBSCRIPTION CONFIGURATION SETUP
 func init() {
-	const subscription_name = "INSERT YOUR SUBSCRIPTION NAME"
+	const subscriptionName = "INSERT_YOUR_SUBSCRIPTION_NAME_HERE"
+
+	processMessage := func(ctx context.Context, m *pubsub.Message) (err error) {
+		var dataModel interface{}
+
+		defer subscription.HandleMessageAcknowledgement(ctx, &subscription.HandleMessageAcknowledgementDetails{
+			SubscriptionName: subscriptionName,
+			Error:            err,
+			Message:          m,
+			ErrorsRequiringNack: []error{
+				exception.INTERNAL_SERVER_ERROR,
+			},
+			CustomLogFields: map[string]interface{}{
+				"dataModel": dataModel,
+			},
+		})
+		if err := json.Unmarshal(m.Data, &dataModel); err != nil {
+			return err
+		}
+		// HANDLE EVENT HERE
+		return nil
+	}
+
 	container.InjectInboundAdapter(func() error {
-		subscription_setup := einar.Client.Subscription(subscription_name)
-		subscription_setup.ReceiveSettings.MaxOutstandingMessages = 5
-		go PullCustomerCreated(subscription_setup.Receive, subscription_name)
+		subRef := einar.Client.Subscription(subscriptionName)
+		subRef.ReceiveSettings.MaxOutstandingMessages = 5
+		settings := subRef.Receive
+		go subscription.
+			New(subscriptionName, processMessage, settings).
+			WithPushHandler(einar.PushHandlerTopic + subscriptionName).
+			Start()
 		return nil
 	})
-}
 
-func (s pullCustomerCreated) receive(ctx context.Context, m *pubsub.Message) {
-	s.processMessage(ctx, m)
-}
-
-func (s pullCustomerCreated) processMessage(ctx context.Context, m *pubsub.Message) error {
-
-	//PUT HERE YOUR SUBSCRIPTION PROCESS
-
-	var replace_by_your_model interface{}
-	err := json.Unmarshal(m.Data, &replace_by_your_model)
-
-	if err != nil {
-		log.
-			Error().
-			Str(constants.SUBSCRIPTION_NAME, s.subscriptionName).
-			Err(err).
-			Msg("error unmarshaling m.Data")
-		m.Ack()
-		return err
-	}
-	m.Ack()
-	return nil
 }
 
 ```
