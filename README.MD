@@ -201,14 +201,6 @@ Creating a new Google PubSub Outbound Adapter, in our case, involves generating 
 
 ```bash
 /app
-  /domain
-    /ports
-      /out
-	- publish_customer.go # Generated with 'einar generate publisher publish-customer'
-```
-
-```bash
-/app
   /adapter
     /out
       /publisher
@@ -238,7 +230,7 @@ import (
 	"cloud.google.com/go/pubsub"
 )
 
-var PublishCustomer out.PublishCustomer = func(ctx context.Context, REPLACE_BY_YOUR_DOMAIN map[string]string) error {
+var PublishCustomer = func(ctx context.Context, REPLACE_BY_YOUR_DOMAIN map[string]string) error {
 
 	bytes, err := json.Marshal(REPLACE_BY_YOUR_DOMAIN)
 	if err != nil {
@@ -298,14 +290,6 @@ Creating a new Google Firestore Outbound Adapter, in our case, involves generati
 
 ```bash
 /app
-  /domain
-    /ports
-      /out
-	- save_customer.go # Generated with 'einar generate firestore-repository save-customer'
-```
-
-```bash
-/app
   /adapter
     /out
       /firestore
@@ -316,24 +300,16 @@ Creating a new Google Firestore Outbound Adapter, in our case, involves generati
 For example, when you generate a repository using the `einar generate firestore-repository save-customer` command, Einar CLI will create a new .go files with the following structure:
 
 ```go
-package out
-
-type SaveCustomer func(ctx context.Context, REPLACE_BY_YOUR_DOMAIN map[string]string) error
-
-```
-
-```go
 package firestore
 
 import (
 	"archetype/app/domain/ports/out"
 	einar "archetype/app/shared/archetype/firestore"
 	"context"
-
 	"cloud.google.com/go/firestore"
 )
 
-var SaveCustomer out.SaveCustomer = func(ctx context.Context, REPLACE_BY_YOUR_DOMAIN map[string]string) error {
+var SaveCustomer = func(ctx context.Context, REPLACE_BY_YOUR_DOMAIN map[string]string) error {
 	// einar.Collection("INSERT_YOUR_COLLECTION_CONSTANT_HERE") returns an instance of *firestore.CollectionRef type.
 	// For more details, please consult the documentation here: https://firebase.google.com/docs/firestore/quickstart?hl=es-419#go
 	var _ *firestore.CollectionRef = einar.Collection("INSERT_YOUR_COLLECTION_CONSTANT_HERE")
