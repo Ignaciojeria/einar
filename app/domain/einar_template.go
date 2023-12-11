@@ -65,6 +65,8 @@ type ComponentFile struct {
 	DestinationDir  string          `json:"destination_dir"`
 	IocDiscovery    bool            `json:"ioc_discovery"`
 	HasComponentDir bool            `json:"has_component_dir"`
+	AppendAtStart   string          `json:"append_at_start"`
+	AppendAtEnd     string          `json:"append_at_end"`
 	Port            Port            `json:"port"`
 	ReplaceHolders  []ReplaceHolder `json:"replace_holders"`
 }
