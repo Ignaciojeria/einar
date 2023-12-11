@@ -153,42 +153,38 @@ For example, when you generate a subscription using the `einar generate subscrip
 ```go
 package subscription
 
-func init() {
-	const subscriptionName = "INSERT_YOUR_SUBSCRIPTION_NAME_HERE"
-
-	processMessage := func(ctx context.Context, m *pubsub.Message) (err error) {
-		var dataModel interface{}
-
-		defer subscription.HandleMessageAcknowledgement(ctx, &subscription.HandleMessageAcknowledgementDetails{
-			SubscriptionName: subscriptionName,
-			Error:            err,
-			Message:          m,
-			ErrorsRequiringNack: []error{
-				exception.INTERNAL_SERVER_ERROR,
-			},
-			CustomLogFields: map[string]interface{}{
-				"dataModel": dataModel,
-			},
-		})
-		if err := json.Unmarshal(m.Data, &dataModel); err != nil {
-			return err
-		}
-		// HANDLE EVENT HERE
-		return nil
-	}
-
-	container.InjectInboundAdapter(func() error {
-		subRef := einar.Client.Subscription(subscriptionName)
-		subRef.ReceiveSettings.MaxOutstandingMessages = 5
-		settings := subRef.Receive
-		go subscription.
-			New(subscriptionName, processMessage, settings).
-			WithPushHandler(einar.PushHandlerTopic + subscriptionName).
-			Start()
-		return nil
+var archetype_subscription = func(ctx context.Context, subscriptionName string, m *pubsub.Message) (err error) {
+	var dataModel interface{}
+	defer subscription.HandleMessageAcknowledgement(ctx, &subscription.HandleMessageAcknowledgementDetails{
+		SubscriptionName: subscriptionName,
+		Error:            err,
+		Message:          m,
+		ErrorsRequiringNack: []error{
+			exception.INTERNAL_SERVER_ERROR,
+		},
+		CustomLogFields: map[string]interface{}{
+			"dataModel": dataModel,
+		},
 	})
-
+	if err := json.Unmarshal(m.Data, &dataModel); err != nil {
+		return err
+	}
+	return nil
 }
+
+var archetypeInboundAdapterConfig = func() error {
+	var subscriptionName = "INSERT YOUR SUBSCRIPTION NAME"
+	subRef := einar.Client().Subscription(subscriptionName)
+	subRef.ReceiveSettings.MaxOutstandingMessages = 5
+	settings := subRef.Receive
+	go subscription.
+		New(subscriptionName, archetype_subscription, settings).
+		WithPushHandler(constants.DefaultPushHandlerPrefix + subscriptionName).
+		Start()
+	return nil
+}
+
+var _ = container.InjectInboundAdapter(archetypeInboundAdapterConfig)
 
 ```
 
