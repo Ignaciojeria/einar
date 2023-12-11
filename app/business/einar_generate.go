@@ -137,9 +137,9 @@ var EinarGenerate in.EinarGenerate = func(ctx context.Context, project string, c
 
 		if file.HasComponentDir {
 			component := utils.ConvertStringCase(componentName, "snake_case")
-			destinationPath = filepath.Join(baseFolder, nestedFolders, file.DestinationDir, component, component+filepath.Ext(file.SourceFile))
+			destinationPath = filepath.Join(baseFolder, nestedFolders, file.DestinationDir, component, component+file.AppendAtEnd+filepath.Ext(file.SourceFile))
 		} else {
-			destinationPath = filepath.Join(baseFolder, nestedFolders, file.DestinationDir, utils.ConvertStringCase(componentName, "snake_case")+filepath.Ext(file.SourceFile))
+			destinationPath = filepath.Join(baseFolder, nestedFolders, file.DestinationDir, utils.ConvertStringCase(componentName, "snake_case")+file.AppendAtEnd+filepath.Ext(file.SourceFile))
 		}
 
 		placeHolders := []string{`"archetype`}
