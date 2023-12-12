@@ -6,7 +6,7 @@ With EinarCLI, get ready to turn up the heat 🔥 on your programming skills and
 
 ## Minimum Requirements
 
-- [Golang 1.20](https://golang.org/doc/install)
+- [Golang 1.21](https://golang.org/doc/install)
 
 ## 🔧 Installation
 To install EinarCLI, use the following command:
