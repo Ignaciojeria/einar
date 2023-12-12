@@ -153,7 +153,20 @@ For example, when you generate a subscription using the `einar generate subscrip
 ```go
 package subscription
 
-var archetype_subscription = func(ctx context.Context, subscriptionName string, m *pubsub.Message) (err error) {
+import (
+	"context"
+	"encoding/json"
+
+	"my-project-name/app/exception"
+	"my-project-name/app/shared/archetype/container"
+	einar "my-project-name/app/shared/archetype/pubsub"
+	"my-project-name/app/shared/archetype/pubsub/subscription"
+	"my-project-name/app/shared/constants"
+
+	"cloud.google.com/go/pubsub"
+)
+
+var pullCustomerCreated = func(ctx context.Context, subscriptionName string, m *pubsub.Message) (err error) {
 	var dataModel interface{}
 	defer subscription.HandleMessageAcknowledgement(ctx, &subscription.HandleMessageAcknowledgementDetails{
 		SubscriptionName: subscriptionName,
@@ -172,20 +185,19 @@ var archetype_subscription = func(ctx context.Context, subscriptionName string, 
 	return nil
 }
 
-var archetypeInboundAdapterConfig = func() error {
+var pullCustomerCreatedConfig = func() error {
 	var subscriptionName = "INSERT YOUR SUBSCRIPTION NAME"
 	subRef := einar.Client().Subscription(subscriptionName)
 	subRef.ReceiveSettings.MaxOutstandingMessages = 5
 	settings := subRef.Receive
 	go subscription.
-		New(subscriptionName, archetype_subscription, settings).
+		New(subscriptionName, pullCustomerCreated, settings).
 		WithPushHandler(constants.DefaultPushHandlerPrefix + subscriptionName).
 		Start()
 	return nil
 }
 
-var _ = container.InjectInboundAdapter(archetypeInboundAdapterConfig)
-
+var _ = container.InjectInboundAdapter(pullCustomerCreatedConfig)
 ```
 
 ## :hammer: Google PubSub - Outbound Adapter
