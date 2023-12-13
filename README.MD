@@ -5,7 +5,7 @@ EinarCLI is a blazingly fast 🔥 and powerful command-line interface tool desig
 With EinarCLI, get ready to turn up the heat 🔥 on your programming skills and develop applications like never before!
 
 <p align="center">
-  <img src="https://i.ibb.co/pJw5MDr/Whats-App-Image-2023-11-07-at-15-08-28.jpg" width="300" height="300"/>
+  <img src="https://i.ibb.co/pJw5MDr/Whats-App-Image-2023-11-07-at-15-08-28.jpg" width="300" height="350"/>
 </p>
 
 ## Minimum Requirements
