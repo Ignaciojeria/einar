@@ -224,20 +224,28 @@ For example, when you generate a publisher using the `einar generate publisher p
 package pubsub
 
 import (
-	"archetype/app/domain/ports/out"
-	einar "archetype/app/shared/archetype/pubsub"
+	"my-project-name/app/exception"
+	"my-project-name/app/shared/archetype/pubsub/topic"
+	"my-project-name/app/shared/archetype/slog"
+	"my-project-name/app/shared/constants"
 	"context"
 	"encoding/json"
-	"fmt"
-
 	"cloud.google.com/go/pubsub"
+	"go.opentelemetry.io/otel/attribute"
+	"go.opentelemetry.io/otel/codes"
+	"go.opentelemetry.io/otel/trace"
 )
 
-var PublishCustomer = func(ctx context.Context, REPLACE_BY_YOUR_DOMAIN map[string]string) error {
+var PublishCustomer = func(ctx context.Context, REPLACE_BY_YOUR_DOMAIN map[string]string) (err error) {
+	topicName := "INSERT YOUR TOPIC NAME HERE"
+
+	_, span := topic.Tracer.Start(ctx, "PublishCustomer",
+		trace.WithAttributes(attribute.String(constants.TopicName, topicName)),
+	)
+	defer span.End()
 
 	bytes, err := json.Marshal(REPLACE_BY_YOUR_DOMAIN)
 	if err != nil {
-		fmt.Println("Error:", err)
 		return err
 	}
 
@@ -248,21 +256,24 @@ var PublishCustomer = func(ctx context.Context, REPLACE_BY_YOUR_DOMAIN map[strin
 		},
 		Data: bytes,
 	}
-	// einar.Topic("INSERT YOUR TOPIC NAME HERE") returns an instance of *pubsub.Topic type.
-	// For more details, please consult the documentation here: https://pkg.go.dev/cloud.google.com/go/pubsub#section-readme
-	result := einar.Topic("INSERT YOUR TOPIC NAME HERE").Publish(ctx, message)
-
+	result := topic.Get(topicName).Publish(ctx, message)
 	// Get the server-generated message ID.
 	messageID, err := result.Get(ctx)
+
 	if err != nil {
-		// Handle the error
-		fmt.Println("Error occurred while publishing the result:", err.Error())
-		// Perform any necessary error handling actions
-		return err
+		span.SetStatus(codes.Error, err.Error())
+		span.RecordError(err)
+
+		slog.
+			SpanLogger(span).
+			Error(exception.PUBSUB_BROKER_ERROR.Error(),
+				constants.Error, err.Error())
+
+		return exception.PUBSUB_BROKER_ERROR
 	}
 
 	// Successful publishing
-	fmt.Println("Message published with ID:", messageID)
+
 	return nil
 }
 ```
