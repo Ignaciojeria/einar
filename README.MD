@@ -1,5 +1,5 @@
 
-![github-einar.jpg](https://i.postimg.cc/5th4rV4S/github-einar.jpg)
+[github-einar.jpg](https://i.postimg.cc/5th4rV4S/github-einar.jpg)
 
 # 🔥EinarCLI: Accelerate Your Application Development🔥
 
