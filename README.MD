@@ -361,8 +361,7 @@ var SaveCustomer = func(ctx context.Context, REPLACE_BY_YOUR_DOMAIN map[string]s
 - Automatic template pulling for existing public einar projects (DONE)
 - Remove ports to avoid early Abstraction (DONE)
 - Template tags for backward compatibility with projects using older versions (DONE)
-- Automatic template pulling for existing private einar projects
-- OpenTelemetry support for all components
+- OpenTelemetry support for all components (DONE)
 - secret-manager installation
 - secret management repository template
 - embedded nats-server
