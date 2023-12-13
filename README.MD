@@ -4,6 +4,8 @@ EinarCLI is a blazingly fast 🔥 and powerful command-line interface tool desig
 
 With EinarCLI, get ready to turn up the heat 🔥 on your programming skills and develop applications like never before!
 
+![](https://i.ibb.co/pJw5MDr/Whats-App-Image-2023-11-07-at-15-08-28.jpg)
+
 ## Minimum Requirements
 
 - [Golang 1.21](https://golang.org/doc/install)
