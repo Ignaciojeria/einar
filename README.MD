@@ -6,7 +6,7 @@ With EinarCLI, get ready to turn up the heat 🔥 on your programming skills and
 
 
 <p align="center">
-  <img src="https://ibb.co/7t3d7Gp"/>
+  <img src="https://i.ibb.co/F4QLGBY/github-einar.jpg"/>
 </p>
 
 
