@@ -42,8 +42,8 @@ To check the port that your HTTP server is using for your application, you can r
 # DONT STORE YOUR ENVIRONMENT VARIABLES ON YOUR REPOSITORY!
 PORT = "8080"
 COUNTRY = "CL"
-SERVICE = "my-project-name"
-ENV = "local"
+PROJECT_NAME = "my-project-name"
+ENVIRONMENT = "local"
 ```
 
 
