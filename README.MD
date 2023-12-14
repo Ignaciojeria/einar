@@ -383,5 +383,5 @@ var SaveCustomer = func(ctx context.Context, REPLACE_BY_YOUR_DOMAIN map[string]s
 - secret management repository template
 - embedded nats-server (IN TESTING)
 - cloud run cicd deployment installation
-- implement and test cloud run open telemetry collector sidecar
+- implement and test cloud run open telemetry collector sidecar https://cloud.google.com/blog/products/serverless/cloud-run-now-supports-multi-container-deployments
 - gitpod button to init faster
