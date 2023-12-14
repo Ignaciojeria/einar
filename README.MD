@@ -378,6 +378,7 @@ var SaveCustomer = func(ctx context.Context, REPLACE_BY_YOUR_DOMAIN map[string]s
 - Unit Testing
 - Integration Testing
 - Documentation WebSite
+- Contribution GuideLines
 - secret-manager installation
 - secret management repository template
 - embedded nats-server (IN TESTING)
