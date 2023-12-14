@@ -373,8 +373,10 @@ var SaveCustomer = func(ctx context.Context, REPLACE_BY_YOUR_DOMAIN map[string]s
 - Remove ports to avoid early Abstraction (DONE)
 - Template tags for backward compatibility with projects using older versions (DONE)
 - OpenTelemetry support for all components (DONE)
+- Check Jaeger open telemetry integration (DONE)
+- Check Datadog open telemtry integration (DONE)
 - secret-manager installation
 - secret management repository template
-- embedded nats-server
+- embedded nats-server (IN TESTING)
 - cloud run cicd deployment installation
 - gitpod button to init faster
