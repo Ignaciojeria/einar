@@ -383,4 +383,5 @@ var SaveCustomer = func(ctx context.Context, REPLACE_BY_YOUR_DOMAIN map[string]s
 - secret management repository template
 - embedded nats-server (IN TESTING)
 - cloud run cicd deployment installation
+- implement and test cloud run open telemetry collector sidecar
 - gitpod button to init faster
