@@ -375,6 +375,7 @@ var SaveCustomer = func(ctx context.Context, REPLACE_BY_YOUR_DOMAIN map[string]s
 - OpenTelemetry support for all components (DONE)
 - Check Jaeger open telemetry integration (DONE)
 - Check Datadog open telemtry integration (DONE)
+- TraceProviderFabric for datadog trace provider and google trace provider.
 - Unit Testing
 - Integration Testing
 - Documentation WebSite
