@@ -7,7 +7,11 @@ import (
 	"strings"
 )
 
-func AddImportStatement(filePath, importPath string) error {
+func AddImportStatement(filePath, importPath string, tagFolder string) error {
+	if tagFolder > "4.2.0" {
+		//Automatic imports are not needed for future einar templates.
+		return nil
+	}
 	importPath = strings.ReplaceAll(importPath, "\\", "/")
 	file, err := os.Open(filePath)
 	if err != nil {

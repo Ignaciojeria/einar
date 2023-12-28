@@ -44,6 +44,12 @@ var EinarInit in.EinarInit = func(ctx context.Context, templateFilePath string, 
 
 func createInitialFilesFromTemplate(templateFilePath string, project string) error {
 
+	moduleName, err := utils.ReadTemplateModuleName(templateFilePath)
+
+	if err != nil {
+		return fmt.Errorf("error reading template module path")
+	}
+
 	fmt.Println(templateFilePath)
 	// Construct the path to the JSON file relative to the binary
 	jsonFilePath := filepath.Join(templateFilePath, ".einar.template.json")
@@ -76,7 +82,7 @@ func createInitialFilesFromTemplate(templateFilePath string, project string) err
 		destinationPath := file.DestinationFile
 
 		// Copy the file
-		err = utils.CopyFile(sourcePath, destinationPath, []string{`"archetype`, "${project}", "${latest-git-tag}"}, []string{`"` + project, project, latestGitTag})
+		err = utils.CopyFile(sourcePath, destinationPath, []string{`"` + moduleName, "${project}", "${latest-git-tag}"}, []string{`"` + project, project, latestGitTag})
 		if err != nil {
 			return fmt.Errorf("error copying file from %s to %s: %v for project %v", sourcePath, destinationPath, err, project)
 		}
@@ -104,6 +110,12 @@ func createInitialDirectoriesFromTemplate(templateFilePath string, project strin
 		return fmt.Errorf("error unmarshalling JSON file: %v for project %v", err, project)
 	}
 
+	moduleName, err := utils.ReadTemplateModuleName(templateFilePath)
+
+	if err != nil {
+		return fmt.Errorf("error reading template module path")
+	}
+
 	// Iterate over the Folders slice
 	for _, folder := range template.BaseTemplate.Folders {
 		// Construct the source and destination paths
@@ -113,7 +125,7 @@ func createInitialDirectoriesFromTemplate(templateFilePath string, project strin
 		// Copy the directory
 		err = utils.CopyDirectory(
 			sourceDir, destinationDir,
-			[]string{`"archetype`, "${project}"},
+			[]string{`"` + moduleName, "${project}"},
 			[]string{`"` + project, project})
 
 		if err != nil {

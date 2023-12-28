@@ -128,7 +128,7 @@ var EinarInstall in.EinarInstall = func(ctx context.Context, project, commandNam
 
 		setupFilePath := filepath.Join( /*project*/ "", "app/shared/archetype/setup.go")
 
-		err = utils.AddImportStatement(setupFilePath, fmt.Sprintf(project+"/"+folder.SourceDir))
+		err = utils.AddImportStatement(setupFilePath, fmt.Sprintf(project+"/"+folder.SourceDir), tagFolder)
 		if err != nil {
 			return fmt.Errorf("failed to add import statement to setup.go: %v", err)
 		}
@@ -139,7 +139,7 @@ var EinarInstall in.EinarInstall = func(ctx context.Context, project, commandNam
 		}
 
 		for _, v := range firstLevelDirs {
-			err = utils.AddImportStatement(setupFilePath, fmt.Sprintf(project+"/"+folder.SourceDir+"/"+v))
+			err = utils.AddImportStatement(setupFilePath, fmt.Sprintf(project+"/"+folder.SourceDir+"/"+v), tagFolder)
 			if err != nil {
 				return fmt.Errorf("failed to add import statement to setup.go: %v", err)
 			}
@@ -175,7 +175,7 @@ var EinarInstall in.EinarInstall = func(ctx context.Context, project, commandNam
 
 		setupFilePath := filepath.Join( /*project*/ "", "app/shared/archetype/setup.go")
 
-		err = utils.AddImportStatement(setupFilePath, fmt.Sprintf(project+"/"+file.DestinationDir))
+		err = utils.AddImportStatement(setupFilePath, fmt.Sprintf(project+"/"+file.DestinationDir), tagFolder)
 		if err != nil {
 			return fmt.Errorf("failed to add import statement to setup.go: %v", err)
 		}

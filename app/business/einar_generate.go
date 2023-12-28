@@ -125,7 +125,7 @@ var EinarGenerate in.EinarGenerate = func(ctx context.Context, project string, c
 				componentDir := utils.ConvertStringCase(componentName, "snake_case")
 				importPath = filepath.Join(importPath, componentDir)
 			}
-			err := utils.AddImportStatement(setupFilePath, importPath)
+			err := utils.AddImportStatement(setupFilePath, importPath, tagFolder)
 			if err != nil {
 				return fmt.Errorf("failed to add import statement to setup.go: %v", err)
 			}
@@ -142,11 +142,13 @@ var EinarGenerate in.EinarGenerate = func(ctx context.Context, project string, c
 			destinationPath = filepath.Join(baseFolder, nestedFolders, file.DestinationDir, utils.ConvertStringCase(componentName, "snake_case")+file.AppendAtEnd+filepath.Ext(file.SourceFile))
 		}
 
-		placeHolders := []string{`"archetype`}
+		moduleName, err := utils.ReadTemplateModuleName(templateFolderPath)
+
+		placeHolders := []string{`"` + moduleName}
 		placeHoldersReplace := []string{`"` + project}
 
 		if file.Port.DestinationDir != "" {
-			placeHolders = []string{`"archetype`, project + "/" + baseFolder + "/" + file.Port.DestinationDir}
+			placeHolders = []string{`"` + moduleName, project + "/" + baseFolder + "/" + file.Port.DestinationDir}
 			placeHoldersReplace = []string{`"` + project, project + "/" + baseFolder + "/" + nestedFolders + file.Port.DestinationDir}
 		}
 
