@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"syscall"
 
 	git "github.com/go-git/go-git/v5"
 	"github.com/go-git/go-git/v5/plumbing"
@@ -133,7 +134,8 @@ func moveDirectoryContents(srcDir, destDir string) error {
 func moveFile(src, dest string) error {
 	err := os.Rename(src, dest)
 	if err != nil {
-		if os.IsExist(err) {
+		// Manejar el error de enlace cruzado de dispositivos
+		if err, ok := err.(*os.LinkError); ok && err.Err == syscall.EXDEV {
 			if copyErr := copyFile(src, dest); copyErr != nil {
 				return copyErr
 			}
