@@ -126,7 +126,7 @@ var EinarInstall in.EinarInstall = func(ctx context.Context, project, commandNam
 			continue
 		}
 
-		setupFilePath := filepath.Join( /*project*/ "", "app/shared/archetype/setup.go")
+		setupFilePath := filepath.Join( /*project*/ "", "main.go")
 
 		err = utils.AddImportStatement(setupFilePath, fmt.Sprintf(project+"/"+folder.SourceDir))
 		if err != nil {
@@ -173,7 +173,7 @@ var EinarInstall in.EinarInstall = func(ctx context.Context, project, commandNam
 			continue
 		}
 
-		setupFilePath := filepath.Join( /*project*/ "", "app/shared/archetype/setup.go")
+		setupFilePath := filepath.Join( /*project*/ "", "main.go")
 
 		err = utils.AddImportStatement(setupFilePath, fmt.Sprintf(project+"/"+file.DestinationDir))
 		if err != nil {
