@@ -1,0 +1,13 @@
+
+
+
+
+<div id="navbar">
+    <a hx-get="/content/content-children-a" hx-headers='{{.FlatContext}}' hx-target="#content-component-default" hx-push-url="true">CHILDREN-A-MENU</a>
+    <a hx-get="/content/content-children-b"  hx-headers='{{.FlatContext}}'  hx-target="#content-component-default" hx-push-url="true">CHILDREN-B-MENU</a>
+</div>
+
+
+<div hx-get="/{{.Context.contentComponentDefault}}" hx-headers='{{.FlatContext}}' hx-trigger="load" hx-target="#content-component-default" hx-push-url="true"></div>
+<div id="content-component-default">
+</div>

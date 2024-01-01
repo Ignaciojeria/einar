@@ -1,0 +1,43 @@
+before:
+  hooks:
+    - go mod download
+    - go generate ./...
+
+builds:
+  - id: "einar"
+    main: "./main.go"
+    binary: "einar"
+    goos:
+      - linux
+      - windows
+      - darwin
+    goarch:
+      - amd64
+    env:
+      - CGO_ENABLED=0
+    ldflags:
+      - -s -w -X main.version={{.Version}} -X main.commit={{.Commit}} -X main.date={{.Date}}
+
+archives:
+  - id: "einar"
+    format: tar.gz
+    files:
+      - none*
+
+checksum:
+  name_template: 'checksums.txt'
+  algorithm: sha256
+
+snapshot:
+  name_template: "{{ .Tag }}-next"
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - '^docs:'
+      - '^test:'
+release:
+  github:
+    owner: Ignaciojeria
+    name: einar

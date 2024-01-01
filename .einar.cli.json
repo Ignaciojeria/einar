@@ -1,0 +1,82 @@
+{
+    "project": "github.com/Ignaciojeria/einar",
+    "template": {
+        "tag": "1.0.0",
+        "url": "https://github.com/Ignaciojeria/einar-cli-template"
+    },
+    "installations": [
+        {
+            "name": "cobra-cli",
+            "libraries": [
+                "github.com/spf13/cobra"
+            ]
+        },
+        {
+            "name": "echo-server",
+            "libraries": [
+                "github.com/labstack/echo/v4",
+                "github.com/labstack/echo/v4/middleware"
+            ]
+        },
+        {
+            "name": "resty",
+            "libraries": [
+                "github.com/go-resty/resty/v2"
+            ]
+        }
+    ],
+    "components": [
+        {
+            "kind": "cmd",
+            "name": "version"
+        },
+        {
+            "kind": "cmd",
+            "name": "init"
+        },
+        {
+            "kind": "usecase",
+            "name": "einar-init"
+        },
+        {
+            "kind": "cmd",
+            "name": "einar-install"
+        },
+        {
+            "kind": "cmd",
+            "name": "install"
+        },
+        {
+            "kind": "usecase",
+            "name": "einar-install"
+        },
+        {
+            "kind": "usecase",
+            "name": "einar-generate"
+        },
+        {
+            "kind": "cmd",
+            "name": "generate"
+        },
+        {
+            "kind": "cmd",
+            "name": "connect"
+        },
+        {
+            "kind": "cmd",
+            "name": "shutdown"
+        },
+        {
+            "kind": "post-controller",
+            "name": "shutdown"
+        },
+        {
+            "kind": "http-client",
+            "name": "shutdown"
+        },
+        {
+            "kind": "post-controller",
+            "name": "chat-completions"
+        }
+    ]
+}
